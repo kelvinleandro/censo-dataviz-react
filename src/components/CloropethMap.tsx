@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import * as d3 from "d3";
-import { type GeoJson } from "../types/geojson";
+import { type BrazilGeoJson } from "../types/geojson";
 
 export interface ChoroplethMapProps {
   width?: number;
@@ -19,9 +19,9 @@ const ChoroplethMap: React.FC<ChoroplethMapProps> = ({
     if (!ref.current) return;
 
     // Clear previous render (React strict mode compatibility)
-    d3.select(ref.current).selectAll("*").remove();
-
     const svg = d3.select(ref.current);
+
+    svg.selectAll("*").remove();
 
     // Projection
     const projection = d3
@@ -33,7 +33,7 @@ const ChoroplethMap: React.FC<ChoroplethMapProps> = ({
     const path = d3.geoPath().projection(projection);
 
     async function draw() {
-      const data = (await d3.json(topoUrl)) as GeoJson;
+      const data = (await d3.json(topoUrl)) as BrazilGeoJson;
 
       // Generate values: string length of state name
       data.features.forEach((f) => {
@@ -41,19 +41,15 @@ const ChoroplethMap: React.FC<ChoroplethMapProps> = ({
         f.value = name.length;
       });
 
-      function extentNumbers(vals: number[]): [number, number] {
-        const e = d3.extent(vals);
-        return [e[0] ?? 0, e[1] ?? 0];
-      }
-
-      const domain = extentNumbers(
-        data.features.map((d) => d.value) as number[]
-      );
+      const values = data.features
+        .map((d) => d.value)
+        .filter((v): v is number => v !== undefined);
+      const [min, max] = d3.extent(values) as [number, number];
 
       // Color scale
       const color = d3
         .scaleSequential<string>()
-        .domain(domain)
+        .domain([min || 0, max || 0])
         .interpolator(d3.interpolateBlues);
 
       svg
@@ -61,7 +57,7 @@ const ChoroplethMap: React.FC<ChoroplethMapProps> = ({
         .data(data.features)
         .enter()
         .append("path")
-        .attr("d", (d) => path(d)!)
+        .attr("d", (d) => path(d))
         .attr("fill", (d) => color(d.value as number))
         .attr("stroke", "#222")
         .append("title")

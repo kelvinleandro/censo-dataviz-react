@@ -1,22 +1,17 @@
-interface Geometry {
-  type: string;
-  coordinates: number[][][][];
-}
+import { type FeatureCollection, type Geometry, type Feature } from "geojson";
 
-interface Properties {
+export interface BrazilStateProperties {
   id: number;
   name: string;
   sigla: string;
 }
 
-interface Feature {
-  type: string;
-  geometry: Geometry;
-  properties: Properties;
-  [key: string]: unknown;
+export interface BrazilStateFeature
+  extends Feature<Geometry, BrazilStateProperties> {
+  value?: number;
 }
 
-export interface GeoJson {
-  type: string;
-  features: Feature[];
+export interface BrazilGeoJson
+  extends FeatureCollection<Geometry, BrazilStateProperties> {
+  features: BrazilStateFeature[];
 }
