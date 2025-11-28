@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import * as d3 from "d3";
-import { type BrazilGeoJson } from "../types/geojson";
+import { type BrazilGeoJson } from "@/types/geojson";
 
 export interface ChoroplethMapProps {
   width?: number;

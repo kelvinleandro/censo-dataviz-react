@@ -1,5 +1,5 @@
 import "./App.css";
-import ChoroplethMap from "./components/CloropethMap";
+import ChoroplethMap from "@/components/CloropethMap";
 
 function App() {
   return (
