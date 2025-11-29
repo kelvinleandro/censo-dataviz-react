@@ -1,4 +1,4 @@
-import "./App.css";
+import BarChart from "./components/BarChart";
 import ScatterPlot from "./components/ScatterPlot";
 import { useState } from "react";
 
@@ -14,11 +14,25 @@ const generateData = (numSamples: number) => {
   return samples;
 };
 
+const fruitSalesData = [
+  { product: "Apples", sales: 120, category: "Fruits" },
+  { product: "Bananas", sales: 200, category: "Fruits" },
+  { product: "Carrots", sales: 80, category: "Vegetables" },
+  { product: "Dates", sales: 150, category: "Fruits" },
+  { product: "Eggplants", sales: 90, category: "Vegetables" },
+  { product: "Figs", sales: 180, category: "Fruits" },
+];
+
 function App() {
   const [numSamples, setNumSamples] = useState(5);
   const [sampleScatter, setSampleScatter] = useState<
     { age: number; income: number; gender: string }[]
   >(() => generateData(numSamples));
+
+  const [isBarHorizontal, setIsBarHorizontal] = useState(false);
+  const [barOrder, setBarOrder] = useState<"ascending" | "descending" | null>(
+    null
+  );
 
   const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = Number(e.target.value);
@@ -27,27 +41,110 @@ function App() {
   };
 
   return (
-    <div>
-      <label htmlFor="sampleSlider" style={{ fontWeight: "bold" }}>
-        Samples: {numSamples}
-      </label>
-      <input
-        id="sampleSlider"
-        type="range"
-        min="5"
-        max="15"
-        step="1"
-        value={numSamples}
-        onChange={handleSliderChange}
-        style={{ cursor: "pointer", width: "200px" }}
-      />
-      <ScatterPlot
-        data={sampleScatter}
-        xField="age"
-        yField="income"
-        width={400}
-        height={400}
-      />
+    <div style={{ paddingBottom: "50px" }}>
+      <div>
+        <h1 style={{ textAlign: "center", color: "white" }}>Scatter Plot</h1>
+        <div style={{ textAlign: "center", marginBottom: "20px" }}>
+          <label
+            htmlFor="sampleSlider"
+            style={{ fontWeight: "bold", color: "#ddd", marginRight: "10px" }}
+          >
+            Samples: {numSamples}
+          </label>
+          <input
+            id="sampleSlider"
+            type="range"
+            min="5"
+            max="15"
+            step="1"
+            value={numSamples}
+            onChange={handleSliderChange}
+            style={{ cursor: "pointer", width: "200px" }}
+          />
+        </div>
+        <div
+          style={{ background: "white", padding: "10px", borderRadius: "8px" }}
+        >
+          <ScatterPlot
+            data={sampleScatter}
+            xField="age"
+            yField="income"
+            colorField="gender"
+            width={400}
+            height={300}
+          />
+        </div>
+      </div>
+
+      <hr style={{ margin: "40px 0", borderColor: "#444" }} />
+
+      <div>
+        <h1 style={{ textAlign: "center", color: "white" }}>Bar Chart</h1>
+
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            gap: "20px",
+            marginBottom: "20px",
+            color: "#ddd",
+          }}
+        >
+          <label
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "5px",
+              cursor: "pointer",
+            }}
+          >
+            <input
+              type="checkbox"
+              checked={isBarHorizontal}
+              onChange={(e) => setIsBarHorizontal(e.target.checked)}
+            />
+            Horizontal Mode
+          </label>
+
+          <label style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+            Order:
+            <select
+              value={barOrder ?? "original"}
+              onChange={(e) => {
+                const val = e.target.value;
+                setBarOrder(
+                  val === "original"
+                    ? null
+                    : (val as "ascending" | "descending")
+                );
+              }}
+              style={{ padding: "4px", borderRadius: "4px" }}
+            >
+              <option value="original">Original Data</option>
+              <option value="ascending">Ascending (Low to High)</option>
+              <option value="descending">Descending (High to Low)</option>
+            </select>
+          </label>
+        </div>
+
+        <div
+          style={{ background: "white", padding: "10px", borderRadius: "8px" }}
+        >
+          <BarChart
+            data={fruitSalesData}
+            categoryField="product"
+            valueField="sales"
+            colorField="category"
+            horizontal={isBarHorizontal}
+            order={barOrder}
+            width={400}
+            height={300}
+            title={`Sales by Product (${
+              isBarHorizontal ? "Horizontal" : "Vertical"
+            })`}
+          />
+        </div>
+      </div>
     </div>
   );
 }
