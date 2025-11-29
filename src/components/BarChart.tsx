@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useRef } from "react";
 import embed, { type VisualizationSpec } from "vega-embed";
 import * as vl from "vega-lite-api";
@@ -74,6 +76,7 @@ const BarChart: React.FC<BarChartProps> = ({
       .height(typeof height === "number" ? height : undefined)
       .title(title ?? "")
       .config({
+        background: null,
         view: { stroke: null },
       });
 
@@ -89,6 +92,9 @@ const BarChart: React.FC<BarChartProps> = ({
       actions: false,
       renderer: "canvas",
       defaultStyle: true,
+      config: {
+        background: null,
+      },
     });
 
     return () => {

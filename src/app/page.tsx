@@ -1,6 +1,8 @@
-import BarChart from "./components/BarChart";
-import ScatterPlot from "./components/ScatterPlot";
+"use client";
+
 import { useState } from "react";
+import BarChart from "@/components/BarChart";
+import ScatterPlot from "@/components/ScatterPlot";
 
 const generateData = (numSamples: number) => {
   const samples = [];
@@ -23,7 +25,7 @@ const fruitSalesData = [
   { product: "Figs", sales: 180, category: "Fruits" },
 ];
 
-function App() {
+function Home() {
   const [numSamples, setNumSamples] = useState(5);
   const [sampleScatter, setSampleScatter] = useState<
     { age: number; income: number; gender: string }[]
@@ -47,7 +49,7 @@ function App() {
         <div style={{ textAlign: "center", marginBottom: "20px" }}>
           <label
             htmlFor="sampleSlider"
-            style={{ fontWeight: "bold", color: "#ddd", marginRight: "10px" }}
+            style={{ fontWeight: "bold", color: "#000", marginRight: "10px" }}
           >
             Samples: {numSamples}
           </label>
@@ -62,9 +64,7 @@ function App() {
             style={{ cursor: "pointer", width: "200px" }}
           />
         </div>
-        <div
-          style={{ background: "white", padding: "10px", borderRadius: "8px" }}
-        >
+        <div style={{ padding: "10px", borderRadius: "8px" }}>
           <ScatterPlot
             data={sampleScatter}
             xField="age"
@@ -76,7 +76,7 @@ function App() {
         </div>
       </div>
 
-      <hr style={{ margin: "40px 0", borderColor: "#444" }} />
+      <hr style={{ margin: "40px 0", borderColor: "#000" }} />
 
       <div>
         <h1 style={{ textAlign: "center", color: "white" }}>Bar Chart</h1>
@@ -87,7 +87,7 @@ function App() {
             justifyContent: "center",
             gap: "20px",
             marginBottom: "20px",
-            color: "#ddd",
+            color: "#000",
           }}
         >
           <label
@@ -127,9 +127,7 @@ function App() {
           </label>
         </div>
 
-        <div
-          style={{ background: "white", padding: "10px", borderRadius: "8px" }}
-        >
+        <div style={{ padding: "10px", borderRadius: "8px" }}>
           <BarChart
             data={fruitSalesData}
             categoryField="product"
@@ -149,4 +147,4 @@ function App() {
   );
 }
 
-export default App;
+export default Home;
