@@ -51,7 +51,7 @@ const BarChart: React.FC<BarChartProps> = ({
 
       colorField
         ? vl.color().fieldN(colorField).scale({ scheme: colorScheme })
-        : vl.color().value("#4c78a8"),
+        : vl.color().value("#fcfdfd"),
 
       vl.tooltip([
         { field: categoryField, type: "nominal", title: categoryField },

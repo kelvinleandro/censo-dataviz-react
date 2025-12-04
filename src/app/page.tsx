@@ -44,12 +44,12 @@ function Home() {
 
   return (
     <div style={{ paddingBottom: "50px" }}>
-      <div>
+      <div className="font-body ">
         <h1 style={{ textAlign: "center", color: "white" }}>Scatter Plot</h1>
         <div style={{ textAlign: "center", marginBottom: "20px" }}>
           <label
             htmlFor="sampleSlider"
-            style={{ fontWeight: "bold", color: "#000", marginRight: "10px" }}
+            style={{ fontWeight: "bold", marginRight: "10px" }}
           >
             Samples: {numSamples}
           </label>
