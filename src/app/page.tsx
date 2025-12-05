@@ -1,8 +1,24 @@
 "use client";
 
 import { useState } from "react";
-import BarChart from "@/components/BarChart";
-import ScatterPlot from "@/components/ScatterPlot";
+import dynamic from "next/dynamic";
+
+
+const BrazilMap = dynamic(() => import("@/components/BrazilMap"), {
+  ssr: false,
+  loading: () => <div className="h-full flex items-center justify-center text-muted-foreground">Carregando Mapa...</div>,
+});
+
+const ScatterPlot = dynamic(() => import("@/components/ScatterPlot"), {
+  ssr: false,
+  loading: () => <div className="h-[300px] flex items-center justify-center text-muted-foreground">Carregando Gráfico...</div>,
+});
+
+const BarChart = dynamic(() => import("@/components/BarChart"), {
+  ssr: false,
+  loading: () => <div className="h-[300px] flex items-center justify-center text-muted-foreground">Carregando Gráfico...</div>,
+});
+
 
 const generateData = (numSamples: number) => {
   const samples = [];
@@ -43,13 +59,17 @@ function Home() {
   };
 
   return (
-    <div style={{ paddingBottom: "50px" }}>
-      <div className="font-body ">
-        <h1 style={{ textAlign: "center", color: "white" }}>Scatter Plot</h1>
-        <div style={{ textAlign: "center", marginBottom: "20px" }}>
+    <div className="pb-12 bg-background min-h-screen">
+      <div className="font-body container mx-auto p-4">
+        
+        <h1 className="text-center text-foreground text-3xl font-display mb-4">
+          Scatter Plot
+        </h1>
+        
+        <div className="text-center mb-5">
           <label
             htmlFor="sampleSlider"
-            style={{ fontWeight: "bold", marginRight: "10px" }}
+            className="font-bold mr-2 text-foreground"
           >
             Samples: {numSamples}
           </label>
@@ -61,10 +81,11 @@ function Home() {
             step="1"
             value={numSamples}
             onChange={handleSliderChange}
-            style={{ cursor: "pointer", width: "200px" }}
+            className="cursor-pointer w-[200px]"
           />
         </div>
-        <div style={{ padding: "10px", borderRadius: "8px" }}>
+
+        <div className="p-4 rounded-lg flex justify-center bg-muted/10 border border-muted">
           <ScatterPlot
             data={sampleScatter}
             xField="age"
@@ -76,37 +97,25 @@ function Home() {
         </div>
       </div>
 
-      <hr style={{ margin: "40px 0", borderColor: "#000" }} />
+      <hr className="my-10 border-muted" />
 
-      <div>
-        <h1 style={{ textAlign: "center", color: "white" }}>Bar Chart</h1>
+      <div className="container mx-auto p-4">
+        <h1 className="text-center text-foreground text-3xl font-display mb-4">
+          Bar Chart
+        </h1>
 
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            gap: "20px",
-            marginBottom: "20px",
-            color: "#000",
-          }}
-        >
-          <label
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "5px",
-              cursor: "pointer",
-            }}
-          >
+        <div className="flex justify-center gap-5 mb-5 text-foreground">
+          <label className="flex items-center gap-2 cursor-pointer">
             <input
               type="checkbox"
               checked={isBarHorizontal}
               onChange={(e) => setIsBarHorizontal(e.target.checked)}
+              className="accent-primary"
             />
             Horizontal Mode
           </label>
 
-          <label style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+          <label className="flex items-center gap-2">
             Order:
             <select
               value={barOrder ?? "original"}
@@ -118,7 +127,7 @@ function Home() {
                     : (val as "ascending" | "descending")
                 );
               }}
-              style={{ padding: "4px", borderRadius: "4px" }}
+              className="p-1 rounded bg-muted text-foreground border border-muted-foreground"
             >
               <option value="original">Original Data</option>
               <option value="ascending">Ascending (Low to High)</option>
@@ -127,7 +136,7 @@ function Home() {
           </label>
         </div>
 
-        <div style={{ padding: "10px", borderRadius: "8px" }}>
+        <div className="p-4 rounded-lg flex justify-center bg-muted/10 border border-muted mb-10">
           <BarChart
             data={fruitSalesData}
             categoryField="product"
@@ -141,6 +150,13 @@ function Home() {
               isBarHorizontal ? "Horizontal" : "Vertical"
             })`}
           />
+        </div>
+
+        <h1 className="text-center text-foreground text-3xl font-display mb-4">
+          Animated Map
+        </h1>
+        <div className="relative w-full h-[600px] border border-muted rounded-xl bg-gradient-card overflow-hidden shadow-2xl">
+           <BrazilMap />
         </div>
       </div>
     </div>
