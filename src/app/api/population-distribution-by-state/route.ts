@@ -3,11 +3,40 @@ import { query } from "@/lib/db";
 
 export async function GET() {
   const data = await query(
-    `SELECT d.nome_uf, grupo_idade, SUM(populacao) AS total
-FROM populacao_grupo_idade_uf p
-LEFT JOIN diretorios_brasil_municipio d
-  USING(sigla_uf)
-GROUP BY d.nome_uf, p.grupo_idade;`
+    `SELECT 
+    nome_uf, 
+    idade_grupo, 
+    SUM(populacao) AS total
+FROM (
+    SELECT 
+        d.nome_uf,
+        p.populacao,
+        CASE 
+            WHEN p.grupo_idade ~ '^[0-9]' THEN
+                CASE 
+                    WHEN CAST(regexp_replace(p.grupo_idade, '(^\\d+).*', '\\1') AS INTEGER) < 15 THEN '0 a 14 anos'
+                    WHEN CAST(regexp_replace(p.grupo_idade, '(^\\d+).*', '\\1') AS INTEGER) < 25 THEN '15 a 24 anos'
+                    WHEN CAST(regexp_replace(p.grupo_idade, '(^\\d+).*', '\\1') AS INTEGER) < 35 THEN '25 a 34 anos'
+                    WHEN CAST(regexp_replace(p.grupo_idade, '(^\\d+).*', '\\1') AS INTEGER) < 45 THEN '35 a 44 anos'
+                    WHEN CAST(regexp_replace(p.grupo_idade, '(^\\d+).*', '\\1') AS INTEGER) < 55 THEN '45 a 54 anos'
+                    WHEN CAST(regexp_replace(p.grupo_idade, '(^\\d+).*', '\\1') AS INTEGER) < 65 THEN '55 a 64 anos'
+                    WHEN CAST(regexp_replace(p.grupo_idade, '(^\\d+).*', '\\1') AS INTEGER) < 75 THEN '65 a 74 anos'
+                    ELSE '75 anos ou mais'
+                END
+            ELSE 'Idade ignorada'
+        END AS idade_grupo,
+        -- Para ordenação, usamos 999 para "ignorada" para que fique no final
+        CASE 
+            WHEN p.grupo_idade ~ '^[0-9]' 
+            THEN CAST(regexp_replace(p.grupo_idade, '(^\\d+).*', '\\1') AS INTEGER) 
+            ELSE 999 
+        END AS idade_num
+    FROM populacao_grupo_idade_uf p
+    LEFT JOIN (SELECT DISTINCT sigla_uf, nome_uf FROM diretorios_brasil_municipio) d
+      USING(sigla_uf)
+) sub
+GROUP BY nome_uf, idade_grupo
+ORDER BY nome_uf, MIN(idade_num);`
   );
   return NextResponse.json(data);
 }
