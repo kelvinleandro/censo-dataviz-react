@@ -3,22 +3,32 @@
 import { useState } from "react";
 import dynamic from "next/dynamic";
 
-
 const BrazilMap = dynamic(() => import("@/components/BrazilMap"), {
   ssr: false,
-  loading: () => <div className="h-full flex items-center justify-center text-muted-foreground">Carregando Mapa...</div>,
+  loading: () => (
+    <div className="h-full flex items-center justify-center text-muted-foreground">
+      Carregando Mapa...
+    </div>
+  ),
 });
 
-const ScatterPlot = dynamic(() => import("@/components/ScatterPlot"), {
+const ScatterPlot = dynamic(() => import("@/components/charts/ScatterPlot"), {
   ssr: false,
-  loading: () => <div className="h-[300px] flex items-center justify-center text-muted-foreground">Carregando Gráfico...</div>,
+  loading: () => (
+    <div className="h-[300px] flex items-center justify-center text-muted-foreground">
+      Carregando Gráfico...
+    </div>
+  ),
 });
 
-const BarChart = dynamic(() => import("@/components/BarChart"), {
+const BarChart = dynamic(() => import("@/components/charts/BarChart"), {
   ssr: false,
-  loading: () => <div className="h-[300px] flex items-center justify-center text-muted-foreground">Carregando Gráfico...</div>,
+  loading: () => (
+    <div className="h-[300px] flex items-center justify-center text-muted-foreground">
+      Carregando Gráfico...
+    </div>
+  ),
 });
-
 
 const generateData = (numSamples: number) => {
   const samples = [];
@@ -61,11 +71,10 @@ function Home() {
   return (
     <div className="pb-12 bg-background min-h-screen">
       <div className="font-body container mx-auto p-4">
-        
         <h1 className="text-center text-foreground text-3xl font-display mb-4">
           Scatter Plot
         </h1>
-        
+
         <div className="text-center mb-5">
           <label
             htmlFor="sampleSlider"
@@ -156,7 +165,7 @@ function Home() {
           Animated Map
         </h1>
         <div className="relative w-full h-[600px] border border-muted rounded-xl bg-gradient-card overflow-hidden shadow-2xl">
-           <BrazilMap />
+          <BrazilMap />
         </div>
       </div>
     </div>
