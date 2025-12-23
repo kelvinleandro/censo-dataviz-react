@@ -10,7 +10,10 @@ export async function GET() {
 FROM (
     SELECT 
         sexo,
-        populacao,
+        CASE
+          WHEN sexo = 'Homens' THEN populacao
+          ELSE -populacao
+        END AS populacao,
         CASE 
             WHEN CAST(regexp_replace(grupo_idade, '(^\\d+).*', '\\1') AS INTEGER) < 15 THEN '0 a 14 anos'
             WHEN CAST(regexp_replace(grupo_idade, '(^\\d+).*', '\\1') AS INTEGER) < 25 THEN '15 a 24 anos'

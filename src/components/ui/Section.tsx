@@ -9,7 +9,7 @@ const Section: React.FC<SectionProps> = ({
 }) => {
   return (
     <section
-      className={`px-6 py-20 min-h-screen ${
+      className={`px-6 py-20 min-h-screen flex flex-col space-y-5 ${
         !secondaryBg ? "bg-background" : "bg-deco-navy"
       }`}
       {...props}

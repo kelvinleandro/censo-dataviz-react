@@ -15,6 +15,9 @@ interface BarChartProps {
   colorScheme?: string;
   title?: string;
   order?: "ascending" | "descending" | null;
+  color?: string;
+  xLabel?: string;
+  yLabel?: string;
 }
 
 const BarChart: React.FC<BarChartProps> = ({
@@ -27,17 +30,30 @@ const BarChart: React.FC<BarChartProps> = ({
   height = "container",
   colorScheme = "tealblues",
   title,
-  order,
+  order = null,
+  color,
+  xLabel,
+  yLabel,
 }) => {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!ref.current) return;
 
-    const categoryAxis = horizontal ? vl.y() : vl.x();
-    const valueAxis = horizontal ? vl.x() : vl.y();
+    const styles = getComputedStyle(document.documentElement);
+    const defaultColor =
+      styles.getPropertyValue("--color-foreground").trim() ?? "#FFF";
 
-    let categoryDef = categoryAxis.fieldN(categoryField).title(categoryField);
+    const colorToUse = color ?? defaultColor;
+
+    const categoryAxis = horizontal
+      ? vl.y().title(yLabel ?? "")
+      : vl.x().title(xLabel ?? "");
+    const valueAxis = horizontal
+      ? vl.x().title(xLabel ?? "")
+      : vl.y().title(yLabel ?? "");
+
+    let categoryDef = categoryAxis.fieldN(categoryField);
 
     if (order) {
       categoryDef = categoryDef.sort({ field: valueField, order });
@@ -47,11 +63,11 @@ const BarChart: React.FC<BarChartProps> = ({
       categoryDef,
       // categoryAxis.fieldN(categoryField).title(categoryField).sort("-y"),
 
-      valueAxis.fieldQ(valueField).title(valueField),
+      valueAxis.fieldQ(valueField),
 
       colorField
         ? vl.color().fieldN(colorField).scale({ scheme: colorScheme })
-        : vl.color().value("#fcfdfd"),
+        : vl.color().value(colorToUse),
 
       vl.tooltip([
         { field: categoryField, type: "nominal", title: categoryField },
@@ -61,8 +77,6 @@ const BarChart: React.FC<BarChartProps> = ({
           format: ",.2f",
           title: valueField,
         },
-        // vl.fieldN(categoryField),
-        // vl.fieldQ(valueField).format(",.2f"),
       ]),
     ];
 
@@ -72,21 +86,21 @@ const BarChart: React.FC<BarChartProps> = ({
       .markBar()
       .data(data)
       .encode(...validEncodings)
-      .width(typeof width === "number" ? width : undefined)
-      .height(typeof height === "number" ? height : undefined)
+      .width(width)
+      .height(height)
       .title(title ?? "")
       .config({
         background: null,
         view: { stroke: null },
+        axis: {
+          tickColor: colorToUse,
+          titleColor: colorToUse,
+          labelColor: colorToUse,
+          domainColor: colorToUse,
+        },
       });
 
     const spec: VisualizationSpec = chart.toSpec();
-
-    spec.autosize = {
-      type: "fit",
-      contains: "padding",
-      resize: true,
-    };
 
     const result = embed(ref.current, spec, {
       actions: false,
@@ -111,6 +125,9 @@ const BarChart: React.FC<BarChartProps> = ({
     colorScheme,
     title,
     order,
+    color,
+    xLabel,
+    yLabel,
   ]);
 
   return (
