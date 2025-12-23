@@ -1,17 +1,21 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import MetricCard from "../MetricCard";
 import ChapterHeader from "../ui/ChapterHeader";
 import Section from "../ui/Section";
 import BarChart from "../charts/BarChart";
 import { type ChartData } from "@/types/api";
 import BidirectionalBarChart from "../charts/BidirectionalBarChart";
+import ChoroplethMapD3 from "../charts/ChoroplethMapD3";
 
 const ChapterOne = () => {
   const [popPerAgeGroup, setPopPerAgeGroup] = useState<ChartData>([]);
-  const [popPerState, setPopPerState] = useState<ChartData>([]);
+  const [popPerState, setPopPerState] = useState<ChartData>([]); // Reverted to ChartData
   const [popPerSex, setPopPerSex] = useState<ChartData>([]);
+  const [ageGroups, setAgeGroups] = useState<string[]>([]);
+  const [selectedAgeGroup, setSelectedAgeGroup] = useState<string>("");
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -24,8 +28,16 @@ const ChapterOne = () => {
         const resState = await fetch("/api/population-distribution-by-state");
         if (!resState.ok)
           throw new Error("Failed to fetch population distribution by state");
-        const popState = await resState.json();
+        const popState: ChartData = await resState.json(); // Cast to ChartData
         setPopPerState(popState);
+
+        const uniqueAgeGroups = [
+          ...new Set(popState.map((d) => d.idade_grupo as string)), // Use any for d
+        ];
+        setAgeGroups(uniqueAgeGroups);
+        if (uniqueAgeGroups.length > 0) {
+          setSelectedAgeGroup(uniqueAgeGroups[0]);
+        }
 
         const resSex = await fetch("/api/population-distribution-by-sex");
         if (!resSex.ok)
@@ -39,6 +51,16 @@ const ChapterOne = () => {
 
     fetchData();
   }, []);
+
+  const filteredMapData = useMemo(() => {
+    if (!selectedAgeGroup) return [];
+    return popPerState
+      .filter((d) => d.idade_grupo === selectedAgeGroup)
+      .map((d) => ({
+        nome_uf: d.nome_uf,
+        total: Number(d.total),
+      }));
+  }, [popPerState, selectedAgeGroup]);
 
   return (
     <Section>
@@ -98,7 +120,7 @@ const ChapterOne = () => {
           </p>
 
           <div>
-            <BarChart
+            {/* <BarChart
               data={popPerAgeGroup}
               categoryField="idade_grupo"
               valueField="total"
@@ -106,7 +128,7 @@ const ChapterOne = () => {
               xLabel="População"
               yLabel="Faixa Etária"
               horizontal
-            />
+            /> */}
           </div>
 
           <p className="text-muted-foreground">
@@ -122,7 +144,26 @@ const ChapterOne = () => {
             Totam deserunt eligendi id iusto ea aliquid!
           </p>
 
-          <div>(ToDo!)</div>
+          <div>
+            <div className="flex flex-col items-center">
+              <select
+                value={selectedAgeGroup}
+                onChange={(e) => setSelectedAgeGroup(e.target.value)}
+                className="mb-4 p-2 border rounded"
+              >
+                {ageGroups.map((group) => (
+                  <option key={group} value={group}>
+                    {group}
+                  </option>
+                ))}
+              </select>
+              <ChoroplethMapD3
+                data={filteredMapData}
+                locationField="nome_uf"
+                valueField="total"
+              />
+            </div>
+          </div>
           <p className="text-muted-foreground">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque
             dolorum laboriosam atque eum tenetur molestiae tempore, dolor minus
@@ -137,14 +178,14 @@ const ChapterOne = () => {
           </p>
 
           <div>
-            <BidirectionalBarChart
+            {/* <BidirectionalBarChart
               data={popPerSex}
               valueField="total"
               categoryField="idade_grupo"
               colorField="sexo"
               xLabel="População"
               yLabel="Faixa Etária"
-            />
+            /> */}
           </div>
         </div>
       </div>

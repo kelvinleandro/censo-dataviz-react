@@ -11,19 +11,15 @@ FROM (
     SELECT 
         d.nome_uf,
         p.populacao,
-        CASE 
-            WHEN p.grupo_idade ~ '^[0-9]' THEN
                 CASE 
-                    WHEN CAST(regexp_replace(p.grupo_idade, '(^\\d+).*', '\\1') AS INTEGER) < 15 THEN '0 a 14 anos'
-                    WHEN CAST(regexp_replace(p.grupo_idade, '(^\\d+).*', '\\1') AS INTEGER) < 25 THEN '15 a 24 anos'
-                    WHEN CAST(regexp_replace(p.grupo_idade, '(^\\d+).*', '\\1') AS INTEGER) < 35 THEN '25 a 34 anos'
-                    WHEN CAST(regexp_replace(p.grupo_idade, '(^\\d+).*', '\\1') AS INTEGER) < 45 THEN '35 a 44 anos'
-                    WHEN CAST(regexp_replace(p.grupo_idade, '(^\\d+).*', '\\1') AS INTEGER) < 55 THEN '45 a 54 anos'
-                    WHEN CAST(regexp_replace(p.grupo_idade, '(^\\d+).*', '\\1') AS INTEGER) < 65 THEN '55 a 64 anos'
-                    WHEN CAST(regexp_replace(p.grupo_idade, '(^\\d+).*', '\\1') AS INTEGER) < 75 THEN '65 a 74 anos'
-                    ELSE '75 anos ou mais'
-                END
-            ELSE 'Idade ignorada'
+            WHEN CAST(regexp_replace(p.grupo_idade, '(^\\d+).*', '\\1') AS INTEGER) < 15 THEN '0 a 14 anos'
+            WHEN CAST(regexp_replace(p.grupo_idade, '(^\\d+).*', '\\1') AS INTEGER) < 25 THEN '15 a 24 anos'
+            WHEN CAST(regexp_replace(p.grupo_idade, '(^\\d+).*', '\\1') AS INTEGER) < 35 THEN '25 a 34 anos'
+            WHEN CAST(regexp_replace(p.grupo_idade, '(^\\d+).*', '\\1') AS INTEGER) < 45 THEN '35 a 44 anos'
+            WHEN CAST(regexp_replace(p.grupo_idade, '(^\\d+).*', '\\1') AS INTEGER) < 55 THEN '45 a 54 anos'
+            WHEN CAST(regexp_replace(p.grupo_idade, '(^\\d+).*', '\\1') AS INTEGER) < 65 THEN '55 a 64 anos'
+            WHEN CAST(regexp_replace(p.grupo_idade, '(^\\d+).*', '\\1') AS INTEGER) < 75 THEN '65 a 74 anos'
+            ELSE '75 anos ou mais'
         END AS idade_grupo,
         -- Para ordenação, usamos 999 para "ignorada" para que fique no final
         CASE 
@@ -34,6 +30,7 @@ FROM (
     FROM populacao_grupo_idade_uf p
     LEFT JOIN (SELECT DISTINCT sigla_uf, nome_uf FROM diretorios_brasil_municipio) d
       USING(sigla_uf)
+    WHERE p.grupo_idade ~ '^[0-9]'
 ) sub
 GROUP BY nome_uf, idade_grupo
 ORDER BY nome_uf, MIN(idade_num);`
