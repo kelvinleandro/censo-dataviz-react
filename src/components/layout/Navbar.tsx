@@ -20,15 +20,16 @@ const Navbar = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          <div className="shrink-0 flex items-center gap-2 cursor-pointer">
-            {/* Ajustei o tamanho para w-9 h-9 para ficar mais delicado */}
-            <div className="relative w-9 h-9 transition-transform duration-300 group-hover:scale-110">
-              <BrazilLogo className="w-full h-full text-deco-emerald" />
+          <a href="#hero">
+            <div className="shrink-0 flex items-center gap-2 cursor-pointer">
+              <div className="relative w-9 h-9 transition-transform duration-300 group-hover:scale-110">
+                <BrazilLogo className="w-full h-full text-deco-emerald" />
+              </div>
+              <span className="font-display font-bold text-xl tracking-tight text-foreground">
+                Censo<span className="text-deco-emerald-glow">Brasil</span>
+              </span>
             </div>
-            <span className="font-display font-bold text-xl tracking-tight text-foreground">
-              Censo<span className="text-deco-emerald-glow">Brasil</span>
-            </span>
-          </div>
+          </a>
 
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-4">
