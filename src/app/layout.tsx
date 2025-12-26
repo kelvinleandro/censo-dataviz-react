@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { DM_Serif_Display, Source_Sans_3 } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/layout/navbar";
+import Navbar from "@/components/layout/Navbar";
 
 const dmSerif = DM_Serif_Display({
   weight: "400", 
