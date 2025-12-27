@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import Section from "@/components/ui/Section"; 
 import ChapterHeader from "@/components/ui/ChapterHeader"; 
-import { ArrowDownRight } from "lucide-react"; 
+import { ArrowRight } from "lucide-react"; 
 
 const MapLoader = () => (
   <div className="flex flex-col items-center gap-2 animate-pulse">
@@ -22,7 +22,7 @@ const BrazilMap = dynamic(() => import("@/components/BrazilMap"), {
 
 export default function Hero() {
   return (
-    <Section className="relative flex flex-col justify-center min-h-screen overflow-hidden">
+    <Section className="relative flex flex-col justify-center min-h-screen overflow-hidden" id="hero">
       
       <div className="w-full max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
 
@@ -38,8 +38,7 @@ export default function Hero() {
           </h1>
 
           <ChapterHeader.Subtitle className="max-w-lg">
-            Uma jornada interativa pelos dados que definem quem somos. 
-            Acompanhe a evolução demográfica traçada linha por linha.
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum aliquam suscipit perspiciatis, quae fugiat deserunt optio sed, qui sapiente, esse consequuntur debitis culpa quod ratione nam. Harum quos itaque natus?
           </ChapterHeader.Subtitle>
 
           <div className="flex flex-col sm:flex-row gap-4 pt-2 w-full sm:w-auto">
@@ -48,7 +47,7 @@ export default function Hero() {
               className="group flex items-center justify-center gap-3 px-8 py-4 bg-deco-emerald text-slate-950 font-bold rounded-full hover:bg-emerald-400 transition-all shadow-lg shadow-emerald-500/20"
             >
               Começar a Explorar
-              <ArrowDownRight className="w-5 h-5 group-hover:translate-x-1 group-hover:translate-y-1 transition-transform" />
+              <ArrowRight className="w-5 h-5  transition-transform" />
             </Link>
             
             <Link 

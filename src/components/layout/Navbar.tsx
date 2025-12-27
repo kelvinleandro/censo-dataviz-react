@@ -1,11 +1,7 @@
 "use client";
-import React, { useState } from "react";
-import { Menu, X, ChevronRight } from "lucide-react";
 import { BrazilLogo } from "../ui/BrazilLogo";
 
 const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
-
   const chapters = [
     { id: 1, label: "Capítulo 1", description: "Demografia" },
     { id: 2, label: "Capítulo 2", description: "Educação" },
