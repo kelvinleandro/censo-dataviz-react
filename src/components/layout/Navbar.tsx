@@ -22,7 +22,7 @@ const Navbar = () => {
                 <BrazilLogo className="w-full h-full text-deco-emerald" />
               </div>
               <span className="font-display font-bold text-xl tracking-tight text-foreground">
-                Censo<span className="text-deco-emerald-glow">Brasil</span>
+                Censo<span className="text-deco-emerald-glow"> Brasil</span>
               </span>
             </div>
           </a>
