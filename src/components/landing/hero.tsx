@@ -49,13 +49,7 @@ export default function Hero() {
               Começar a Explorar
               <ArrowRight className="w-5 h-5  transition-transform" />
             </Link>
-            
-            <Link 
-              href="/sobre"
-              className="px-8 py-4 text-slate-400 hover:text-white font-medium text-center transition-colors rounded-full hover:bg-slate-800/50"
-            >
-              Sobre o Projeto
-            </Link>
+
           </div>
         </div>
 
