@@ -1,0 +1,80 @@
+"use client";
+
+import dynamic from "next/dynamic";
+import Link from "next/link";
+import Section from "@/components/ui/Section"; 
+import ChapterHeader from "@/components/ui/ChapterHeader"; 
+import { ArrowDownRight } from "lucide-react"; 
+
+const MapLoader = () => (
+  <div className="flex flex-col items-center gap-2 animate-pulse">
+    <span className="h-12 w-12 border-4 border-deco-emerald border-t-transparent rounded-full animate-spin" />
+    <span className="text-muted-foreground text-sm uppercase tracking-widest">
+      Carregando Mapa...
+    </span>
+  </div>
+);
+
+const BrazilMap = dynamic(() => import("@/components/BrazilMap"), {
+  ssr: false,
+  loading: () => <div className="h-full w-full flex items-center justify-center"><MapLoader /></div>,
+});
+
+export default function Hero() {
+  return (
+    <Section className="relative flex flex-col justify-center min-h-screen overflow-hidden">
+      
+      <div className="w-full max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+
+        <div className="flex-1 flex flex-col items-center lg:items-start text-center lg:text-left gap-6 z-10">
+          
+          <ChapterHeader.Label>Visualização de Dados</ChapterHeader.Label>
+          
+          <h1 className="text-6xl md:text-7xl lg:text-8xl font-display text-foreground leading-tight">
+            Censo <br />
+            <span className="text-transparent bg-clip-text bg-linear-to-r from-deco-emerald to-emerald-600">
+              Brasil 2022
+            </span>
+          </h1>
+
+          <ChapterHeader.Subtitle className="max-w-lg">
+            Uma jornada interativa pelos dados que definem quem somos. 
+            Acompanhe a evolução demográfica traçada linha por linha.
+          </ChapterHeader.Subtitle>
+
+          <div className="flex flex-col sm:flex-row gap-4 pt-2 w-full sm:w-auto">
+            <Link 
+              href="#capitulo-1"
+              className="group flex items-center justify-center gap-3 px-8 py-4 bg-deco-emerald text-slate-950 font-bold rounded-full hover:bg-emerald-400 transition-all shadow-lg shadow-emerald-500/20"
+            >
+              Começar a Explorar
+              <ArrowDownRight className="w-5 h-5 group-hover:translate-x-1 group-hover:translate-y-1 transition-transform" />
+            </Link>
+            
+            <Link 
+              href="/sobre"
+              className="px-8 py-4 text-slate-400 hover:text-white font-medium text-center transition-colors rounded-full hover:bg-slate-800/50"
+            >
+              Sobre o Projeto
+            </Link>
+          </div>
+        </div>
+
+        <div className="flex-1 w-full h-[500px] lg:h-[700px] relative flex items-center justify-center">
+          <div className="absolute inset-0 bg-deco-emerald/5 blur-[100px] rounded-full pointer-events-none" />
+          
+          <div className="w-full h-full relative z-10 lg:scale-110">
+            <BrazilMap />
+          </div>
+        </div>
+      </div>
+
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce text-slate-500">
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+        </svg>
+      </div>
+
+    </Section>
+  );
+}
