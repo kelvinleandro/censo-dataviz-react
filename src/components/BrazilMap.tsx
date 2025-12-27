@@ -21,7 +21,6 @@ export default function BrazilMap() {
     const width = containerRef.current.clientWidth;
     const height = containerRef.current.clientHeight;
 
-    // --- CONFIGURAÇÃO ---
     const renderer = new THREE.WebGLRenderer({
       canvas,
       antialias: true,
@@ -45,7 +44,6 @@ export default function BrazilMap() {
 
     const pathGenerator = geoPath().projection(projection);
 
-    // --- HELPERS ---
     const parseDToMultiPaths = (d: string) => {
       try {
         const commands = parseSVG(d);
@@ -73,7 +71,6 @@ export default function BrazilMap() {
       return len;
     };
 
-    // --- ESTADOS DA ANIMAÇÃO ---
     const ANIM_STATE = {
       DRAWING_WHITE: 0,
       DRAWING_GREEN: 1,
@@ -111,28 +108,26 @@ export default function BrazilMap() {
           const geometry = new LineGeometry();
           geometry.setPositions(positions);
 
-          // 1. LINHA BRANCA (Fundo Permanente)
           const whiteMat = new LineMaterial({
-            color: 0x94a3b8, // Slate-400
+            color: 0x94a3b8, 
             linewidth: 2,
             dashed: true,
             dashSize: lineLength,
             gapSize: lineLength * 2,
             resolution: new THREE.Vector2(width, height),
-            opacity: 0.5, // Opacidade final desejada
+            opacity: 0.5, 
             transparent: true
           });
-          whiteMat.dashOffset = lineLength; // Começa invisível
+          whiteMat.dashOffset = lineLength; 
 
           const whiteLine = new Line2(geometry, whiteMat);
           whiteLine.computeLineDistances();
-          whiteLine.position.z = 0; // Fica atrás
+          whiteLine.position.z = 0;
           scene.add(whiteLine);
 
-          // 2. LINHA VERDE (Efeito de passagem)
           const greenMat = new LineMaterial({
-            color: 0x34d399, // Emerald-400
-            linewidth: 3, // Um pouco mais grosso para cobrir o branco
+            color: 0x34d399, 
+            linewidth: 3, 
             dashed: true,
             dashSize: lineLength,
             gapSize: lineLength * 2,
@@ -141,11 +136,11 @@ export default function BrazilMap() {
             resolution: new THREE.Vector2(width, height),
             depthTest: false,
           });
-          greenMat.dashOffset = lineLength; // Começa invisível
+          greenMat.dashOffset = lineLength;
 
           const greenLine = new Line2(geometry, greenMat);
           greenLine.computeLineDistances();
-          greenLine.position.z = 1; // Fica na frente
+          greenLine.position.z = 1;
           greenLine.renderOrder = 999;
           greenLine.visible = false; 
           scene.add(greenLine);
