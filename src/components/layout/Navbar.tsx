@@ -46,40 +46,9 @@ const Navbar = () => {
             </div>
           </div>
 
-          <div className="-mr-2 flex md:hidden">
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="inline-flex items-center justify-center p-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted focus:outline-none"
-            >
-              <span className="sr-only">Abrir menu</span>
-              {isOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
-          </div>
         </div>
       </div>
 
-      {isOpen && (
-        <div className="md:hidden bg-background border-b border-muted">
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            {chapters.map((item) => (
-              <a
-                key={item.id}
-                href={`#capitulo-${item.id}`}
-                onClick={() => setIsOpen(false)}
-                className="block px-3 py-3 rounded-md text-base font-medium text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors justify-between items-center"
-              >
-                <span>
-                  <span className="text-deco-emerald text-xs uppercase mr-2">
-                    Cap {item.id}
-                  </span>
-                  {item.description}
-                </span>
-                <ChevronRight size={16} className="text-muted-foreground" />
-              </a>
-            ))}
-          </div>
-        </div>
-      )}
     </nav>
   );
 };
