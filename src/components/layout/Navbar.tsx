@@ -11,7 +11,7 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="fixed top-0 w-full z-50 border-b border-muted bg-background/80 backdrop-blur-md">
+    <nav className="fixed top-0 w-full z-50 border-b border-muted bg-background/20 backdrop-blur-md">
       <div className="h-1 w-full bg-image-gradient-accent" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
