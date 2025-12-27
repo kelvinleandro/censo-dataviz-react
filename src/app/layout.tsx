@@ -17,8 +17,8 @@ const sourceSans = Source_Sans_3({
 });
 
 export const metadata: Metadata = {
-  title: "Meu Projeto",
-  description: "Configurado com Next.js e Tailwind",
+  title: "Censo Brasil",
+  description: "Visualização de Dados do censo brasileiro do IBGE",
 };
 
 export default function RootLayout({
