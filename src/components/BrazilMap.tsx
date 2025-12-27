@@ -149,7 +149,7 @@ export default function BrazilMap() {
             white: whiteLine,
             green: greenLine,
             len: lineLength,
-            speed: lineLength * 0.02, 
+            speed: lineLength * 0.06, 
           });
         });
       });
@@ -187,7 +187,7 @@ export default function BrazilMap() {
       else if (currentState === ANIM_STATE.DRAWING_GREEN) {
         animatedLinePairs.forEach((pair) => {
             if (pair.green.material.dashOffset > 0) {
-                pair.green.material.dashOffset -= pair.speed * 1.5;
+                pair.green.material.dashOffset -= pair.speed * 3;
                 if (pair.green.material.dashOffset < 0) pair.green.material.dashOffset = 0;
                 allDone = false;
             }
@@ -198,7 +198,7 @@ export default function BrazilMap() {
         let stillFading = false;
         animatedLinePairs.forEach((pair) => {
             if (pair.green.material.opacity > 0) {
-                pair.green.material.opacity -= 0.02; 
+                pair.green.material.opacity -= 0.08; 
                 if (pair.green.material.opacity < 0) pair.green.material.opacity = 0;
                 stillFading = true;
             }
