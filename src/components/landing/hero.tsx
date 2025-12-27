@@ -23,9 +23,8 @@ const BrazilMap = dynamic(() => import("@/components/BrazilMap"), {
 
 export default function Hero() {
   return (
-    <Section className="relative flex flex-col justify-center min-h-screen overflow-hidden" id="hero">
-      
-      <div className="w-full max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+    <Section className="relative flex flex-col justify-center min-h-screen overflow-hidden bg-gradient-hero " id="hero">
+      <div className=" w-full max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
 
         <div className="flex-1 flex flex-col items-center lg:items-start text-center lg:text-left gap-6 z-10">
           

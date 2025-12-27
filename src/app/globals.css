@@ -1,17 +1,17 @@
 @import "tailwindcss";
 
 @theme {
-  --font-display: var(--font-display); 
-  --font-body: var(--font-body);       
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
 
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
-  
+
   --color-primary: hsl(var(--primary));
   --color-secondary: hsl(var(--secondary));
-  
+
   --color-accent: hsl(var(--accent));
-  
+
   --color-muted: hsl(var(--muted));
   --color-muted-foreground: hsl(var(--muted-foreground));
 
@@ -22,9 +22,22 @@
   --color-deco-gold: hsl(var(--gold));
   --color-deco-coral: hsl(var(--coral));
 
-  --image-gradient-hero: linear-gradient(to right, hsl(var(--navy-deep)), hsl(var(--secondary)), hsl(var(--primary)));
-  --image-gradient-card: linear-gradient(to bottom, hsl(var(--navy)), hsl(var(--navy-deep)));
-  --image-gradient-accent: linear-gradient(to right, hsl(var(--emerald)), hsl(var(--accent)));
+  --image-gradient-hero: linear-gradient(
+    135deg,
+    hsl(220 60% 8%) 0%,
+    hsl(180 40% 10%) 50%,
+    hsl(220 50% 12%) 100%
+  );
+  --image-gradient-card: linear-gradient(
+    to bottom,
+    hsl(var(--navy)),
+    hsl(var(--navy-deep))
+  );
+  --image-gradient-accent: linear-gradient(
+    to right,
+    hsl(var(--emerald)),
+    hsl(var(--accent))
+  );
 }
 
 :root {
@@ -49,5 +62,16 @@
 body {
   background-color: var(--color-background);
   color: var(--color-foreground);
-  font-family: var(--font-body); 
+  font-family: var(--font-body);
+}
+
+@layer utilities {
+  .bg-gradient-hero {
+    background-image: linear-gradient(
+      135deg, 
+      hsl(220, 60%, 8%) 0%, 
+      hsl(180, 40%, 10%) 50%, 
+      hsl(220, 50%, 12%) 100%
+    );
+  }
 }
