@@ -11,7 +11,7 @@ import ChoroplethMapD3 from "../charts/ChoroplethMapD3";
 
 const ChapterOne = () => {
   const [popPerAgeGroup, setPopPerAgeGroup] = useState<ChartData>([]);
-  const [popPerState, setPopPerState] = useState<ChartData>([]); // Reverted to ChartData
+  const [popPerState, setPopPerState] = useState<ChartData>([]);
   const [popPerSex, setPopPerSex] = useState<ChartData>([]);
   const [ageGroups, setAgeGroups] = useState<string[]>([]);
   const [selectedAgeGroup, setSelectedAgeGroup] = useState<string>("");
@@ -28,11 +28,12 @@ const ChapterOne = () => {
         const resState = await fetch("/api/population-distribution-by-state");
         if (!resState.ok)
           throw new Error("Failed to fetch population distribution by state");
-        const popState: ChartData = await resState.json(); // Cast to ChartData
+        const popState: ChartData = await resState.json();
+        console.log("popState:", popState);
         setPopPerState(popState);
 
         const uniqueAgeGroups = [
-          ...new Set(popState.map((d) => d.idade_grupo as string)), // Use any for d
+          ...new Set(popState.map((d) => d.idade_grupo as string)),
         ];
         setAgeGroups(uniqueAgeGroups);
         if (uniqueAgeGroups.length > 0) {
@@ -58,7 +59,8 @@ const ChapterOne = () => {
       .filter((d) => d.idade_grupo === selectedAgeGroup)
       .map((d) => ({
         nome_uf: d.nome_uf,
-        total: Number(d.total),
+        populacao_grupo: Number(d.populacao_grupo),
+        proporcao: Number(d.proporcao),
       }));
   }, [popPerState, selectedAgeGroup]);
 
@@ -120,7 +122,7 @@ const ChapterOne = () => {
           </p>
 
           <div>
-            {/* <BarChart
+            <BarChart
               data={popPerAgeGroup}
               categoryField="idade_grupo"
               valueField="total"
@@ -128,7 +130,7 @@ const ChapterOne = () => {
               xLabel="População"
               yLabel="Faixa Etária"
               horizontal
-            /> */}
+            />
           </div>
 
           <p className="text-muted-foreground">
@@ -149,10 +151,14 @@ const ChapterOne = () => {
               <select
                 value={selectedAgeGroup}
                 onChange={(e) => setSelectedAgeGroup(e.target.value)}
-                className="mb-4 p-2 border rounded"
+                className="mb-4 p-2 border rounded text-foreground"
               >
                 {ageGroups.map((group) => (
-                  <option key={group} value={group}>
+                  <option
+                    key={group}
+                    value={group}
+                    className="checked:font-semibold text-deco-navy"
+                  >
                     {group}
                   </option>
                 ))}
@@ -160,7 +166,7 @@ const ChapterOne = () => {
               <ChoroplethMapD3
                 data={filteredMapData}
                 locationField="nome_uf"
-                valueField="total"
+                valueField="proporcao"
               />
             </div>
           </div>
@@ -178,14 +184,14 @@ const ChapterOne = () => {
           </p>
 
           <div>
-            {/* <BidirectionalBarChart
+            <BidirectionalBarChart
               data={popPerSex}
               valueField="total"
               categoryField="idade_grupo"
               colorField="sexo"
               xLabel="População"
               yLabel="Faixa Etária"
-            /> */}
+            />
           </div>
         </div>
       </div>
