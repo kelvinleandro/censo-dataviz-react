@@ -329,7 +329,7 @@ const ChapterFour = () => {
   }, [literacyRace, literacyAge, literacySex]);
 
   return (
-    <Section>
+    <Section secondaryBg>
       <ChapterHeader.Root>
         <ChapterHeader.Label>Capítulo 4</ChapterHeader.Label>
         <ChapterHeader.Title>Alfabetização e Ciclo da Vida</ChapterHeader.Title>
