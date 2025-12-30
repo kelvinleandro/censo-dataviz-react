@@ -6,11 +6,11 @@ import Section from "../ui/Section";
 import ChapterHeader from "../ui/ChapterHeader";
 import * as d3 from "d3";
 
-const ChapterFour = () => {
+const ChapterTwo = () => {
   // data
-  const [literacyRace, setLiteracyRace] = useState<ChartData>([]);
-  const [literacyAge, setLiteracyAge] = useState<ChartData>([]);
-  const [literacySex, setLiteracySex] = useState<ChartData>([]);
+  const [raceData, setRaceData] = useState<ChartData>([]);
+  const [indigenousData, setIndigenousData] = useState<ChartData>([]);
+  const [quilombolaData, setQuilombolaData] = useState<ChartData>([]);
 
   // handling transition between charts
   const svgRef = useRef<SVGSVGElement | null>(null);
@@ -22,35 +22,45 @@ const ChapterFour = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const resLiteracyRace = await fetch("/api/literacy-rate-by-race");
-        if (!resLiteracyRace.ok)
-          throw new Error("Failed to fetch literacy rate by race");
-        let data: ChartData = await resLiteracyRace.json();
-        setLiteracyRace(
-          data.map((d) => ({
+        const resRace = await fetch("/api/population-by-race");
+        if (!resRace.ok) throw new Error("Failed to fetch population by race");
+        const rawRace = await resRace.json();
+        setRaceData(
+          rawRace.map((d: any) => ({
             category: d.cor_raca,
-            value: Number(d.taxa_alfabetizacao),
+            value: Number(d.porcentagem),
           }))
         );
 
-        const resLiteracyAge = await fetch("/api/literacy-by-age-group");
-        if (!resLiteracyAge.ok)
-          throw new Error("Failed to fetch literacy by age group");
-        data = await resLiteracyAge.json();
-        setLiteracyAge(
-          data.map((d) => ({
-            category: d.grupo_idade,
-            value: Number(d.taxa_alfabetizacao),
+        const resIndigenous = await fetch(
+          "/api/indigenous-population-by-state"
+        );
+        if (!resIndigenous.ok)
+          throw new Error("Failed to fetch indigenous data");
+        const rawInd = await resIndigenous.json();
+        const top10Ind = rawInd
+          .sort((a: any, b: any) => Number(b.total) - Number(a.total))
+          .slice(0, 10);
+        setIndigenousData(
+          top10Ind.map((d: any) => ({
+            category: d.nome_uf,
+            value: Number(d.total),
           }))
         );
 
-        const resSex = await fetch("/api/literacy-by-sex");
-        if (!resSex.ok) throw new Error("Failed to fetch literacy by sex");
-        data = await resSex.json();
-        setLiteracySex(
-          data.map((d) => ({
-            category: d.sexo,
-            value: Number(d.taxa_percentual),
+        const resQuilombola = await fetch(
+          "/api/quilombola-population-by-state"
+        );
+        if (!resQuilombola.ok)
+          throw new Error("Failed to fetch quilombola data");
+        const rawQuilo = await resQuilombola.json();
+        const top10Quilo = rawQuilo
+          .sort((a: any, b: any) => Number(b.total) - Number(a.total))
+          .slice(0, 10);
+        setQuilombolaData(
+          top10Quilo.map((d: any) => ({
+            category: d.nome_uf,
+            value: Number(d.total),
           }))
         );
       } catch (error) {
@@ -64,14 +74,14 @@ const ChapterFour = () => {
   useEffect(() => {
     if (
       !svgRef.current ||
-      literacyRace.length === 0 ||
-      literacyAge.length === 0 ||
-      literacySex.length === 0
+      raceData.length === 0 ||
+      indigenousData.length === 0 ||
+      quilombolaData.length === 0
     ) {
       return;
     }
 
-    const margin = { top: 20, right: 30, bottom: 40, left: 150 };
+    const margin = { top: 20, right: 50, bottom: 40, left: 150 };
     const width = 800 - margin.left - margin.right;
     const height = 400 - margin.top - margin.bottom;
 
@@ -103,13 +113,19 @@ const ChapterFour = () => {
 
     const update = (
       data: ChartData,
-      orientation: "horizontal" | "vertical" = "horizontal"
+      orientation: "horizontal" | "vertical",
+      formatType: "percent" | "number"
     ) => {
       const sortedData: ChartData = [...data].sort(
         (a, b) =>
           Number(a.value) - Number(b.value) ||
           (a.category as string).localeCompare(b.category as string)
       );
+
+      const formatLabel = (val: number) =>
+        formatType === "percent"
+          ? `${val.toFixed(1)}%`
+          : val.toLocaleString("pt-BR", { notation: "compact" });
 
       if (orientation === "horizontal") {
         const x = d3.scaleLinear().range([0, width]);
@@ -125,7 +141,11 @@ const ChapterFour = () => {
             d3
               .axisBottom(x)
               .ticks(5)
-              .tickFormat((d) => `${d}%`)
+              .tickFormat((d) =>
+                formatType === "percent"
+                  ? `${d}%`
+                  : d3.format(".2s")(d as number)
+              )
           );
 
         g.select<SVGGElement>(".y-axis")
@@ -170,12 +190,6 @@ const ChapterFour = () => {
           .attr("text-anchor", "end")
           .style("font-size", "12px")
           .attr("dy", "0.35em")
-          .attr(
-            "y",
-            (d) => (y(d.category as string) as number) + y.bandwidth() / 2
-          )
-          .attr("x", (d) => x(d.value as number) - 5)
-          .text((d) => `${(d.value as number).toFixed(1)}%`)
           .attr("opacity", 0)
           .merge(barLabels)
           .transition()
@@ -188,12 +202,12 @@ const ChapterFour = () => {
             (d) => (y(d.category as string) as number) + y.bandwidth() / 2
           )
           .textTween(function (d) {
-            const i = d3.interpolate(
-              Number(this.textContent?.replace("%", "")) || 0,
-              d.value as number
+            const currentVal = parseFloat(
+              this.textContent?.replace(/[^\d.-]/g, "") || "0"
             );
+            const i = d3.interpolate(currentVal, d.value as number);
             return function (t) {
-              return `${i(t).toFixed(1)}%`;
+              return formatLabel(i(t));
             };
           });
       } else {
@@ -218,7 +232,11 @@ const ChapterFour = () => {
             d3
               .axisLeft(y)
               .ticks(5)
-              .tickFormat((d) => `${d}%`)
+              .tickFormat((d) =>
+                formatType === "percent"
+                  ? `${d}%`
+                  : d3.format(".2s")(d as number)
+              )
           );
 
         const bars = g
@@ -233,7 +251,7 @@ const ChapterFour = () => {
           .attr("width", x.bandwidth())
           .attr("y", height)
           .attr("height", 0)
-          .attr("fill", (d) => color(d.categorycurrentT as string))
+          .attr("fill", (d) => color(d.category as string))
           .merge(bars)
           .transition()
           .duration(1000)
@@ -265,12 +283,6 @@ const ChapterFour = () => {
           .attr("text-anchor", "middle")
           .style("font-size", "12px")
           .attr("dy", "0.35em")
-          .attr(
-            "x",
-            (d) => (x(d.category as string) as number) + x.bandwidth() / 2
-          )
-          .attr("y", (d) => (y(d.value as number) + height) / 2)
-          .text((d) => `${(d.value as number).toFixed(1)}%`)
           .attr("opacity", 0)
           .merge(barLabels)
           .transition()
@@ -283,29 +295,29 @@ const ChapterFour = () => {
           )
           .attr("y", (d) => (y(d.value as number) + height) / 2)
           .textTween(function (d) {
-            const i = d3.interpolate(
-              Number(this.textContent?.replace("%", "")) || 0,
-              d.value as number
+            const currentVal = parseFloat(
+              this.textContent?.replace(/[^\d.-]/g, "") || "0"
             );
+            const i = d3.interpolate(currentVal, d.value as number);
             return function (t) {
-              return `${i(t).toFixed(1)}%`;
+              return formatLabel(i(t));
             };
           });
       }
     };
 
-    update(literacyRace);
+    update(raceData, "vertical", "percent");
 
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             if (entry.target === trigger1Ref.current) {
-              update(literacyRace, "horizontal");
+              update(raceData, "vertical", "percent");
             } else if (entry.target === trigger2Ref.current) {
-              update(literacyAge, "horizontal");
+              update(indigenousData, "horizontal", "number");
             } else if (entry.target === trigger3Ref.current) {
-              update(literacySex, "vertical");
+              update(quilombolaData, "horizontal", "number");
             }
           }
         });
@@ -326,21 +338,20 @@ const ChapterFour = () => {
       if (currentTrigger2) observer.unobserve(currentTrigger2);
       if (currentTrigger3) observer.unobserve(currentTrigger3);
     };
-  }, [literacyRace, literacyAge, literacySex]);
+  }, [raceData, indigenousData, quilombolaData]);
 
   return (
     <Section secondaryBg>
       <ChapterHeader.Root>
-        <ChapterHeader.Label>Capítulo 4</ChapterHeader.Label>
-        <ChapterHeader.Title>Alfabetização e Ciclo da Vida</ChapterHeader.Title>
+        <ChapterHeader.Label>Capítulo 2</ChapterHeader.Label>
+        <ChapterHeader.Title>
+          Diversidade no Brasil: Raça e Povos Tradicionais
+        </ChapterHeader.Title>
         <ChapterHeader.Subtitle>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum
-          dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit
-          amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet,
-          consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur
-          adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing
-          elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem
-          ipsum dolor sit amet, consectetur adipiscing elit.
+          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Perspiciatis
+          reprehenderit dolorem expedita tenetur inventore dolor facilis ex
+          voluptates hic omnis, similique quo quibusdam consequuntur doloribus
+          tempora qui. Esse, commodi non.
         </ChapterHeader.Subtitle>
       </ChapterHeader.Root>
 
@@ -351,25 +362,41 @@ const ChapterFour = () => {
               <svg ref={svgRef}></svg>
             </div>
           </div>
+
           <div className="flex-1">
             <div ref={trigger1Ref} className="h-[70vh] pt-[15vh]">
-              <p>
-                Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem
-                ipsum dolor sit amet
+              <h3 className="text-xl font-bold mb-2 text-deco-emerald">
+                Autodeclaração Racial
+              </h3>
+              <p className="text-muted-foreground">
+                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsam
+                earum ad, minima sunt, et provident suscipit dignissimos fuga
+                hic ab pariatur illo vitae consequuntur ipsa sequi maiores
+                voluptas laudantium porro.
               </p>
             </div>
 
             <div ref={trigger2Ref} className="h-[70vh] pt-[15vh]">
-              <p>
-                Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem
-                ipsum dolor sit amet Lorem ipsum dolor sit amet
+              <h3 className="text-xl font-bold mb-2 text-deco-emerald">
+                Povos Indígenas
+              </h3>
+              <p className="text-muted-foreground">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                Commodi officiis quia modi quisquam cupiditate repellat mollitia
+                minus tempore accusamus consequatur. Quidem soluta cum optio.
+                Quasi voluptas nam reprehenderit facere vel!
               </p>
             </div>
 
             <div ref={trigger3Ref} className="h-[70vh] pt-[15vh]">
-              <p>
-                Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem
-                ipsum dolor sit amet.
+              <h3 className="text-xl font-bold mb-2 text-deco-emerald">
+                População Quilombola
+              </h3>
+              <p className="text-muted-foreground">
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                Doloremque, impedit mollitia inventore accusamus modi autem,
+                atque quae quos rem, ad voluptas repellendus molestiae
+                recusandae quis cupiditate perspiciatis vero ullam fuga?
               </p>
             </div>
           </div>
@@ -379,4 +406,4 @@ const ChapterFour = () => {
   );
 };
 
-export default ChapterFour;
+export default ChapterTwo;
