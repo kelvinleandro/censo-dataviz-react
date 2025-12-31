@@ -6,6 +6,10 @@ const pool =
   globalForPg.pgPool ??
   new Pool({
     connectionString: process.env.DATABASE_URL,
+    ssl: {
+      rejectUnauthorized: false,
+      ca: process.env.DATABASE_CA_CERTIFICATE,
+    },
   });
 
 if (!globalForPg.pgPool) {

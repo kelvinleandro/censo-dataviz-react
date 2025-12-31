@@ -7,11 +7,15 @@ export async function GET() {
     cor_raca,
     SUM(populacao) as total,
     ROUND(
-        SUM(populacao) * 100.0 / (
-            SELECT SUM(populacao)
-            FROM populacao_grupo_idade_sexo_raca
-            WHERE ano = 2022
-        ), 2
+        (
+            SUM(populacao) * 100
+            / (
+                SELECT SUM(populacao)
+                FROM populacao_grupo_idade_sexo_raca
+                WHERE ano = 2022
+            )
+        )::numeric,
+        2
     ) AS porcentagem
 FROM populacao_grupo_idade_sexo_raca
 WHERE ano = 2022

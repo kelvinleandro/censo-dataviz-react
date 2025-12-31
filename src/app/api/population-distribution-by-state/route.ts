@@ -42,7 +42,13 @@ SELECT
     idade_grupo,
     total AS populacao_grupo,
     SUM(total) OVER(PARTITION BY nome_uf) AS populacao_estado,
-    ROUND(total / SUM(total) OVER(PARTITION BY nome_uf) * 100, 2) AS proporcao
+    ROUND(
+        (
+            total * 100
+            / SUM(total) OVER (PARTITION BY nome_uf)
+        )::numeric,
+        2
+    ) AS proporcao
 FROM dados_agrupados
 ORDER BY nome_uf, ordem_idade;`
   );

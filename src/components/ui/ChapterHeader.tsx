@@ -35,7 +35,10 @@ const Title: React.FC<React.HtmlHTMLAttributes<HTMLHeadingElement>> = ({
   ...props
 }) => {
   return (
-    <h1 className="text-7xl text-foreground font-display" {...props}>
+    <h1
+      className="text-7xl text-foreground text-center font-display"
+      {...props}
+    >
       {children}
     </h1>
   );

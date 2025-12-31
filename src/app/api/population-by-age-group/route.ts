@@ -18,7 +18,7 @@ export async function GET() {
 FROM (
     SELECT 
         populacao,
-        CAST(regexp_replace(grupo_idade, '(^\\d+).*', '\\1') AS INTEGER) AS idade_num
+        CAST(substring(grupo_idade FROM '^\\d+') AS INTEGER) AS idade_num
     FROM populacao_grupo_idade_sexo_raca
     WHERE ano = 2022
 ) sub
