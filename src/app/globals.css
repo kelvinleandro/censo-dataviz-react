@@ -29,9 +29,9 @@
     hsl(220 50% 12%) 100%
   );
   --image-gradient-card: linear-gradient(
-    to bottom,
-    hsl(var(--navy)),
-    hsl(var(--navy-deep))
+    180deg, 
+    hsl(220 35% 12%) 0%, 
+    hsl(220 40% 8%) 100%
   );
   --image-gradient-accent: linear-gradient(
     to right,
