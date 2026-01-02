@@ -13,8 +13,6 @@ interface TreemapProps {
   height?: number;
   colorScheme?: string;
   title?: string;
-  valueLabel?: string;
-  categoryLabel?: string;
   tooltipFields?: Record<string, string>;
   color?: string;
 }
@@ -27,8 +25,6 @@ const Treemap: React.FC<TreemapProps> = ({
   height = 400,
   colorScheme = "tableau10",
   title,
-  valueLabel,
-  categoryLabel,
   tooltipFields = null,
   color = null,
 }) => {
@@ -162,9 +158,12 @@ const Treemap: React.FC<TreemapProps> = ({
         ],
       };
 
-      embed(chartContainer.current, spec, { actions: false }).catch(
-        console.error
-      );
+      const result = embed(chartContainer.current, spec, { actions: false });
+      result.catch(console.error);
+
+      return () => {
+        result.then((res) => res.finalize()).catch(console.warn);
+      };
     }
   }, [
     data,
@@ -174,8 +173,6 @@ const Treemap: React.FC<TreemapProps> = ({
     height,
     colorScheme,
     title,
-    valueLabel,
-    categoryLabel,
     tooltipFields,
     color,
   ]);
