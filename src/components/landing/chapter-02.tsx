@@ -17,10 +17,10 @@ const ChapterTwo = () => {
       try {
         const resMap = await fetch("/api/aging-population-by-state");
         if (!resMap.ok) throw new Error("Failed to fetch aging map data");
-        const rawMapData = await resMap.json();
+        const rawMapData: ChartData = await resMap.json();
 
         setMapData(
-          rawMapData.map((d: any) => ({
+          rawMapData.map((d) => ({
             ...d,
             idade_mediana_media: Number(d.idade_mediana_media),
           }))
@@ -28,11 +28,11 @@ const ChapterTwo = () => {
 
         const resRace = await fetch("/api/aging-index-by-race");
         if (!resRace.ok) throw new Error("Failed to fetch aging race data");
-        const rawRaceData = await resRace.json();
+        const rawRaceData: ChartData = await resRace.json();
         setRaceData(
-          rawRaceData.map((d: any) => ({
-            "Raça": d.cor_raca,          
-            "Índice": Number(d.indice_medio), 
+          rawRaceData.map((d) => ({
+            Raça: d.cor_raca,
+            Índice: Number(d.indice_envelhecimento),
           }))
         );
       } catch (error) {
