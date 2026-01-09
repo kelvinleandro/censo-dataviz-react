@@ -1,404 +1,146 @@
 "use client";
 
-import { ChartData } from "@/types/api";
-import { useState, useEffect, useRef } from "react";
-import Section from "../ui/Section";
+import { useState, useEffect } from "react";
+import MetricCard from "../MetricCard";
 import ChapterHeader from "../ui/ChapterHeader";
-import * as d3 from "d3";
+import Section from "../ui/Section";
+import BarChart from "../charts/BarChart";
+import ChoroplethMapD3 from "../charts/ChoroplethMapD3";
+import { type ChartData } from "@/types/api";
 
 const ChapterTwo = () => {
-  // data
+  const [mapData, setMapData] = useState<ChartData>([]);
   const [raceData, setRaceData] = useState<ChartData>([]);
-  const [indigenousData, setIndigenousData] = useState<ChartData>([]);
-  const [quilombolaData, setQuilombolaData] = useState<ChartData>([]);
-
-  // handling transition between charts
-  const svgRef = useRef<SVGSVGElement | null>(null);
-  const trigger1Ref = useRef<HTMLDivElement | null>(null);
-  const trigger2Ref = useRef<HTMLDivElement | null>(null);
-  const trigger3Ref = useRef<HTMLDivElement | null>(null);
-  const svgContainer = useRef<SVGGElement | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const resRace = await fetch("/api/population-by-race");
-        if (!resRace.ok) throw new Error("Failed to fetch population by race");
-        const rawRace = await resRace.json();
+        const resMap = await fetch("/api/aging-population-by-state");
+        if (!resMap.ok) throw new Error("Failed to fetch aging map data");
+        const rawMapData = await resMap.json();
+
+        setMapData(
+          rawMapData.map((d: any) => ({
+            ...d,
+            idade_mediana_media: Number(d.idade_mediana_media),
+          }))
+        );
+
+        const resRace = await fetch("/api/aging-index-by-race");
+        if (!resRace.ok) throw new Error("Failed to fetch aging race data");
+        const rawRaceData = await resRace.json();
         setRaceData(
-          rawRace.map((d: any) => ({
-            category: d.cor_raca,
-            value: Number(d.porcentagem),
-          }))
-        );
-
-        const resIndigenous = await fetch(
-          "/api/indigenous-population-by-state"
-        );
-        if (!resIndigenous.ok)
-          throw new Error("Failed to fetch indigenous data");
-        const rawInd = await resIndigenous.json();
-        const top10Ind = rawInd
-          .sort((a: any, b: any) => Number(b.total) - Number(a.total))
-          .slice(0, 10);
-        setIndigenousData(
-          top10Ind.map((d: any) => ({
-            category: d.nome_uf,
-            value: Number(d.total),
-          }))
-        );
-
-        const resQuilombola = await fetch(
-          "/api/quilombola-population-by-state"
-        );
-        if (!resQuilombola.ok)
-          throw new Error("Failed to fetch quilombola data");
-        const rawQuilo = await resQuilombola.json();
-        const top10Quilo = rawQuilo
-          .sort((a: any, b: any) => Number(b.total) - Number(a.total))
-          .slice(0, 10);
-        setQuilombolaData(
-          top10Quilo.map((d: any) => ({
-            category: d.nome_uf,
-            value: Number(d.total),
+          rawRaceData.map((d: any) => ({
+            "Raça": d.cor_raca,          
+            "Índice": Number(d.indice_medio), 
           }))
         );
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("Error fetching Chapter 2 data:", error);
       }
     };
 
     fetchData();
   }, []);
 
-  useEffect(() => {
-    if (
-      !svgRef.current ||
-      raceData.length === 0 ||
-      indigenousData.length === 0 ||
-      quilombolaData.length === 0
-    ) {
-      return;
-    }
-
-    const margin = { top: 20, right: 50, bottom: 40, left: 150 };
-    const width = 800 - margin.left - margin.right;
-    const height = 400 - margin.top - margin.bottom;
-
-    if (!svgContainer.current) {
-      const svg = d3
-        .select(svgRef.current)
-        .attr(
-          "viewBox",
-          `0 0 ${width + margin.left + margin.right} ${
-            height + margin.top + margin.bottom
-          }`
-        )
-        .style("width", "100%")
-        .style("height", "auto");
-
-      svgContainer.current = svg
-        .append("g")
-        .attr("transform", `translate(${margin.left},${margin.top})`)
-        .node();
-
-      const g = d3.select(svgContainer.current);
-      g.append("g")
-        .attr("class", "x-axis")
-        .attr("transform", `translate(0,${height})`);
-      g.append("g").attr("class", "y-axis");
-    }
-
-    const g = d3.select(svgContainer.current);
-
-    const update = (
-      data: ChartData,
-      orientation: "horizontal" | "vertical",
-      formatType: "percent" | "number"
-    ) => {
-      const sortedData: ChartData = [...data].sort(
-        (a, b) =>
-          Number(a.value) - Number(b.value) ||
-          (a.category as string).localeCompare(b.category as string)
-      );
-
-      const formatLabel = (val: number) =>
-        formatType === "percent"
-          ? `${val.toFixed(1)}%`
-          : val.toLocaleString("pt-BR", { notation: "compact" });
-
-      if (orientation === "horizontal") {
-        const x = d3.scaleLinear().range([0, width]);
-        const y = d3.scaleBand().range([height, 0]).padding(0.1);
-
-        x.domain([0, d3.max(sortedData, (d) => d.value as number) ?? 100]);
-        y.domain(sortedData.map((d) => d.category as string));
-
-        g.select<SVGGElement>(".x-axis")
-          .transition()
-          .duration(1000)
-          .call(
-            d3
-              .axisBottom(x)
-              .ticks(5)
-              .tickFormat((d) =>
-                formatType === "percent"
-                  ? `${d}%`
-                  : d3.format(".2s")(d as number)
-              )
-          );
-
-        g.select<SVGGElement>(".y-axis")
-          .transition()
-          .duration(1000)
-          .call(d3.axisLeft(y).tickSizeOuter(0));
-
-        const bars = g
-          .selectAll<SVGRectElement, (typeof sortedData)[0]>(".bar")
-          .data(sortedData, (d) => d.category);
-
-        bars
-          .enter()
-          .append("rect")
-          .attr("class", "bar")
-          .attr("y", (d) => y(d.category as string) as number)
-          .attr("height", y.bandwidth())
-          .attr("x", 0)
-          .attr("width", 0)
-          .attr("fill", "steelblue")
-          .merge(bars)
-          .transition()
-          .duration(1000)
-          .attr("y", (d) => y(d.category as string) as number)
-          .attr("width", (d) => x(d.value as number))
-          .attr("height", y.bandwidth())
-          .attr("fill", "steelblue");
-
-        bars.exit().transition().duration(1000).attr("width", 0).remove();
-
-        const barLabels = g
-          .selectAll<SVGTextElement, (typeof sortedData)[0]>("text.bar-label")
-          .data(sortedData, (d) => d.category);
-
-        barLabels.exit().transition().duration(500).attr("opacity", 0).remove();
-
-        barLabels
-          .enter()
-          .append("text")
-          .attr("class", "bar-label")
-          .attr("fill", "white")
-          .attr("text-anchor", "end")
-          .style("font-size", "12px")
-          .attr("dy", "0.35em")
-          .attr("opacity", 0)
-          .merge(barLabels)
-          .transition()
-          .duration(1000)
-          .delay(250)
-          .attr("opacity", 1)
-          .attr("x", (d) => x(d.value as number) - 5)
-          .attr(
-            "y",
-            (d) => (y(d.category as string) as number) + y.bandwidth() / 2
-          )
-          .textTween(function (d) {
-            const currentVal = parseFloat(
-              this.textContent?.replace(/[^\d.-]/g, "") || "0"
-            );
-            const i = d3.interpolate(currentVal, d.value as number);
-            return function (t) {
-              return formatLabel(i(t));
-            };
-          });
-      } else {
-        const x = d3.scaleBand().range([0, width]).padding(0.1);
-        const y = d3.scaleLinear().range([height, 0]);
-        const color = d3
-          .scaleOrdinal(d3.schemeCategory10)
-          .domain(data.map((d) => d.category as string));
-
-        x.domain(sortedData.map((d) => d.category as string));
-        y.domain([0, d3.max(sortedData, (d) => d.value as number) ?? 100]);
-
-        g.select<SVGGElement>(".x-axis")
-          .transition()
-          .duration(1000)
-          .call(d3.axisBottom(x).tickSizeOuter(0));
-
-        g.select<SVGGElement>(".y-axis")
-          .transition()
-          .duration(1000)
-          .call(
-            d3
-              .axisLeft(y)
-              .ticks(5)
-              .tickFormat((d) =>
-                formatType === "percent"
-                  ? `${d}%`
-                  : d3.format(".2s")(d as number)
-              )
-          );
-
-        const bars = g
-          .selectAll<SVGRectElement, (typeof sortedData)[0]>(".bar")
-          .data(sortedData, (d) => d.category);
-
-        bars
-          .enter()
-          .append("rect")
-          .attr("class", "bar")
-          .attr("x", (d) => x(d.category as string) as number)
-          .attr("width", x.bandwidth())
-          .attr("y", height)
-          .attr("height", 0)
-          .attr("fill", (d) => color(d.category as string))
-          .merge(bars)
-          .transition()
-          .duration(1000)
-          .attr("x", (d) => x(d.category as string) as number)
-          .attr("y", (d) => y(d.value as number))
-          .attr("width", x.bandwidth())
-          .attr("height", (d) => height - y(d.value as number))
-          .attr("fill", (d) => color(d.category as string));
-
-        bars
-          .exit()
-          .transition()
-          .duration(1000)
-          .attr("y", height)
-          .attr("height", 0)
-          .remove();
-
-        const barLabels = g
-          .selectAll<SVGTextElement, (typeof sortedData)[0]>("text.bar-label")
-          .data(sortedData, (d) => d.category);
-
-        barLabels.exit().transition().duration(500).attr("opacity", 0).remove();
-
-        barLabels
-          .enter()
-          .append("text")
-          .attr("class", "bar-label")
-          .attr("fill", "white")
-          .attr("text-anchor", "middle")
-          .style("font-size", "12px")
-          .attr("dy", "0.35em")
-          .attr("opacity", 0)
-          .merge(barLabels)
-          .transition()
-          .duration(1000)
-          .delay(250)
-          .attr("opacity", 1)
-          .attr(
-            "x",
-            (d) => (x(d.category as string) as number) + x.bandwidth() / 2
-          )
-          .attr("y", (d) => (y(d.value as number) + height) / 2)
-          .textTween(function (d) {
-            const currentVal = parseFloat(
-              this.textContent?.replace(/[^\d.-]/g, "") || "0"
-            );
-            const i = d3.interpolate(currentVal, d.value as number);
-            return function (t) {
-              return formatLabel(i(t));
-            };
-          });
-      }
-    };
-
-    update(raceData, "vertical", "percent");
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            if (entry.target === trigger1Ref.current) {
-              update(raceData, "vertical", "percent");
-            } else if (entry.target === trigger2Ref.current) {
-              update(indigenousData, "horizontal", "number");
-            } else if (entry.target === trigger3Ref.current) {
-              update(quilombolaData, "horizontal", "number");
-            }
-          }
-        });
-      },
-      { rootMargin: "-50% 0px -50% 0px" }
-    );
-
-    const currentTrigger1 = trigger1Ref.current;
-    const currentTrigger2 = trigger2Ref.current;
-    const currentTrigger3 = trigger3Ref.current;
-
-    if (currentTrigger1) observer.observe(currentTrigger1);
-    if (currentTrigger2) observer.observe(currentTrigger2);
-    if (currentTrigger3) observer.observe(currentTrigger3);
-
-    return () => {
-      if (currentTrigger1) observer.unobserve(currentTrigger1);
-      if (currentTrigger2) observer.unobserve(currentTrigger2);
-      if (currentTrigger3) observer.unobserve(currentTrigger3);
-    };
-  }, [raceData, indigenousData, quilombolaData]);
-
   return (
     <Section secondaryBg>
       <ChapterHeader.Root>
         <ChapterHeader.Label>Capítulo 2</ChapterHeader.Label>
-        <ChapterHeader.Title>
-          Diversidade no Brasil: Raça e Povos Tradicionais
-        </ChapterHeader.Title>
+        <ChapterHeader.Title>Território e Envelhecimento</ChapterHeader.Title>
         <ChapterHeader.Subtitle>
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Perspiciatis
-          reprehenderit dolorem expedita tenetur inventore dolor facilis ex
-          voluptates hic omnis, similique quo quibusdam consequuntur doloribus
-          tempora qui. Esse, commodi non.
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus
+          dolorum hic tenetur labore facilis sed aliquam architecto mollitia
+          eveniet. Magni hic voluptas obcaecati consectetur fugiat accusamus
+          commodi dolorum placeat exercitationem!
         </ChapterHeader.Subtitle>
       </ChapterHeader.Root>
 
-      <div className="lg:max-w-3/4 mx-auto max-w-4/5 lg:w-full space-y-6">
-        <div className="flex items-start">
-          <div className="w-[65%] sticky top-[25vh]">
-            <div className="flex justify-center">
-              <svg ref={svgRef}></svg>
-            </div>
+      <div className="lg:max-w-3/4 mx-auto max-w-4/5 lg:w-full space-y-12">
+        <div className="grid lg:grid-cols-2 gap-6">
+          <MetricCard.Root>
+            <MetricCard.Value>35 Anos</MetricCard.Value>
+            <MetricCard.Label>Idade Mediana Nacional</MetricCard.Label>
+            <MetricCard.Description>
+              Aumento de 6 anos em relação a 2010 (29 anos)
+            </MetricCard.Description>
+          </MetricCard.Root>
+          <MetricCard.Root>
+            <MetricCard.Value>80,0</MetricCard.Value>
+            <MetricCard.Label>Índice de Envelhecimento</MetricCard.Label>
+            <MetricCard.Description>
+              Existem 80 idosos (65+) para cada 100 crianças (0-14)
+            </MetricCard.Description>
+          </MetricCard.Root>
+        </div>
+
+        <div className="grid lg:grid-cols-2 gap-8 items-center">
+          <div>
+            <h3 className="text-2xl font-bold text-blue-700 mb-4">
+              Onde o Brasil é mais velho?
+            </h3>
+            <p className="text-muted-foreground mb-4">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio
+              voluptatum, cupiditate enim fuga totam maiores adipisci autem
+              fugiat quis eius quod quasi deserunt sint iure eaque placeat
+              similique commodi iste.
+            </p>
+            <p className="text-muted-foreground">
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Adipisci
+              facere magnam sunt blanditiis voluptates illo quae quod alias
+              vitae architecto aspernatur ex porro repellendus aut, delectus
+              consequuntur provident! Explicabo, incidunt?
+            </p>
           </div>
 
-          <div className="flex-1">
-            <div ref={trigger1Ref} className="h-[70vh] pt-[15vh]">
-              <h3 className="text-xl font-bold mb-2 text-deco-emerald">
-                Autodeclaração Racial
-              </h3>
-              <p className="text-muted-foreground">
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsam
-                earum ad, minima sunt, et provident suscipit dignissimos fuga
-                hic ab pariatur illo vitae consequuntur ipsa sequi maiores
-                voluptas laudantium porro.
-              </p>
-            </div>
+          <div className="bg-white/50 p-4 rounded-xl border shadow-sm flex justify-center min-h-[400px]">
+            <ChoroplethMapD3
+              data={mapData}
+              locationField="nome_uf"
+              valueField="idade_mediana_media"
+              geoJsonProperty="name"
+              width={500}
+              height={400}
+            />
+          </div>
+        </div>
 
-            <div ref={trigger2Ref} className="h-[70vh] pt-[15vh]">
-              <h3 className="text-xl font-bold mb-2 text-deco-emerald">
-                Povos Indígenas
-              </h3>
-              <p className="text-muted-foreground">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Commodi officiis quia modi quisquam cupiditate repellat mollitia
-                minus tempore accusamus consequatur. Quidem soluta cum optio.
-                Quasi voluptas nam reprehenderit facere vel!
-              </p>
-            </div>
+        <div className="grid lg:grid-cols-2 gap-8 items-center mt-8">
+          <div className="order-2 lg:order-1 h-[400px] flex flex-col">
+            <h3
+              className="text-lg font-bold text-center mb-2"
+              style={{ color: "#4f46e5" }}
+            >
+              Índice de Envelhecimento por Raça
+            </h3>
 
-            <div ref={trigger3Ref} className="h-[70vh] pt-[15vh]">
-              <h3 className="text-xl font-bold mb-2 text-deco-emerald">
-                População Quilombola
-              </h3>
-              <p className="text-muted-foreground">
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                Doloremque, impedit mollitia inventore accusamus modi autem,
-                atque quae quos rem, ad voluptas repellendus molestiae
-                recusandae quis cupiditate perspiciatis vero ullam fuga?
-              </p>
-            </div>
+            <BarChart
+              data={raceData}
+              categoryField="Raça"
+              valueField="Índice"
+              xLabel="Índice (Idosos por 100 Jovens)"
+              yLabel="Raça/Cor"
+              color="#4f46e5"
+              horizontal
+            />
+          </div>
+
+          <div className="order-1 lg:order-2">
+            <h3 className="text-2xl font-bold text-indigo-700 mb-4">
+              Desigualdade Racial no Envelhecimento
+            </h3>
+            <p className="text-muted-foreground mb-4">
+              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Vel
+              cupiditate animi ipsa enim repellendus praesentium. Quo,
+              reprehenderit. Voluptatum quisquam atque voluptate provident
+              reprehenderit, rem quas blanditiis tenetur debitis sint fugiat?
+            </p>
+            <p className="text-muted-foreground">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut ipsum
+              corrupti impedit accusamus repellendus sed, ab excepturi amet
+              porro cumque nihil at laboriosam asperiores nostrum, fuga id
+              veritatis! Aperiam, optio.
+            </p>
           </div>
         </div>
       </div>
