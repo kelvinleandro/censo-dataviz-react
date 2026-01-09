@@ -7,7 +7,7 @@ const Home = () => {
   return (
     <div className="bg-background min-h-screen">
       <Hero />
-      {/*<ChapterOne />*/}
+      <ChapterOne />
       <ChapterTwo/>
       <ChapterFour />
       <ChapterFive/>

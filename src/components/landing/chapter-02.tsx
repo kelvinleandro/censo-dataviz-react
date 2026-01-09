@@ -29,11 +29,10 @@ const ChapterTwo = () => {
         const resRace = await fetch("/api/aging-index-by-race");
         if (!resRace.ok) throw new Error("Failed to fetch aging race data");
         const rawRaceData = await resRace.json();
-
         setRaceData(
           rawRaceData.map((d: any) => ({
-            category: d.cor_raca,
-            value: Number(d.indice_medio),
+            "Raça": d.cor_raca,          
+            "Índice": Number(d.indice_medio), 
           }))
         );
       } catch (error) {
@@ -99,7 +98,7 @@ const ChapterTwo = () => {
               data={mapData}
               locationField="nome_uf"
               valueField="idade_mediana_media"
-              geoJsonProperty="name" 
+              geoJsonProperty="name"
               width={500}
               height={400}
             />
@@ -107,15 +106,21 @@ const ChapterTwo = () => {
         </div>
 
         <div className="grid lg:grid-cols-2 gap-8 items-center mt-8">
-          <div className="order-2 lg:order-1 h-[400px]">
+          <div className="order-2 lg:order-1 h-[400px] flex flex-col">
+            <h3
+              className="text-lg font-bold text-center mb-2"
+              style={{ color: "#4f46e5" }}
+            >
+              Índice de Envelhecimento por Raça
+            </h3>
+
             <BarChart
               data={raceData}
-              categoryField="category"
-              valueField="value"
-              title="Índice de Envelhecimento por Raça"
+              categoryField="Raça"
+              valueField="Índice"
               xLabel="Índice (Idosos por 100 Jovens)"
               yLabel="Raça/Cor"
-              color="#4f46e5" 
+              color="#4f46e5"
               horizontal
             />
           </div>
@@ -125,15 +130,16 @@ const ChapterTwo = () => {
               Desigualdade Racial no Envelhecimento
             </h3>
             <p className="text-muted-foreground mb-4">
-              O Índice de Envelhecimento mostra quantos idosos (65+) existem
-              para cada 100 pessoas de 0 a 14 anos.
+              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Vel
+              cupiditate animi ipsa enim repellendus praesentium. Quo,
+              reprehenderit. Voluptatum quisquam atque voluptate provident
+              reprehenderit, rem quas blanditiis tenetur debitis sint fugiat?
             </p>
             <p className="text-muted-foreground">
-              A população <strong>Amarela</strong> e <strong>Branca</strong>{" "}
-              lidera o envelhecimento com índices altíssimos. Já as populações{" "}
-              <strong>Indígena</strong> e <strong>Parda</strong> possuem índices
-              menores, indicando uma estrutura etária comparativamente mais
-              jovem.
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut ipsum
+              corrupti impedit accusamus repellendus sed, ab excepturi amet
+              porro cumque nihil at laboriosam asperiores nostrum, fuga id
+              veritatis! Aperiam, optio.
             </p>
           </div>
         </div>
