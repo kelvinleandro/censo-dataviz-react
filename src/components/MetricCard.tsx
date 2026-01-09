@@ -5,7 +5,7 @@ const Root: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
 }) => {
   return (
     <div
-      className={`space-y-1 border rounded-2xl p-6 border-deco-emerald/20 transition-all duration-300 hover:scale-[1.02] hover:border-deco-emerald/50 ${className}`}
+      className={`bg-(image:--image-gradient-card) space-y-1 border rounded-2xl p-6 border-deco-emerald/20 transition-all duration-300 hover:scale-[1.02] hover:border-deco-emerald/50 ${className}`}
       {...props}
     >
       {children}

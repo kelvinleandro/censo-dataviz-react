@@ -6,8 +6,11 @@ export async function GET() {
     `SELECT 
     sexo,
     ROUND(
-      SUM(CASE WHEN alfabetizacao = 'Alfabetizadas' THEN populacao ELSE 0 END) * 100.0
-        / SUM(populacao), 2
+      (
+        SUM(CASE WHEN alfabetizacao = 'Alfabetizadas' THEN populacao ELSE 0 END) * 100
+        / SUM(populacao)
+      )::numeric,
+      2
     ) AS taxa_percentual
 FROM alfabetizacao_grupo_idade_sexo_raca
 GROUP BY sexo;`

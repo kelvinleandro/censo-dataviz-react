@@ -99,10 +99,10 @@ const ChapterOne = () => {
             </MetricCard.Description> */}
           </MetricCard.Root>
           <MetricCard.Root>
-            <MetricCard.Value>203,1</MetricCard.Value>
-            <MetricCard.Label>Milhões de Pessoas</MetricCard.Label>
+            <MetricCard.Value>95</MetricCard.Value>
+            <MetricCard.Label>Homens</MetricCard.Label>
             <MetricCard.Description>
-              Lorem ipsum dolor sit amet
+              Para cada 100 mulheres
             </MetricCard.Description>
           </MetricCard.Root>
         </div>
@@ -129,6 +129,9 @@ const ChapterOne = () => {
               title="População por Faixa Etária"
               xLabel="População"
               yLabel="Faixa Etária"
+              color={getComputedStyle(
+                document.documentElement
+              ).getPropertyValue("--color-muted-foreground")}
               horizontal
             />
           </div>
