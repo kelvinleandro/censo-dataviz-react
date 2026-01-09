@@ -1,7 +1,7 @@
 "use client";
 
 import { ChartData } from "@/types/api";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import embed from "vega-embed";
 import { Spec } from "vega";
 
@@ -28,14 +28,39 @@ const Treemap: React.FC<TreemapProps> = ({
   tooltipFields = null,
   color = null,
 }) => {
-  const chartContainer = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null); // For measurement
+  const chartRef = useRef<HTMLDivElement>(null); // For rendering
+  const [containerWidth, setContainerWidth] = useState(0);
 
   useEffect(() => {
-    if (data && chartContainer.current) {
+    const handleResize = () => {
+      if (containerRef.current) {
+        setContainerWidth(containerRef.current.clientWidth);
+      }
+    };
+
+    handleResize(); // Set initial width
+
+    const observer = new ResizeObserver(handleResize);
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (
+      data &&
+      data.length > 0 &&
+      chartRef.current &&
+      containerWidth > 0
+    ) {
+      chartRef.current.innerHTML = "";
       const width =
-        initialWidth === "container"
-          ? chartContainer.current.clientWidth
-          : initialWidth;
+        initialWidth === "container" ? containerWidth : initialWidth;
 
       const transformedData = data.map((d) => ({
         ...d,
@@ -158,7 +183,7 @@ const Treemap: React.FC<TreemapProps> = ({
         ],
       };
 
-      const result = embed(chartContainer.current, spec, { actions: false });
+      const result = embed(chartRef.current, spec, { actions: false });
       result.catch(console.error);
 
       return () => {
@@ -175,9 +200,14 @@ const Treemap: React.FC<TreemapProps> = ({
     title,
     tooltipFields,
     color,
+    containerWidth,
   ]);
 
-  return <div ref={chartContainer} />;
+  return (
+    <div ref={containerRef}>
+      <div ref={chartRef}></div>
+    </div>
+  );
 };
 
 export default Treemap;
