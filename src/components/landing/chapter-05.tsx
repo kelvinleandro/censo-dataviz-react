@@ -307,7 +307,9 @@ const ChapterFive = () => {
         <ChapterHeader.Label>Capítulo 5</ChapterHeader.Label>
         <ChapterHeader.Title>Povos Tradicionais no Mapa</ChapterHeader.Title>
         <ChapterHeader.Subtitle>
-          Visualize onde estão as raízes do Brasil.
+          O Brasil possui quase <strong>1,7 milhão de indígenas</strong>. O mapa
+          revela uma forte concentração na região Norte, especialmente no
+          Amazonas{" "}
         </ChapterHeader.Subtitle>
       </ChapterHeader.Root>
 
@@ -327,10 +329,9 @@ const ChapterFive = () => {
                 População Indígena
               </h3>
               <p>
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                Numquam necessitatibus quo sed voluptatibus minus? Laudantium ea
-                consequuntur facilis, quidem reprehenderit commodi maiores! Eius
-                numquam quo, iure quibusdam itaque aliquam debitis?
+                Um dado crucial é a relação com a terra: em Amazonas, por exemplo, 30.4% vive em {" "}
+                <strong>Terras Indígenas</strong> oficialmente delimitadas em
+                cada estado.
               </p>
             </div>
             <div
@@ -341,10 +342,10 @@ const ChapterFive = () => {
                 População Quilombola
               </h3>
               <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Consequatur, libero, suscipit inventore perferendis, dolorum
-                dignissimos doloremque ex enim quo ipsum consectetur asperiores
-                cumque debitis deleniti quas illo! At, voluptatibus nulla.
+                O centro de gravidade se desloca para o{" "}
+                <strong>Nordeste</strong>. A Bahia e o Maranhão concentram as
+                maiores populações, refletindo a geografia histórica da
+                resistência e a formação dos quilombos no país.
               </p>
             </div>
           </div>
