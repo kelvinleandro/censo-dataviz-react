@@ -76,7 +76,7 @@ const ChapterTwo = () => {
 
         <div className="grid lg:grid-cols-2 gap-8 items-center">
           <div>
-            <h3 className="text-2xl font-bold text-blue-700 mb-4">
+            <h3 className="text-2xl font-bold text-emerald-400 mb-4">
               Onde o Brasil é mais velho?
             </h3>
             <p className="text-muted-foreground mb-4">
@@ -93,7 +93,7 @@ const ChapterTwo = () => {
             </p>
           </div>
 
-          <div className="bg-white/50 p-4 rounded-xl border shadow-sm flex justify-center min-h-[400px]">
+          <div className="bg-white/5 p-4 rounded-xl border border-white/10 shadow-sm flex justify-center min-h-[400px]">
             <ChoroplethMapD3
               data={mapData}
               locationField="nome_uf"
@@ -112,7 +112,7 @@ const ChapterTwo = () => {
           <div className="order-2 lg:order-1 h-[400px] flex flex-col">
             <h3
               className="text-lg font-bold text-center mb-2"
-              style={{ color: "#4f46e5" }}
+              style={{ color: "#34d399" }}
             >
               Índice de Envelhecimento por Raça
             </h3>
@@ -123,13 +123,13 @@ const ChapterTwo = () => {
               valueField="Índice"
               xLabel="Índice (Idosos por 100 Jovens)"
               yLabel="Raça/Cor"
-              color="#4f46e5"
+              color="#34d399"
               horizontal
             />
           </div>
 
           <div className="order-1 lg:order-2">
-            <h3 className="text-2xl font-bold text-indigo-700 mb-4">
+            <h3 className="text-2xl font-bold text-teal-400 mb-4">
               Desigualdade Racial no Envelhecimento
             </h3>
             <p className="text-muted-foreground mb-4">
