@@ -24,7 +24,7 @@ const Epilogue = () => {
           reconhecimento, tirando da invisibilidade estatística as populações
           indígenas e quilombolas. O Brasil que emerge dos números é complexo e
           diferente: uma sociedade que, apesar da diversidade, tem ainda muitas
-          contradições a lidar.
+          contradições a lidar. No entanto, é tambem capaz de mostrar que os problemas do passado eram ainda piores.
         </p>
       </div>
     </Section>
