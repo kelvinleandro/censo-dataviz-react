@@ -65,7 +65,7 @@ const ChapterOne = () => {
   }, [popPerState, selectedAgeGroup]);
 
   return (
-    <Section>
+    <Section id="capitulo-1">
       <ChapterHeader.Root>
         <ChapterHeader.Label>Capítulo 1</ChapterHeader.Label>
         <ChapterHeader.Title>

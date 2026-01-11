@@ -83,7 +83,7 @@ const ChapterThree = () => {
   );
 
   return (
-    <Section>
+    <Section id="capitulo-3">
       <ChapterHeader.Root>
         <ChapterHeader.Label>Capítulo 3</ChapterHeader.Label>
         <ChapterHeader.Title>As Cores do Território</ChapterHeader.Title>

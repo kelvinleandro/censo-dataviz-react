@@ -45,7 +45,7 @@ const ChapterSix = () => {
   }, []);
 
   return (
-    <Section secondaryBg>
+    <Section secondaryBg id="capitulo-6">
       <ChapterHeader.Root>
         <ChapterHeader.Label>Capítulo 6</ChapterHeader.Label>
         <ChapterHeader.Title>Desigualdades Visíveis</ChapterHeader.Title>

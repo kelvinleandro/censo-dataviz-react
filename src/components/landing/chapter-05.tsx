@@ -302,7 +302,7 @@ const ChapterFive = () => {
   }, [indigenousData]);
 
   return (
-    <Section>
+    <Section id="capitulo-5">
       <ChapterHeader.Root>
         <ChapterHeader.Label>Capítulo 5</ChapterHeader.Label>
         <ChapterHeader.Title>Povos Tradicionais no Mapa</ChapterHeader.Title>
