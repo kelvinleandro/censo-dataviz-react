@@ -60,12 +60,13 @@ const ChapterOne = () => {
       .map((d) => ({
         nome_uf: d.nome_uf,
         populacao_grupo: Number(d.populacao_grupo),
+        populacao_estado: Number(d.populacao_estado),
         proporcao: Number(d.proporcao),
       }));
   }, [popPerState, selectedAgeGroup]);
 
   return (
-    <Section>
+    <Section id="capitulo-1">
       <ChapterHeader.Root>
         <ChapterHeader.Label>Capítulo 1</ChapterHeader.Label>
         <ChapterHeader.Title>
@@ -133,6 +134,10 @@ const ChapterOne = () => {
                 document.documentElement
               ).getPropertyValue("--color-muted-foreground")}
               horizontal
+              tooltipFields={{
+                idade_grupo: "Faixa Etária",
+                total: "População",
+              }}
             />
           </div>
 
@@ -170,6 +175,12 @@ const ChapterOne = () => {
                 data={filteredMapData}
                 locationField="nome_uf"
                 valueField="proporcao"
+                tooltipFields={{
+                  // nome_uf: "Estado",
+                  populacao_grupo: "População da Faixa Etária",
+                  populacao_estado: "Total de Habitantes",
+                  proporcao: "Porcentagem",
+                }}
               />
             </div>
           </div>

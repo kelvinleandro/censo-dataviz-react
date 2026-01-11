@@ -4,44 +4,40 @@ import React, { useEffect, useRef } from "react";
 import embed, { type VisualizationSpec } from "vega-embed";
 import * as vl from "vega-lite-api";
 
-interface ScatterPlotProps {
+interface StackedBarChartProps {
   data: Record<string, unknown>[];
-  xField: string;
-  yField: string;
-  xLabel?: string;
-  yLabel?: string;
-  colorField?: string;
-  sizeField?: string;
-
+  categoryField: string;
+  valueField: string;
+  stackField: string;
+  horizontal?: boolean;
+  normalize?: boolean;
   width?: number | "container";
   height?: number | "container";
-
-  pointSize?: number;
   colorScheme?: string;
-  color?: string;
   title?: string;
   tooltipFields?: string[] | Record<string, string>;
-  startAtZero?: boolean;
+  color?: string;
+  xLabel?: string;
+  yLabel?: string;
+  legendTitle?: string;
 }
 
-const ScatterPlot: React.FC<ScatterPlotProps> = ({
+const StackedBarChart: React.FC<StackedBarChartProps> = ({
   data,
-  xField,
-  yField,
-  colorField,
-  sizeField,
-
+  categoryField,
+  valueField,
+  stackField,
+  horizontal = false,
+  normalize = false,
   width = "container",
   height = "container",
-
-  pointSize = 40,
-  colorScheme = "blues",
+  colorScheme = "tableau10",
   title,
-  color,
   tooltipFields,
-  startAtZero = false,
+  color,
   xLabel,
   yLabel,
+  legendTitle,
 }) => {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -65,34 +61,41 @@ const ScatterPlot: React.FC<ScatterPlotProps> = ({
         })
       );
     } else {
-      tooltipEncodings = [vl.field(xField), vl.field(yField)];
+      tooltipEncodings = [
+        vl.field(categoryField),
+        vl.field(stackField),
+        vl.field(valueField).format(",.2f"),
+      ];
+    }
+
+    const valueAxisObj = horizontal
+      ? vl.x().title(xLabel ?? valueField)
+      : vl.y().title(yLabel ?? valueField);
+
+    const categoryAxisObj = horizontal
+      ? vl.y().title(yLabel ?? categoryField)
+      : vl.x().title(xLabel ?? categoryField);
+
+    let valueDef = valueAxisObj.fieldQ(valueField);
+    if (normalize) {
+      valueDef = valueDef.stack("normalize").axis({ format: "%" });
     }
 
     const encodings = [
+      categoryAxisObj.fieldN(categoryField),
+      valueDef,
       vl
-        .x()
-        .fieldQ(xField)
-        .title(xLabel ?? xField)
-        .scale({ zero: startAtZero }),
-      vl
-        .y()
-        .fieldQ(yField)
-        .title(yLabel ?? yField)
-        .scale({ zero: startAtZero }),
-
-      colorField
-        ? vl.color().fieldN(colorField).scale({ scheme: colorScheme })
-        : undefined,
-
-      sizeField ? vl.size().fieldQ(sizeField) : vl.size().value(pointSize),
-
+        .color()
+        .fieldN(stackField)
+        .scale({ scheme: colorScheme })
+        .title(legendTitle ?? stackField),
       vl.tooltip(tooltipEncodings),
     ];
 
     const validEncodings = encodings.filter((e) => e !== undefined);
 
     const chart = vl
-      .markCircle()
+      .markBar()
       .data(data)
       .encode(...validEncodings)
       .width(typeof width === "number" ? width : undefined)
@@ -101,7 +104,6 @@ const ScatterPlot: React.FC<ScatterPlotProps> = ({
       .config({
         background: null,
         view: { stroke: null },
-        mark: { tooltip: true },
         axis: {
           tickColor: colorToUse,
           titleColor: colorToUse,
@@ -133,20 +135,20 @@ const ScatterPlot: React.FC<ScatterPlotProps> = ({
     };
   }, [
     data,
-    xField,
-    yField,
-    colorField,
-    sizeField,
+    categoryField,
+    valueField,
+    stackField,
+    horizontal,
+    normalize,
     width,
     height,
     colorScheme,
-    pointSize,
     title,
-    color,
     tooltipFields,
-    startAtZero,
+    color,
     xLabel,
     yLabel,
+    legendTitle,
   ]);
 
   return (
@@ -161,4 +163,4 @@ const ScatterPlot: React.FC<ScatterPlotProps> = ({
   );
 };
 
-export default ScatterPlot;
+export default StackedBarChart;

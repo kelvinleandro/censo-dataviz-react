@@ -3,11 +3,12 @@ import { BrazilLogo } from "../ui/BrazilLogo";
 
 const Navbar = () => {
   const chapters = [
-    { id: 1, label: "Capítulo 1", description: "Demografia" },
-    { id: 2, label: "Capítulo 2", description: "Educação" },
-    { id: 3, label: "Capítulo 3", description: "Economia" },
-    { id: 4, label: "Capítulo 4", description: "Habitação" },
-    { id: 5, label: "Capítulo 5", description: "Futuro" },
+    { id: 1, label: "Capítulo 1" },
+    { id: 2, label: "Capítulo 2" },
+    { id: 3, label: "Capítulo 3" },
+    { id: 4, label: "Capítulo 4" },
+    { id: 5, label: "Capítulo 5" },
+    { id: 6, label: "Capítulo 6" },
   ];
 
   return (

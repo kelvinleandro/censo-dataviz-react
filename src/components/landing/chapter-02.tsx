@@ -44,7 +44,7 @@ const ChapterTwo = () => {
   }, []);
 
   return (
-    <Section secondaryBg>
+    <Section secondaryBg id="capitulo-2">
       <ChapterHeader.Root>
         <ChapterHeader.Label>Capítulo 2</ChapterHeader.Label>
         <ChapterHeader.Title>Território e Envelhecimento</ChapterHeader.Title>
@@ -101,6 +101,9 @@ const ChapterTwo = () => {
               geoJsonProperty="name"
               width={500}
               height={400}
+              tooltipFields={{
+                idade_mediana_media: "Idade Mediana",
+              }}
             />
           </div>
         </div>
