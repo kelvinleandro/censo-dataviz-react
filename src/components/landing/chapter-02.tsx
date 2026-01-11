@@ -49,10 +49,10 @@ const ChapterTwo = () => {
         <ChapterHeader.Label>Capítulo 2</ChapterHeader.Label>
         <ChapterHeader.Title>Território e Envelhecimento</ChapterHeader.Title>
         <ChapterHeader.Subtitle>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus
-          dolorum hic tenetur labore facilis sed aliquam architecto mollitia
-          eveniet. Magni hic voluptas obcaecati consectetur fugiat accusamus
-          commodi dolorum placeat exercitationem!
+          O Brasil deixa de ser um país majoritariamente jovem. O Censo 2022
+          revela uma transição demográfica acelerada, com o alargamento do topo
+          da pirâmide etária e profundas diferenças regionais que impactam o
+          futuro das políticas públicas.
         </ChapterHeader.Subtitle>
       </ChapterHeader.Root>
 
@@ -80,16 +80,17 @@ const ChapterTwo = () => {
               Onde o Brasil é mais velho?
             </h3>
             <p className="text-muted-foreground mb-4">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio
-              voluptatum, cupiditate enim fuga totam maiores adipisci autem
-              fugiat quis eius quod quasi deserunt sint iure eaque placeat
-              similique commodi iste.
+              A geografia do envelhecimento divide o país. O{" "}
+              <strong>Sul e Sudeste</strong>, destacados em tons mais fortes no
+              mapa, lideram o processo. Estados como São Paulo e Paraná possuem as maiores idades medianas, reflexo de uma
+              transição demográfica iniciada mais cedo.
             </p>
             <p className="text-muted-foreground">
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Adipisci
-              facere magnam sunt blanditiis voluptates illo quae quod alias
-              vitae architecto aspernatur ex porro repellendus aut, delectus
-              consequuntur provident! Explicabo, incidunt?
+              Em contraste, o <strong>Norte e partes do Centro-Oeste</strong>{" "}
+              ainda mantêm uma estrutura etária mais jovem. Regiões como Roraima
+              e Amapá apresentam idades medianas significativamente menores,
+              impulsionadas por taxas de natalidade que, embora em queda, ainda
+              superam a média nacional.
             </p>
           </div>
 
@@ -133,16 +134,15 @@ const ChapterTwo = () => {
               Desigualdade Racial no Envelhecimento
             </h3>
             <p className="text-muted-foreground mb-4">
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Vel
-              cupiditate animi ipsa enim repellendus praesentium. Quo,
-              reprehenderit. Voluptatum quisquam atque voluptate provident
-              reprehenderit, rem quas blanditiis tenetur debitis sint fugiat?
+              O envelhecimento não atinge todos os grupos da mesma forma. A população <strong>Amarela</strong> registram índices de
+              envelhecimento muito superiores à média nacional, indicando maior
+              longevidade e menor fecundidade.
             </p>
             <p className="text-muted-foreground">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut ipsum
-              corrupti impedit accusamus repellendus sed, ab excepturi amet
-              porro cumque nihil at laboriosam asperiores nostrum, fuga id
-              veritatis! Aperiam, optio.
+              Já as populações <strong>Preta, Branca, Parda e Indígena</strong> possuem
+              uma estrutura etária comparativamente mais jovem. No entanto, o
+              gráfico revela que a transição demográfica já é uma realidade para
+              todos, com índices crescentes em relação aos censos anteriores.
             </p>
           </div>
         </div>
