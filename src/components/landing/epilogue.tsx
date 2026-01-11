@@ -3,7 +3,7 @@ import ChapterHeader from "../ui/ChapterHeader";
 
 const Epilogue = () => {
   return (
-    <Section>
+    <Section id="capitulo-7">
       <ChapterHeader.Root>
         <ChapterHeader.Label>Epílogo</ChapterHeader.Label>
         <ChapterHeader.Title>O Brasil que Emerge</ChapterHeader.Title>

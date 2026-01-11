@@ -9,6 +9,7 @@ const Navbar = () => {
     { id: 4, label: "Capítulo 4" },
     { id: 5, label: "Capítulo 5" },
     { id: 6, label: "Capítulo 6" },
+    { id: 7, label: "Epílogo" },
   ];
 
   return (
