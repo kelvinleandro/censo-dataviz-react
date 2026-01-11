@@ -334,13 +334,10 @@ const ChapterFour = () => {
         <ChapterHeader.Label>Capítulo 4</ChapterHeader.Label>
         <ChapterHeader.Title>Alfabetização e Ciclo da Vida</ChapterHeader.Title>
         <ChapterHeader.Subtitle>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum
-          dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit
-          amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet,
-          consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur
-          adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing
-          elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem
-          ipsum dolor sit amet, consectetur adipiscing elit.
+          A educação é um direito fundamental, mas os dados mostram que o acesso
+          ainda não é universal. A taxa de analfabetismo caiu para 7,0% em 2022,
+          mas as desigualdades de raça, idade e região continuam marcando o
+          cenário educacional brasileiro.
         </ChapterHeader.Subtitle>
       </ChapterHeader.Root>
 
@@ -353,23 +350,41 @@ const ChapterFour = () => {
           </div>
           <div className="flex-1">
             <div ref={trigger1Ref} className="h-[70vh] pt-[15vh]">
-              <p>
-                Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem
-                ipsum dolor sit amet
+              <h3 className="text-2xl font-bold text-emerald-400 mb-4">
+                Desigualdade Racial
+              </h3>
+              <p className="text-muted-foreground text-lg leading-relaxed mb-4">
+                A cor da pele ainda influencia as chances de ser alfabetizado no
+                Brasil. Enquanto as populações <strong>Branca e Amarela</strong>{" "}
+                apresentam taxas superiores a 95%, os grupos{" "}
+                <strong>Preto, Pardo e Indígena</strong> enfrentam barreiras
+                históricas que refletem no acesso à educação básica.
               </p>
             </div>
 
             <div ref={trigger2Ref} className="h-[70vh] pt-[15vh]">
-              <p>
-                Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem
-                ipsum dolor sit amet Lorem ipsum dolor sit amet
+              <h3 className="text-2xl font-bold text-teal-400 mb-4">
+                Gerações e Acesso
+              </h3>
+              <p className="text-muted-foreground text-lg leading-relaxed mb-4">
+                O analfabetismo no Brasil tem idade. A universalização recente
+                do ensino garantiu taxas próximas a 100% entre os mais jovens. O
+                desafio persiste na população <strong>idosa (65+)</strong>, que
+                não teve as mesmas oportunidades de escolarização na juventude e
+                carrega o passivo educacional do século passado.
               </p>
             </div>
 
             <div ref={trigger3Ref} className="h-[70vh] pt-[15vh]">
+              <h3 className="text-2xl font-bold text-cyan-400 mb-4">
+                Gênero e Educação
+              </h3>
               <p>
-                Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem
-                ipsum dolor sit amet.
+                Na educação, as mulheres lideram. A taxa de alfabetização
+                feminina supera a masculina, consolidando uma tendência de maior
+                escolaridade entre as mulheres observada nas últimas décadas.
+                Elas permanecem mais tempo na escola e completam mais etapas do
+                ensino.
               </p>
             </div>
           </div>
