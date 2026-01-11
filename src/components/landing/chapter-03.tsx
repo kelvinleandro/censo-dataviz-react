@@ -163,6 +163,10 @@ const ChapterThree = () => {
                 color={getComputedStyle(
                   document.documentElement
                 ).getPropertyValue("--color-muted-foreground")}
+                tooltipFields={{
+                  idade_grupo: "Faixa Etária",
+                  total: "População",
+                }}
               />
             </div>
           </div>

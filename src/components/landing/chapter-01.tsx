@@ -133,6 +133,10 @@ const ChapterOne = () => {
                 document.documentElement
               ).getPropertyValue("--color-muted-foreground")}
               horizontal
+              tooltipFields={{
+                idade_grupo: "Faixa Etária",
+                total: "População",
+              }}
             />
           </div>
 

@@ -18,6 +18,7 @@ interface BarChartProps {
   color?: string;
   xLabel?: string;
   yLabel?: string;
+  tooltipFields?: string[] | Record<string, string>;
 }
 
 const BarChart: React.FC<BarChartProps> = ({
@@ -34,6 +35,7 @@ const BarChart: React.FC<BarChartProps> = ({
   color,
   xLabel,
   yLabel,
+  tooltipFields,
 }) => {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -45,6 +47,28 @@ const BarChart: React.FC<BarChartProps> = ({
       styles.getPropertyValue("--color-foreground").trim() ?? "#FFF";
 
     const colorToUse = color ?? defaultColor;
+
+    let tooltipEncodings;
+    if (Array.isArray(tooltipFields)) {
+      tooltipEncodings = tooltipFields.map((f) => vl.field(f));
+    } else if (typeof tooltipFields === "object" && tooltipFields !== null) {
+      tooltipEncodings = Object.entries(tooltipFields).map(
+        ([field, title]) => ({
+          field,
+          title,
+        })
+      );
+    } else {
+      tooltipEncodings = [
+        { field: categoryField, type: "nominal", title: categoryField },
+        {
+          field: valueField,
+          type: "quantitative",
+          format: ",.2f",
+          title: valueField,
+        },
+      ];
+    }
 
     const categoryAxis = horizontal
       ? vl.y().title(yLabel ?? "")
@@ -69,15 +93,7 @@ const BarChart: React.FC<BarChartProps> = ({
         ? vl.color().fieldN(colorField).scale({ scheme: colorScheme })
         : vl.color().value(colorToUse),
 
-      vl.tooltip([
-        { field: categoryField, type: "nominal", title: categoryField },
-        {
-          field: valueField,
-          type: "quantitative",
-          format: ",.2f",
-          title: valueField,
-        },
-      ]),
+      vl.tooltip(tooltipEncodings),
     ];
 
     const validEncodings = encodings.filter((e) => e !== undefined);
@@ -128,6 +144,7 @@ const BarChart: React.FC<BarChartProps> = ({
     color,
     xLabel,
     yLabel,
+    tooltipFields,
   ]);
 
   return (
