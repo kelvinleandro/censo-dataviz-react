@@ -101,6 +101,9 @@ const ChapterTwo = () => {
               geoJsonProperty="name"
               width={500}
               height={400}
+              tooltipFields={{
+                idade_mediana_media: "Idade Mediana",
+              }}
             />
           </div>
         </div>

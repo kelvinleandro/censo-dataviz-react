@@ -176,8 +176,8 @@ const ChapterOne = () => {
                 locationField="nome_uf"
                 valueField="proporcao"
                 tooltipFields={{
-                  nome_uf: "Estado",
-                  populacao_grupo: "População do Grupo",
+                  // nome_uf: "Estado",
+                  populacao_grupo: "População da Faixa Etária",
                   populacao_estado: "Total de Habitantes",
                   proporcao: "Porcentagem",
                 }}
