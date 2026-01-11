@@ -12,6 +12,7 @@ interface ChoroplethMapD3Props {
   width?: number;
   height?: number;
   geoJsonUrl?: string;
+  tooltipFields?: Record<string, string>;
 }
 
 type BrazilStateFeature = Feature & {
@@ -29,6 +30,7 @@ const ChoroplethMapD3: React.FC<ChoroplethMapD3Props> = ({
   width = 500,
   height = 400,
   geoJsonUrl = "/brazil-states.geojson",
+  tooltipFields,
 }) => {
   const ref = useRef<SVGSVGElement | null>(null);
   const geoJsonCache = useRef<FeatureCollection | null>(null);
@@ -94,10 +96,8 @@ const ChoroplethMapD3: React.FC<ChoroplethMapD3Props> = ({
       return;
     }
 
-    const dataMap = new Map(
-      data.map((d) => [d[locationField] as string, d[valueField] as number])
-    );
-    const values = Array.from(dataMap.values());
+    const dataMap = new Map(data.map((d) => [d[locationField] as string, d]));
+    const values = data.map((d) => d[valueField] as number);
     const [min, max] = d3.extent(values);
 
     const color = d3
@@ -111,18 +111,44 @@ const ChoroplethMapD3: React.FC<ChoroplethMapD3Props> = ({
       .duration(1000)
       .attr("fill", (d) => {
         const stateName = d.properties[geoJsonProperty];
-        const value = dataMap.get(stateName);
-        return value ? color(value) : "lightgray";
+        const item = dataMap.get(stateName);
+        const value = item ? (item[valueField] as number) : undefined;
+        return value !== undefined && value !== null
+          ? color(value)
+          : "lightgray";
       })
       .select("title")
       .text((d) => {
         const stateName = d.properties[geoJsonProperty];
-        const value = dataMap.get(stateName);
+        const item = dataMap.get(stateName);
+
+        if (!item) {
+          return `${stateName}: Sem dados`;
+        }
+
+        if (tooltipFields) {
+          const lines: string[] = [];
+          Object.entries(tooltipFields).forEach(([key, label]) => {
+            const val = item[key];
+            const valStr =
+              typeof val === "number"
+                ? val.toLocaleString("pt-BR")
+                : val !== undefined && val !== null
+                ? String(val)
+                : "-";
+            lines.push(`${label}: ${valStr}`);
+          });
+          return lines.join("\n");
+        }
+
+        const value = item[valueField] as number;
         return `${stateName}: ${
-          value ? value.toLocaleString("pt-BR") : "Sem dados"
+          value !== undefined && value !== null
+            ? value.toLocaleString("pt-BR")
+            : "Sem dados"
         }`;
       });
-  }, [data, locationField, valueField, geoJsonProperty]);
+  }, [data, locationField, valueField, geoJsonProperty, tooltipFields]);
 
   return <svg ref={ref} width={width} height={height} />;
 };

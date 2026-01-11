@@ -60,6 +60,7 @@ const ChapterOne = () => {
       .map((d) => ({
         nome_uf: d.nome_uf,
         populacao_grupo: Number(d.populacao_grupo),
+        populacao_estado: Number(d.populacao_estado),
         proporcao: Number(d.proporcao),
       }));
   }, [popPerState, selectedAgeGroup]);
@@ -174,6 +175,12 @@ const ChapterOne = () => {
                 data={filteredMapData}
                 locationField="nome_uf"
                 valueField="proporcao"
+                tooltipFields={{
+                  nome_uf: "Estado",
+                  populacao_grupo: "População do Grupo",
+                  populacao_estado: "Total de Habitantes",
+                  proporcao: "Porcentagem",
+                }}
               />
             </div>
           </div>
