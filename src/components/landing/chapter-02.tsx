@@ -105,6 +105,7 @@ const ChapterTwo = () => {
               tooltipFields={{
                 idade_mediana_media: "Idade Mediana",
               }}
+              colorScheme="greens"
             />
           </div>
         </div>

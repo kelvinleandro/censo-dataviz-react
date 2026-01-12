@@ -4,6 +4,8 @@ import React, { useEffect, useRef, useId } from "react";
 import * as d3 from "d3";
 import { type FeatureCollection, type Feature } from "geojson";
 
+export type ColorScheme = "greens" | "blues" | "oranges";
+
 interface ChoroplethMapD3Props {
   data: Record<string, unknown>[];
   locationField: string;
@@ -13,11 +15,11 @@ interface ChoroplethMapD3Props {
   height?: number;
   geoJsonUrl?: string;
   tooltipFields?: Record<string, string>;
+  colorScheme?: ColorScheme;
 }
 
 type BrazilStateFeature = Feature & {
   properties: {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     [key: string]: any;
   };
 };
@@ -31,16 +33,14 @@ const ChoroplethMapD3: React.FC<ChoroplethMapD3Props> = ({
   height = 400,
   geoJsonUrl = "/brazil-states.geojson",
   tooltipFields,
+  colorScheme = "oranges",
 }) => {
   const ref = useRef<SVGSVGElement | null>(null);
   const geoJsonCache = useRef<FeatureCollection | null>(null);
   const uniqueId = useId();
-  // Ensure ID is valid for querySelector (remove colons if any)
   const tooltipId = `tooltip-${uniqueId.replace(/:/g, "")}`;
 
-  // Effect to create and cleanup the custom tooltip
   useEffect(() => {
-    // Avoid creating duplicate tooltips in strict mode or re-renders
     let tooltip = d3.select<HTMLDivElement, unknown>(`#${tooltipId}`);
     
     if (tooltip.empty()) {
@@ -65,7 +65,6 @@ const ChoroplethMapD3: React.FC<ChoroplethMapD3Props> = ({
     };
   }, [tooltipId]);
 
-  // Effect to draw the base map
   useEffect(() => {
     if (!ref.current) return;
     const svg = d3.select(ref.current);
@@ -106,7 +105,6 @@ const ChoroplethMapD3: React.FC<ChoroplethMapD3Props> = ({
     drawBaseMap();
   }, [width, height, geoJsonUrl, geoJsonProperty]);
 
-  // Effect to handle data updates and tooltip interactions
   useEffect(() => {
     if (!ref.current) return;
     const svg = d3.select(ref.current);
@@ -119,7 +117,6 @@ const ChoroplethMapD3: React.FC<ChoroplethMapD3Props> = ({
         .duration(1000)
         .attr("fill", "lightgray");
       
-      // Fallback interaction for no data
       svg.selectAll(".state")
           .on("mouseover", function(event, d) {
              const feature = d as BrazilStateFeature;
@@ -153,11 +150,18 @@ const ChoroplethMapD3: React.FC<ChoroplethMapD3Props> = ({
     const values = data.map((d) => d[valueField] as number);
     const [min, max] = d3.extent(values);
 
+    const interpolators: Record<ColorScheme, (t: number) => string> = {
+      greens: d3.interpolateGreens,
+      blues: d3.interpolateBlues,
+      oranges: d3.interpolateOranges,
+    };
+
+    const selectedInterpolator = interpolators[colorScheme] || d3.interpolateOranges;
+
     const color = d3
       .scaleSequential<string>()
       .domain([min ?? 0, max ?? 1])
-      // .interpolator(d3.interpolateBlues);
-      .interpolator(d3.interpolateOranges)
+      .interpolator(selectedInterpolator); 
 
     svg
       .selectAll<SVGPathElement, BrazilStateFeature>(".state")
@@ -172,7 +176,6 @@ const ChoroplethMapD3: React.FC<ChoroplethMapD3Props> = ({
           : "lightgray";
       });
 
-    // Interaction with data
     svg.selectAll<SVGPathElement, BrazilStateFeature>(".state")
       .on("mouseover", function(event, d) {
         d3.select(this)
@@ -221,7 +224,8 @@ const ChoroplethMapD3: React.FC<ChoroplethMapD3Props> = ({
          tooltip.style("opacity", 0);
       });
 
-  }, [data, locationField, valueField, geoJsonProperty, tooltipFields, tooltipId]);
+  }, [data, locationField, valueField, geoJsonProperty, tooltipFields, tooltipId, colorScheme]); 
+  
 
   return <svg ref={ref} width={width} height={height} />;
 };
