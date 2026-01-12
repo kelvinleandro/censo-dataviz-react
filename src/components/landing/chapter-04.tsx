@@ -353,7 +353,7 @@ const ChapterFour = () => {
               <h3 className="text-2xl font-bold text-emerald-400 mb-4">
                 Desigualdade Racial
               </h3>
-              <p className="text-muted-foreground text-lg leading-relaxed mb-4">
+              <p className="text-muted-foreground text-xl leading-relaxed mb-4">
                 A cor da pele ainda influencia as chances de ser alfabetizado no
                 Brasil. Enquanto as populações <strong>Branca e Amarela</strong>{" "}
                 apresentam taxas superiores a 95%, os grupos{" "}
@@ -366,7 +366,7 @@ const ChapterFour = () => {
               <h3 className="text-2xl font-bold text-teal-400 mb-4">
                 Gerações e Acesso
               </h3>
-              <p className="text-muted-foreground text-lg leading-relaxed mb-4">
+              <p className="text-muted-foreground text-xl leading-relaxed mb-4">
                 O analfabetismo no Brasil tem idade. A universalização recente
                 do ensino garantiu taxas próximas a 100% entre os mais jovens. O
                 desafio persiste na população <strong>idosa (65+)</strong>, que

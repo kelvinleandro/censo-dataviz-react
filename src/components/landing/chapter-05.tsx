@@ -328,7 +328,7 @@ const ChapterFive = () => {
               <h3 className="text-2xl font-bold mb-4 text-emerald-600">
                 População Indígena
               </h3>
-              <p>
+              <p className="text-xl">
                 Um dado crucial é a relação com a terra: em Amazonas, por exemplo, 30.4% vive em {" "}
                 <strong>Terras Indígenas</strong> oficialmente delimitadas em
                 cada estado.
@@ -341,7 +341,7 @@ const ChapterFive = () => {
               <h3 className="text-2xl font-bold mb-4 text-violet-600">
                 População Quilombola
               </h3>
-              <p>
+              <p className="text-xl">
                 O centro de gravidade se desloca para o{" "}
                 <strong>Nordeste</strong>. A Bahia e o Maranhão concentram as
                 maiores populações, refletindo a geografia histórica da
