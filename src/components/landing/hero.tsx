@@ -47,7 +47,7 @@ export default function Hero() {
           </FadeIn>
 
           <FadeIn delay={400}>
-            <ChapterHeader.Subtitle className="max-w-lg">
+            <ChapterHeader.Subtitle className="max-w-lg text-xl">
               Um retrato de uma nação em transformação. Explore as
               mudanças demográficas, o envelhecimento da população e a
               diversidade regional

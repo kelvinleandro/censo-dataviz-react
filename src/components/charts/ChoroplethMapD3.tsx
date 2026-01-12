@@ -156,7 +156,8 @@ const ChoroplethMapD3: React.FC<ChoroplethMapD3Props> = ({
     const color = d3
       .scaleSequential<string>()
       .domain([min ?? 0, max ?? 1])
-      .interpolator(d3.interpolateBlues);
+      // .interpolator(d3.interpolateBlues);
+      .interpolator(d3.interpolateOranges)
 
     svg
       .selectAll<SVGPathElement, BrazilStateFeature>(".state")

@@ -22,7 +22,7 @@ const Label: React.FC<React.HtmlHTMLAttributes<HTMLSpanElement>> = ({
 }) => {
   return (
     <span
-      className="text-lg text-deco-emerald uppercase tracking-wider"
+      className="text-xl text-deco-emerald uppercase tracking-wider"
       {...props}
     >
       {children}
@@ -50,7 +50,7 @@ const Subtitle: React.FC<React.HtmlHTMLAttributes<HTMLHeadingElement>> = ({
 }) => {
   return (
     <h2
-      className="text-center text-lg text-muted-foreground max-w-3/4 lg:max-w-1/2"
+      className="text-center text-xl text-muted-foreground max-w-3/4 lg:max-w-1/2"
       {...props}
     >
       {children}

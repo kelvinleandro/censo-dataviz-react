@@ -79,13 +79,13 @@ const ChapterTwo = () => {
             <h3 className="text-2xl font-bold text-emerald-400 mb-4">
               Onde o Brasil é mais velho?
             </h3>
-            <p className="text-muted-foreground mb-4">
+            <p className="text-muted-foreground mb-4 text-xl ">
               A geografia do envelhecimento divide o país. O{" "}
               <strong>Sul e Sudeste</strong>, destacados em tons mais fortes no
               mapa, lideram o processo. Estados como São Paulo e Paraná possuem as maiores idades medianas, reflexo de uma
               transição demográfica iniciada mais cedo.
             </p>
-            <p className="text-muted-foreground">
+            <p className="text-muted-foreground text-xl">
               Em contraste, o <strong>Norte e partes do Centro-Oeste</strong>{" "}
               ainda mantêm uma estrutura etária mais jovem. Regiões como Roraima
               e Amapá apresentam idades medianas significativamente menores,
@@ -112,8 +112,8 @@ const ChapterTwo = () => {
         <div className="grid lg:grid-cols-2 gap-8 items-center mt-8">
           <div className="order-2 lg:order-1 h-[400px] flex flex-col">
             <h3
-              className="text-lg font-bold text-center mb-2"
-              style={{ color: "#34d399" }}
+              className="text-xl font-bold text-center mb-2"
+              style={{ color: "white" }}
             >
               Índice de Envelhecimento por Raça
             </h3>
@@ -124,7 +124,10 @@ const ChapterTwo = () => {
               valueField="Índice"
               xLabel="Índice (Idosos por 100 Jovens)"
               yLabel="Raça/Cor"
-              color="#34d399"
+              // color="#34d399"
+              colorScheme="tableau10"
+              colorField="Raça"
+              order={"descending"}
               horizontal
             />
           </div>
@@ -133,12 +136,12 @@ const ChapterTwo = () => {
             <h3 className="text-2xl font-bold text-teal-400 mb-4">
               Desigualdade Racial no Envelhecimento
             </h3>
-            <p className="text-muted-foreground mb-4">
+            <p className="text-muted-foreground mb-4 text-xl">
               O envelhecimento não atinge todos os grupos da mesma forma. A população <strong>Amarela</strong> registram índices de
               envelhecimento muito superiores à média nacional, indicando maior
               longevidade e menor fecundidade.
             </p>
-            <p className="text-muted-foreground">
+            <p className="text-muted-foreground text-xl">
               Já as populações <strong>Preta, Branca, Parda e Indígena</strong> possuem
               uma estrutura etária comparativamente mais jovem. No entanto, o
               gráfico revela que a transição demográfica já é uma realidade para
