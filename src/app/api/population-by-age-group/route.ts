@@ -1,7 +1,9 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { query } from "@/lib/db";
 
-export async function GET() {
+export async function POST(req: NextRequest) {
+  const body = await req.json();
+
   const data = await query(
     `SELECT 
     CASE 
@@ -20,7 +22,7 @@ FROM (
         populacao,
         idade_inicial AS idade_num
     FROM populacao_grupo_idade_sexo_raca
-    WHERE ano = 2022
+    WHERE ano = ${body.year}
 ) sub
 GROUP BY idade_grupo
 ORDER BY MIN(idade_num);`

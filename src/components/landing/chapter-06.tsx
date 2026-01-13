@@ -53,57 +53,71 @@ const ChapterSix = () => {
 
       <div className="lg:max-w-3/4 mx-auto max-w-4/5 lg:w-full space-y-6">
         <div className="grid lg:grid-cols-2 gap-6">
-          <p className="text-muted-foreground">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque
-            dolorum laboriosam atque eum tenetur molestiae tempore, dolor minus
-            rem sapiente natus inventore vitae. Totam deserunt eligendi id iusto
-            ea aliquid! Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Doloremque dolorum laboriosam atque eum tenetur molestiae tempore,
-            dolor minus rem sapiente natus inventore vitae. Totam deserunt
-            eligendi id iusto ea aliquid! Lorem ipsum dolor sit amet consectetur
-            adipisicing elit. Doloremque dolorum laboriosam atque eum tenetur
-            molestiae tempore, dolor minus rem sapiente natus inventore vitae.
-            Totam deserunt eligendi id iusto ea aliquid!
-          </p>
-
           <div>
+            <h3 className="font-bold text-xl">Lorem</h3>
+            <p className="text-muted-foreground text-xl">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Doloremque dolorum laboriosam atque eum tenetur molestiae tempore,
+              dolor minus rem sapiente natus inventore vitae. Totam deserunt
+              eligendi id iusto ea aliquid! Lorem ipsum dolor sit amet
+              consectetur adipisicing elit. Doloremque dolorum laboriosam atque
+              eum tenetur molestiae tempore, dolor minus rem sapiente natus
+              inventore vitae. Totam deserunt eligendi id iusto ea aliquid!
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Doloremque dolorum laboriosam atque eum tenetur molestiae tempore,
+              dolor minus rem sapiente natus inventore vitae. Totam deserunt
+              eligendi id iusto ea aliquid!
+            </p>
+          </div>
+
+          <div className="bg-white/80 p-4 rounded-xl border shadow-sm">
             <ScatterPlot
               data={ageVsLiteracy}
               xField="idade_mediana"
               yField="taxa_alfabetizacao"
               xLabel="Idade Mediana"
               yLabel="Taxa de Alfabetização"
-              colorField="nome_uf"
-              colorScheme="tableau20"
+              color="#000"
+              colorField="nome_regiao"
+              colorScheme="Set2"
               title="Taxa de Alfabetização x Idade Mediana por Estado"
               tooltipFields={{
                 nome_uf: "Estado",
+                nome_regiao: "Região",
                 idade_mediana: "Idade Mediana",
                 taxa_alfabetizacao: "Taxa de Alfabetização",
               }}
+              gridColor="#000"
+              gridOpacity={0.1}
+              pointSize={100}
             />
           </div>
 
-          <p className="text-muted-foreground">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque
-            dolorum laboriosam atque eum tenetur molestiae tempore, dolor minus
-            rem sapiente natus inventore vitae. Totam deserunt eligendi id iusto
-            ea aliquid! Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Doloremque dolorum laboriosam atque eum tenetur molestiae tempore,
-            dolor minus rem sapiente natus inventore vitae. Totam deserunt
-            eligendi id iusto ea aliquid! Lorem ipsum dolor sit amet consectetur
-            adipisicing elit. Doloremque dolorum laboriosam atque eum tenetur
-            molestiae tempore, dolor minus rem sapiente natus inventore vitae.
-            Totam deserunt eligendi id iusto ea aliquid!
-          </p>
-
           <div>
+            <h3 className="font-bold text-xl">Lorem</h3>
+            <p className="text-muted-foreground text-xl">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Doloremque dolorum laboriosam atque eum tenetur molestiae tempore,
+              dolor minus rem sapiente natus inventore vitae. Totam deserunt
+              eligendi id iusto ea aliquid! Lorem ipsum dolor sit amet
+              consectetur adipisicing elit. Doloremque dolorum laboriosam atque
+              eum tenetur molestiae tempore, dolor minus rem sapiente natus
+              inventore vitae. Totam deserunt eligendi id iusto ea aliquid!
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Doloremque dolorum laboriosam atque eum tenetur molestiae tempore,
+              dolor minus rem sapiente natus inventore vitae. Totam deserunt
+              eligendi id iusto ea aliquid!
+            </p>
+          </div>
+
+          <div className="bg-white/80 p-4 rounded-xl border shadow-sm">
             <ScatterPlot
               data={agingIdxVsLiteracy}
               xField="indice_envelhecimento"
               yField="taxa_alfabetizacao"
               xLabel="Indice de Envelhecimento"
               yLabel="Taxa de Alfabetização"
+              color="#000"
               colorField="cor_raca"
               colorScheme="tableau10"
               title="Indice de Envelhecimento x Taxa de Alfabetização por Cor/Raça"
@@ -112,21 +126,28 @@ const ChapterSix = () => {
                 indice_envelhecimento: "Índice de Envelhecimento",
                 taxa_alfabetizacao: "Taxa de Alfabetização",
               }}
+              gridColor="#000"
+              gridOpacity={0.1}
+              pointSize={160}
             />
           </div>
 
-          <p className="text-muted-foreground">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque
-            dolorum laboriosam atque eum tenetur molestiae tempore, dolor minus
-            rem sapiente natus inventore vitae. Totam deserunt eligendi id iusto
-            ea aliquid! Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Doloremque dolorum laboriosam atque eum tenetur molestiae tempore,
-            dolor minus rem sapiente natus inventore vitae. Totam deserunt
-            eligendi id iusto ea aliquid! Lorem ipsum dolor sit amet consectetur
-            adipisicing elit. Doloremque dolorum laboriosam atque eum tenetur
-            molestiae tempore, dolor minus rem sapiente natus inventore vitae.
-            Totam deserunt eligendi id iusto ea aliquid!
-          </p>
+          <div>
+            <h3 className="font-bold text-xl">Lorem</h3>
+            <p className="text-muted-foreground text-xl">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Doloremque dolorum laboriosam atque eum tenetur molestiae tempore,
+              dolor minus rem sapiente natus inventore vitae. Totam deserunt
+              eligendi id iusto ea aliquid! Lorem ipsum dolor sit amet
+              consectetur adipisicing elit. Doloremque dolorum laboriosam atque
+              eum tenetur molestiae tempore, dolor minus rem sapiente natus
+              inventore vitae. Totam deserunt eligendi id iusto ea aliquid!
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Doloremque dolorum laboriosam atque eum tenetur molestiae tempore,
+              dolor minus rem sapiente natus inventore vitae. Totam deserunt
+              eligendi id iusto ea aliquid!
+            </p>
+          </div>
 
           <div>
             <StackedBarChart
@@ -145,6 +166,7 @@ const ChapterSix = () => {
                 ciclo_vida: "Ciclo de Vida",
                 percentual: "Porcentagem",
               }}
+              height={200}
             />
           </div>
         </div>

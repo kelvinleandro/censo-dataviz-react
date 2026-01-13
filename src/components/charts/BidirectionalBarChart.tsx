@@ -17,6 +17,7 @@ interface BidirectionalBarChartProps {
   order?: "ascending" | "descending" | null;
   xLabel?: string;
   yLabel?: string;
+  tooltipFields?: string[] | Record<string, string>;
 }
 
 const BidirectionalBarChart: React.FC<BidirectionalBarChartProps> = ({
@@ -24,13 +25,14 @@ const BidirectionalBarChart: React.FC<BidirectionalBarChartProps> = ({
   categoryField,
   valueField,
   colorField,
-  colorScheme = ["#fd8d3c", "#6baed6"], // Default orange and blue
+  colorScheme = ["#6baed6", "#fd8d3c"], // Default orange and blue
   width = "container",
   height = "container",
   title,
   order = null,
   xLabel,
   yLabel,
+  tooltipFields,
 }) => {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -40,6 +42,28 @@ const BidirectionalBarChart: React.FC<BidirectionalBarChartProps> = ({
     const styles = getComputedStyle(document.documentElement);
     const defaultTextColor =
       styles.getPropertyValue("--color-foreground").trim() || "#fff";
+
+    let tooltipEncodings;
+    if (Array.isArray(tooltipFields)) {
+      tooltipEncodings = tooltipFields.map((f) => vl.field(f));
+    } else if (typeof tooltipFields === "object" && tooltipFields !== null) {
+      tooltipEncodings = Object.entries(tooltipFields).map(
+        ([field, title]) => ({
+          field,
+          title,
+        })
+      );
+    } else {
+      tooltipEncodings = [
+        { field: categoryField, type: "nominal", title: categoryField },
+        {
+          field: valueField,
+          type: "quantitative",
+          format: ",.2f",
+          title: valueField,
+        },
+      ];
+    }
 
     let categoryDef = vl
       .y()
@@ -62,16 +86,7 @@ const BidirectionalBarChart: React.FC<BidirectionalBarChartProps> = ({
         .fieldN(colorField)
         .scale({ range: colorScheme })
         .legend({ orient: "top" }),
-      vl.tooltip([
-        { field: categoryField, type: "nominal" },
-        {
-          field: valueField,
-          type: "quantitative",
-          format: ",.0f",
-          title: "Population",
-        },
-        { field: colorField, type: "nominal" },
-      ])
+      vl.tooltip(tooltipEncodings)
     );
 
     const text = vl
@@ -137,6 +152,7 @@ const BidirectionalBarChart: React.FC<BidirectionalBarChartProps> = ({
     order,
     xLabel,
     yLabel,
+    tooltipFields,
   ]);
 
   return (
