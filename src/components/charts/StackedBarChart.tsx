@@ -20,6 +20,7 @@ interface StackedBarChartProps {
   xLabel?: string;
   yLabel?: string;
   legendTitle?: string;
+  fontSize?: number;
 }
 
 const StackedBarChart: React.FC<StackedBarChartProps> = ({
@@ -38,6 +39,7 @@ const StackedBarChart: React.FC<StackedBarChartProps> = ({
   xLabel,
   yLabel,
   legendTitle,
+  fontSize = 12,
 }) => {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -109,13 +111,18 @@ const StackedBarChart: React.FC<StackedBarChartProps> = ({
           titleColor: colorToUse,
           labelColor: colorToUse,
           domainColor: colorToUse,
+          titleFontSize: fontSize,
+          labelFontSize: fontSize,
         },
         legend: {
           titleColor: colorToUse,
           labelColor: colorToUse,
+          titleFontSize: fontSize,
+          labelFontSize: fontSize,
         },
         title: {
           color: colorToUse,
+          fontSize: fontSize + 4,
         },
       });
 
@@ -149,6 +156,7 @@ const StackedBarChart: React.FC<StackedBarChartProps> = ({
     xLabel,
     yLabel,
     legendTitle,
+    fontSize,
   ]);
 
   return (

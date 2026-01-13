@@ -13,12 +13,14 @@ interface BarChartProps {
   width?: number | "container";
   height?: number | "container";
   colorScheme?: string;
+  colorReverse?: boolean;
   title?: string;
   order?: "ascending" | "descending" | null;
   color?: string;
   xLabel?: string;
   yLabel?: string;
   tooltipFields?: string[] | Record<string, string>;
+  fontSize?: number;
 }
 
 const BarChart: React.FC<BarChartProps> = ({
@@ -30,12 +32,14 @@ const BarChart: React.FC<BarChartProps> = ({
   width = "container",
   height = "container",
   colorScheme = "tealblues",
+  colorReverse = false,
   title,
   order = null,
   color,
   xLabel,
   yLabel,
   tooltipFields,
+  fontSize = 12,
 }) => {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -90,7 +94,10 @@ const BarChart: React.FC<BarChartProps> = ({
       valueAxis.fieldQ(valueField),
 
       colorField
-        ? vl.color().fieldN(colorField).scale({ scheme: colorScheme })
+        ? vl
+            .color()
+            .fieldN(colorField)
+            .scale({ scheme: colorScheme, reverse: colorReverse })
         : vl.color().value(colorToUse),
 
       vl.tooltip(tooltipEncodings),
@@ -113,6 +120,18 @@ const BarChart: React.FC<BarChartProps> = ({
           titleColor: colorToUse,
           labelColor: colorToUse,
           domainColor: colorToUse,
+          titleFontSize: fontSize,
+          labelFontSize: fontSize,
+        },
+        legend: {
+          titleColor: colorToUse,
+          labelColor: colorToUse,
+          titleFontSize: fontSize,
+          labelFontSize: fontSize,
+        },
+        title: {
+          color: colorToUse,
+          fontSize: fontSize + 4, // Título levemente maior por padrão
         },
       });
 
@@ -145,6 +164,8 @@ const BarChart: React.FC<BarChartProps> = ({
     xLabel,
     yLabel,
     tooltipFields,
+    colorReverse,
+    fontSize,
   ]);
 
   return (

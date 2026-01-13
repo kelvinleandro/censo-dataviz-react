@@ -22,6 +22,9 @@ interface ScatterPlotProps {
   title?: string;
   tooltipFields?: string[] | Record<string, string>;
   startAtZero?: boolean;
+  gridColor?: string;
+  gridOpacity?: number;
+  fontSize?: number;
 }
 
 const ScatterPlot: React.FC<ScatterPlotProps> = ({
@@ -42,6 +45,9 @@ const ScatterPlot: React.FC<ScatterPlotProps> = ({
   startAtZero = false,
   xLabel,
   yLabel,
+  gridColor = "#fff",
+  gridOpacity = 0.6,
+  fontSize = 12,
 }) => {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -107,13 +113,20 @@ const ScatterPlot: React.FC<ScatterPlotProps> = ({
           titleColor: colorToUse,
           labelColor: colorToUse,
           domainColor: colorToUse,
+          gridColor: gridColor,
+          gridOpacity: gridOpacity,
+          titleFontSize: fontSize,
+          labelFontSize: fontSize,
         },
         legend: {
           titleColor: colorToUse,
           labelColor: colorToUse,
+          titleFontSize: fontSize,
+          labelFontSize: fontSize,
         },
         title: {
           color: colorToUse,
+          fontSize: fontSize + 4,
         },
       });
 
@@ -147,6 +160,9 @@ const ScatterPlot: React.FC<ScatterPlotProps> = ({
     startAtZero,
     xLabel,
     yLabel,
+    gridColor,
+    gridOpacity,
+    fontSize,
   ]);
 
   return (

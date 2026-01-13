@@ -100,18 +100,22 @@ const ChapterThree = () => {
 
       <div className="lg:max-w-3/4 mx-auto max-w-4/5 lg:w-full space-y-6">
         <div className="grid lg:grid-cols-2 gap-6">
-          <p className="text-muted-foreground">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque
-            dolorum laboriosam atque eum tenetur molestiae tempore, dolor minus
-            rem sapiente natus inventore vitae. Totam deserunt eligendi id iusto
-            ea aliquid! Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Doloremque dolorum laboriosam atque eum tenetur molestiae tempore,
-            dolor minus rem sapiente natus inventore vitae. Totam deserunt
-            eligendi id iusto ea aliquid! Lorem ipsum dolor sit amet consectetur
-            adipisicing elit. Doloremque dolorum laboriosam atque eum tenetur
-            molestiae tempore, dolor minus rem sapiente natus inventore vitae.
-            Totam deserunt eligendi id iusto ea aliquid!
-          </p>
+          <div>
+            <h3 className="font-bold text-xl">Lorem</h3>
+            <p className="text-muted-foreground text-xl">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Doloremque dolorum laboriosam atque eum tenetur molestiae tempore,
+              dolor minus rem sapiente natus inventore vitae. Totam deserunt
+              eligendi id iusto ea aliquid! Lorem ipsum dolor sit amet
+              consectetur adipisicing elit. Doloremque dolorum laboriosam atque
+              eum tenetur molestiae tempore, dolor minus rem sapiente natus
+              inventore vitae. Totam deserunt eligendi id iusto ea aliquid!
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Doloremque dolorum laboriosam atque eum tenetur molestiae tempore,
+              dolor minus rem sapiente natus inventore vitae. Totam deserunt
+              eligendi id iusto ea aliquid!
+            </p>
+          </div>
 
           <div>
             {popColor.length > 0 && (
@@ -125,18 +129,22 @@ const ChapterThree = () => {
             )}
           </div>
 
-          <p className="text-muted-foreground">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque
-            dolorum laboriosam atque eum tenetur molestiae tempore, dolor minus
-            rem sapiente natus inventore vitae. Totam deserunt eligendi id iusto
-            ea aliquid! Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Doloremque dolorum laboriosam atque eum tenetur molestiae tempore,
-            dolor minus rem sapiente natus inventore vitae. Totam deserunt
-            eligendi id iusto ea aliquid! Lorem ipsum dolor sit amet consectetur
-            adipisicing elit. Doloremque dolorum laboriosam atque eum tenetur
-            molestiae tempore, dolor minus rem sapiente natus inventore vitae.
-            Totam deserunt eligendi id iusto ea aliquid!
-          </p>
+          <div>
+            <h3 className="font-bold text-xl">Lorem</h3>
+            <p className="text-muted-foreground text-xl">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Doloremque dolorum laboriosam atque eum tenetur molestiae tempore,
+              dolor minus rem sapiente natus inventore vitae. Totam deserunt
+              eligendi id iusto ea aliquid! Lorem ipsum dolor sit amet
+              consectetur adipisicing elit. Doloremque dolorum laboriosam atque
+              eum tenetur molestiae tempore, dolor minus rem sapiente natus
+              inventore vitae. Totam deserunt eligendi id iusto ea aliquid!
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Doloremque dolorum laboriosam atque eum tenetur molestiae tempore,
+              dolor minus rem sapiente natus inventore vitae. Totam deserunt
+              eligendi id iusto ea aliquid!
+            </p>
+          </div>
 
           <div>
             <div className="flex flex-col items-center">
@@ -160,29 +168,33 @@ const ChapterThree = () => {
                 categoryField="idade_grupo"
                 valueField="total"
                 horizontal
-                color={getComputedStyle(
-                  document.documentElement
-                ).getPropertyValue("--color-muted-foreground")}
                 tooltipFields={{
                   idade_grupo: "Faixa Etária",
                   total: "População",
                 }}
+                colorField="idade_grupo"
+                colorScheme="viridis"
+                colorReverse
               />
             </div>
           </div>
 
-          <p className="text-muted-foreground">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque
-            dolorum laboriosam atque eum tenetur molestiae tempore, dolor minus
-            rem sapiente natus inventore vitae. Totam deserunt eligendi id iusto
-            ea aliquid! Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Doloremque dolorum laboriosam atque eum tenetur molestiae tempore,
-            dolor minus rem sapiente natus inventore vitae. Totam deserunt
-            eligendi id iusto ea aliquid! Lorem ipsum dolor sit amet consectetur
-            adipisicing elit. Doloremque dolorum laboriosam atque eum tenetur
-            molestiae tempore, dolor minus rem sapiente natus inventore vitae.
-            Totam deserunt eligendi id iusto ea aliquid!
-          </p>
+          <div>
+            <h3 className="font-bold text-xl">Lorem</h3>
+            <p className="text-muted-foreground text-xl">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Doloremque dolorum laboriosam atque eum tenetur molestiae tempore,
+              dolor minus rem sapiente natus inventore vitae. Totam deserunt
+              eligendi id iusto ea aliquid! Lorem ipsum dolor sit amet
+              consectetur adipisicing elit. Doloremque dolorum laboriosam atque
+              eum tenetur molestiae tempore, dolor minus rem sapiente natus
+              inventore vitae. Totam deserunt eligendi id iusto ea aliquid!
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Doloremque dolorum laboriosam atque eum tenetur molestiae tempore,
+              dolor minus rem sapiente natus inventore vitae. Totam deserunt
+              eligendi id iusto ea aliquid!
+            </p>
+          </div>
 
           <div>
             <div className="flex flex-col items-center">
