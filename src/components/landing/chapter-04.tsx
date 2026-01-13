@@ -6,13 +6,23 @@ import Section from "../ui/Section";
 import ChapterHeader from "../ui/ChapterHeader";
 import * as d3 from "d3";
 
+const specificColors: Record<string, string> = {
+  "Amarela": "#4C78A8",
+  "Preta": "#54A24B",
+  "Branca": "#F58518",
+  "Parda": "#72B7B2",
+  "Indígena": "#E45756",
+  "Homens": "#4E79A7", 
+  "Mulheres": "#E15759",
+  "Homem": "#4E79A7",
+  "Mulher": "#E15759"
+};
+
 const ChapterFour = () => {
-  // data
   const [literacyRace, setLiteracyRace] = useState<ChartData>([]);
   const [literacyAge, setLiteracyAge] = useState<ChartData>([]);
   const [literacySex, setLiteracySex] = useState<ChartData>([]);
 
-  // handling transition between charts
   const svgRef = useRef<SVGSVGElement | null>(null);
   const trigger1Ref = useRef<HTMLDivElement | null>(null);
   const trigger2Ref = useRef<HTMLDivElement | null>(null);
@@ -23,8 +33,7 @@ const ChapterFour = () => {
     const fetchData = async () => {
       try {
         const resLiteracyRace = await fetch("/api/literacy-rate-by-race");
-        if (!resLiteracyRace.ok)
-          throw new Error("Failed to fetch literacy rate by race");
+        if (!resLiteracyRace.ok) throw new Error("Failed to fetch literacy rate by race");
         let data: ChartData = await resLiteracyRace.json();
         setLiteracyRace(
           data.map((d) => ({
@@ -34,8 +43,7 @@ const ChapterFour = () => {
         );
 
         const resLiteracyAge = await fetch("/api/literacy-by-age-group");
-        if (!resLiteracyAge.ok)
-          throw new Error("Failed to fetch literacy by age group");
+        if (!resLiteracyAge.ok) throw new Error("Failed to fetch literacy by age group");
         data = await resLiteracyAge.json();
         setLiteracyAge(
           data.map((d) => ({
@@ -105,11 +113,39 @@ const ChapterFour = () => {
       data: ChartData,
       orientation: "horizontal" | "vertical" = "horizontal"
     ) => {
-      const sortedData: ChartData = [...data].sort(
-        (a, b) =>
-          Number(a.value) - Number(b.value) ||
-          (a.category as string).localeCompare(b.category as string)
-      );
+      let sortedData: ChartData = [...data];
+
+      const isAgeData = sortedData.some(d => (d.category as string).match(/\d/));
+      
+      if (isAgeData) {
+        sortedData.sort((a, b) => {
+           const getNum = (str: string) => parseInt(str.match(/\d+/)?.[0] || "0");
+           return getNum(a.category as string) - getNum(b.category as string);
+        });
+      } else {
+        sortedData.sort(
+          (a, b) =>
+            Number(a.value) - Number(b.value) ||
+            (a.category as string).localeCompare(b.category as string)
+        );
+      }
+
+      const ageInterpolator = (t: number) => d3.interpolateGnBu(0.3 + t * 0.7);
+      
+      const ageColorScale = d3.scaleSequential(ageInterpolator)
+         .domain([0, sortedData.length - 1]);
+
+      const getColor = (category: string, index: number) => {
+        if (specificColors[category]) {
+          return specificColors[category];
+        }
+        
+        if (category.match(/\d/)) {
+            return ageColorScale(index);
+        }
+
+        return "steelblue";
+      };
 
       if (orientation === "horizontal") {
         const x = d3.scaleLinear().range([0, width]);
@@ -121,17 +157,18 @@ const ChapterFour = () => {
         g.select<SVGGElement>(".x-axis")
           .transition()
           .duration(1000)
-          .call(
-            d3
-              .axisBottom(x)
-              .ticks(5)
-              .tickFormat((d) => `${d}%`)
-          );
+          .call(d3.axisBottom(x).ticks(5).tickFormat((d) => `${d}%`))
+          .selectAll("text")
+          .style("font-size", "14px")
+          .style("font-weight", "600");
 
         g.select<SVGGElement>(".y-axis")
           .transition()
           .duration(1000)
-          .call(d3.axisLeft(y).tickSizeOuter(0));
+          .call(d3.axisLeft(y).tickSizeOuter(0))
+          .selectAll("text")
+          .style("font-size", "14px")
+          .style("font-weight", "600");
 
         const bars = g
           .selectAll<SVGRectElement, (typeof sortedData)[0]>(".bar")
@@ -145,14 +182,14 @@ const ChapterFour = () => {
           .attr("height", y.bandwidth())
           .attr("x", 0)
           .attr("width", 0)
-          .attr("fill", "steelblue")
+          .attr("fill", (d, i) => getColor(d.category as string, i))
           .merge(bars)
           .transition()
           .duration(1000)
           .attr("y", (d) => y(d.category as string) as number)
           .attr("width", (d) => x(d.value as number))
           .attr("height", y.bandwidth())
-          .attr("fill", "steelblue");
+          .attr("fill", (d, i) => getColor(d.category as string, i));
 
         bars.exit().transition().duration(1000).attr("width", 0).remove();
 
@@ -168,12 +205,11 @@ const ChapterFour = () => {
           .attr("class", "bar-label")
           .attr("fill", "white")
           .attr("text-anchor", "end")
-          .style("font-size", "12px")
+          .style("font-size", "16px")
+          .style("font-weight", "bold")
+          .style("text-shadow", "0px 0px 3px rgba(0,0,0,0.5)")
           .attr("dy", "0.35em")
-          .attr(
-            "y",
-            (d) => (y(d.category as string) as number) + y.bandwidth() / 2
-          )
+          .attr("y", (d) => (y(d.category as string) as number) + y.bandwidth() / 2)
           .attr("x", (d) => x(d.value as number) - 5)
           .text((d) => `${(d.value as number).toFixed(1)}%`)
           .attr("opacity", 0)
@@ -183,10 +219,7 @@ const ChapterFour = () => {
           .delay(250)
           .attr("opacity", 1)
           .attr("x", (d) => x(d.value as number) - 5)
-          .attr(
-            "y",
-            (d) => (y(d.category as string) as number) + y.bandwidth() / 2
-          )
+          .attr("y", (d) => (y(d.category as string) as number) + y.bandwidth() / 2)
           .textTween(function (d) {
             const i = d3.interpolate(
               Number(this.textContent?.replace("%", "")) || 0,
@@ -196,12 +229,10 @@ const ChapterFour = () => {
               return `${i(t).toFixed(1)}%`;
             };
           });
+
       } else {
         const x = d3.scaleBand().range([0, width]).padding(0.1);
         const y = d3.scaleLinear().range([height, 0]);
-        const color = d3
-          .scaleOrdinal(d3.schemeCategory10)
-          .domain(data.map((d) => d.category as string));
 
         x.domain(sortedData.map((d) => d.category as string));
         y.domain([0, d3.max(sortedData, (d) => d.value as number) ?? 100]);
@@ -209,17 +240,18 @@ const ChapterFour = () => {
         g.select<SVGGElement>(".x-axis")
           .transition()
           .duration(1000)
-          .call(d3.axisBottom(x).tickSizeOuter(0));
+          .call(d3.axisBottom(x).tickSizeOuter(0))
+          .selectAll("text")
+          .style("font-size", "14px")
+          .style("font-weight", "600");
 
         g.select<SVGGElement>(".y-axis")
           .transition()
           .duration(1000)
-          .call(
-            d3
-              .axisLeft(y)
-              .ticks(5)
-              .tickFormat((d) => `${d}%`)
-          );
+          .call(d3.axisLeft(y).ticks(5).tickFormat((d) => `${d}%`))
+          .selectAll("text")
+          .style("font-size", "14px")
+          .style("font-weight", "600");
 
         const bars = g
           .selectAll<SVGRectElement, (typeof sortedData)[0]>(".bar")
@@ -233,7 +265,7 @@ const ChapterFour = () => {
           .attr("width", x.bandwidth())
           .attr("y", height)
           .attr("height", 0)
-          .attr("fill", (d) => color(d.categorycurrentT as string))
+          .attr("fill", (d, i) => getColor(d.category as string, i))
           .merge(bars)
           .transition()
           .duration(1000)
@@ -241,15 +273,9 @@ const ChapterFour = () => {
           .attr("y", (d) => y(d.value as number))
           .attr("width", x.bandwidth())
           .attr("height", (d) => height - y(d.value as number))
-          .attr("fill", (d) => color(d.category as string));
+          .attr("fill", (d, i) => getColor(d.category as string, i));
 
-        bars
-          .exit()
-          .transition()
-          .duration(1000)
-          .attr("y", height)
-          .attr("height", 0)
-          .remove();
+        bars.exit().transition().duration(1000).attr("y", height).attr("height", 0).remove();
 
         const barLabels = g
           .selectAll<SVGTextElement, (typeof sortedData)[0]>("text.bar-label")
@@ -263,12 +289,11 @@ const ChapterFour = () => {
           .attr("class", "bar-label")
           .attr("fill", "white")
           .attr("text-anchor", "middle")
-          .style("font-size", "12px")
+          .style("font-size", "16px")
+          .style("font-weight", "bold")
+          .style("text-shadow", "0px 0px 3px rgba(0,0,0,0.5)")
           .attr("dy", "0.35em")
-          .attr(
-            "x",
-            (d) => (x(d.category as string) as number) + x.bandwidth() / 2
-          )
+          .attr("x", (d) => (x(d.category as string) as number) + x.bandwidth() / 2)
           .attr("y", (d) => (y(d.value as number) + height) / 2)
           .text((d) => `${(d.value as number).toFixed(1)}%`)
           .attr("opacity", 0)
@@ -277,10 +302,7 @@ const ChapterFour = () => {
           .duration(1000)
           .delay(250)
           .attr("opacity", 1)
-          .attr(
-            "x",
-            (d) => (x(d.category as string) as number) + x.bandwidth() / 2
-          )
+          .attr("x", (d) => (x(d.category as string) as number) + x.bandwidth() / 2)
           .attr("y", (d) => (y(d.value as number) + height) / 2)
           .textTween(function (d) {
             const i = d3.interpolate(
@@ -295,7 +317,7 @@ const ChapterFour = () => {
     };
 
     update(literacyRace);
-
+    
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
