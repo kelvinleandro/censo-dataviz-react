@@ -13,9 +13,9 @@ const specificColors: Record<string, string> = {
   "Parda": "#72B7B2",
   "Indígena": "#E45756",
   "Homens": "#4E79A7", 
-  "Mulheres": "#E15759",
+  "Mulheres": "#FD8D3C",
   "Homem": "#4E79A7",
-  "Mulher": "#E15759"
+  "Mulher": "#FD8D3C"
 };
 
 const ChapterFour = () => {
