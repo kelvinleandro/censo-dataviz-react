@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
@@ -28,12 +27,16 @@ interface QuilombolaData {
   nome_uf: string;
   total: number;
   porcentagem: number;
+  em_terra_quilombola?: number;
+  total_quilombola?: number;
 }
 
 interface TerritoryRawData {
   nome_uf: string;
   em_terra_indigena: number;
   total_indigena: number;
+  em_terra_quilombola: number;
+  total_quilombola: number;
 }
 
 type BrazilStateFeature = Feature & {
@@ -66,6 +69,7 @@ const ChapterFive = () => {
       try {
         const resTerritories = await fetch("/api/territories-vs-residents");
         const territoriesData: TerritoryRawData[] = await resTerritories.json();
+        
         const territoryMap = new Map(
           territoriesData.map((d) => [normalize(d.nome_uf), d])
         );
@@ -79,9 +83,7 @@ const ChapterFive = () => {
             nome_uf: d.nome_uf,
             total: Number(d.total || 0),
             porcentagem: Number(d.porcentagem || 0),
-            em_terra_indigena: terrInfo
-              ? Number(terrInfo.em_terra_indigena)
-              : 0,
+            em_terra_indigena: terrInfo ? Number(terrInfo.em_terra_indigena) : 0,
             total_indigena: terrInfo ? Number(terrInfo.total_indigena) : 0,
           };
         });
@@ -89,13 +91,19 @@ const ChapterFive = () => {
 
         const resQuilo = await fetch("/api/quilombola-population-by-state");
         const rawQuilo = await resQuilo.json();
-        setQuilombolaData(
-          rawQuilo.map((d: any) => ({
+        
+        const mergedQuilombola = rawQuilo.map((d: any) => {
+          const terrInfo = territoryMap.get(normalize(d.nome_uf));
+          return {
             nome_uf: d.nome_uf,
             total: Number(d.total || 0),
             porcentagem: Number(d.porcentagem || 0),
-          }))
-        );
+            em_terra_quilombola: terrInfo ? Number(terrInfo.em_terra_quilombola) : 0,
+            total_quilombola: terrInfo ? Number(terrInfo.total_quilombola) : 0,
+          };
+        });
+        setQuilombolaData(mergedQuilombola);
+
       } catch (error) {
         console.error("Error loading data:", error);
       }
@@ -116,7 +124,8 @@ const ChapterFive = () => {
 
     if (!currentData || currentData.length === 0) return;
 
-    const color = isIndigenous ? "#059669" : "#7c3aed";
+    const color = isIndigenous ? "#059669" : "#7c3aed"; 
+
     const dataMap = new Map(currentData.map((d) => [normalize(d.nome_uf), d]));
     const maxVal = d3.max(currentData, (d) => d.total) || 0;
     const sizeScale = d3.scaleSqrt().domain([0, maxVal]).range([0, 45]);
@@ -156,9 +165,7 @@ const ChapterFive = () => {
             const emTerra = Number(indData.em_terra_indigena || 0);
             const total = Number(indData.total || 1);
             const pctTerraVal = (emTerra / total) * 100;
-            const pctTerra = isNaN(pctTerraVal)
-              ? "0.0"
-              : pctTerraVal.toFixed(1);
+            const pctTerra = isNaN(pctTerraVal) ? "0.0" : pctTerraVal.toFixed(1);
             const emTerraFmt = emTerra.toLocaleString("pt-BR");
 
             htmlContent += `
@@ -169,6 +176,29 @@ const ChapterFive = () => {
                     <div style="height: 100%; background-color: #10b981; width: ${pctTerra}%;"></div>
                   </div>
                   <span style="font-size: 12px; font-weight: bold; color: #059669;">${pctTerra}%</span>
+                </div>
+                <div style="font-size: 10px; color: #64748b; text-align: right; margin-top: 2px;">
+                  (${emTerraFmt} pessoas)
+                </div>
+              </div>
+            `;
+          } else {
+            const quiloData = stateData as QuilombolaData;
+            const emTerra = Number(quiloData.em_terra_quilombola || 0);
+            const total = Number(quiloData.total || 1);
+            
+            const pctTerraVal = (emTerra / total) * 100;
+            const pctTerra = isNaN(pctTerraVal) ? "0.0" : pctTerraVal.toFixed(1);
+            const emTerraFmt = emTerra.toLocaleString("pt-BR");
+
+            htmlContent += `
+              <div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid #e2e8f0;">
+                <div style="font-size: 10px; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px;">Vivem em Territórios Quilombolas</div>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <div style="height: 8px; flex: 1; background-color: #f1f5f9; border-radius: 9999px; overflow: hidden; border: 1px solid #e2e8f0;">
+                    <div style="height: 100%; background-color: #8b5cf6; width: ${pctTerra}%;"></div>
+                  </div>
+                  <span style="font-size: 12px; font-weight: bold; color: #7c3aed;">${pctTerra}%</span>
                 </div>
                 <div style="font-size: 10px; color: #64748b; text-align: right; margin-top: 2px;">
                   (${emTerraFmt} pessoas)
