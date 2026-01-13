@@ -379,7 +379,7 @@ const ChapterFour = () => {
               <h3 className="text-2xl font-bold text-cyan-400 mb-4">
                 Gênero e Educação
               </h3>
-              <p>
+              <p className="text-muted-foreground text-xl leading-relaxed mb-4">
                 Na educação, as mulheres lideram. A taxa de alfabetização
                 feminina supera a masculina, consolidando uma tendência de maior
                 escolaridade entre as mulheres observada nas últimas décadas.
