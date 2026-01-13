@@ -82,8 +82,9 @@ const ChapterTwo = () => {
             <p className="text-muted-foreground mb-4 text-xl ">
               A geografia do envelhecimento divide o país. O{" "}
               <strong>Sul e Sudeste</strong>, destacados em tons mais fortes no
-              mapa, lideram o processo. Estados como São Paulo e Paraná possuem as maiores idades medianas, reflexo de uma
-              transição demográfica iniciada mais cedo.
+              mapa, lideram o processo. Estados como São Paulo e Paraná possuem
+              as maiores idades medianas, reflexo de uma transição demográfica
+              iniciada mais cedo.
             </p>
             <p className="text-muted-foreground text-xl">
               Em contraste, o <strong>Norte e partes do Centro-Oeste</strong>{" "}
@@ -94,14 +95,18 @@ const ChapterTwo = () => {
             </p>
           </div>
 
-          <div className="bg-white/5 p-4 rounded-xl border border-white/10 shadow-sm flex justify-center min-h-[400px]">
+          <div className="bg-white/5 p-4 rounded-xl border border-white/10 shadow-sm flex flex-col items-center justify-center min-h-[450px]">
+            <h3 className="text-xl font-bold text-center mb-4 text-white">
+              Idade Mediana por Estado
+            </h3>
+            
             <ChoroplethMapD3
               data={mapData}
               locationField="nome_uf"
               valueField="idade_mediana_media"
               geoJsonProperty="name"
-              width={500}
-              height={400}
+              width={650} 
+              height={450}
               tooltipFields={{
                 idade_mediana_media: "Idade Mediana",
               }}
@@ -125,7 +130,6 @@ const ChapterTwo = () => {
               valueField="Índice"
               xLabel="Índice (Idosos por 100 Jovens)"
               yLabel="Raça/Cor"
-              // color="#34d399"
               colorScheme="tableau10"
               colorField="Raça"
               order={"descending"}
@@ -138,15 +142,17 @@ const ChapterTwo = () => {
               Desigualdade Racial no Envelhecimento
             </h3>
             <p className="text-muted-foreground mb-4 text-xl">
-              O envelhecimento não atinge todos os grupos da mesma forma. A população <strong>Amarela</strong> registram índices de
+              O envelhecimento não atinge todos os grupos da mesma forma. A
+              população <strong>Amarela</strong> registram índices de
               envelhecimento muito superiores à média nacional, indicando maior
               longevidade e menor fecundidade.
             </p>
             <p className="text-muted-foreground text-xl">
-              Já as populações <strong>Preta, Branca, Parda e Indígena</strong> possuem
-              uma estrutura etária comparativamente mais jovem. No entanto, o
-              gráfico revela que a transição demográfica já é uma realidade para
-              todos, com índices crescentes em relação aos censos anteriores.
+              Já as populações <strong>Preta, Branca, Parda e Indígena</strong>{" "}
+              possuem uma estrutura etária comparativamente mais jovem. No
+              entanto, o gráfico revela que a transição demográfica já é uma
+              realidade para todos, com índices crescentes em relação aos censos
+              anteriores.
             </p>
           </div>
         </div>
