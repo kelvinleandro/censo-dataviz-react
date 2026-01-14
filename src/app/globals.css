@@ -1,19 +1,77 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+
+  --color-primary: hsl(var(--primary));
+  --color-secondary: hsl(var(--secondary));
+
+  --color-accent: hsl(var(--accent));
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+
+  --color-deco-emerald: hsl(var(--emerald));
+  --color-deco-emerald-glow: hsl(var(--emerald-glow));
+  --color-deco-navy: hsl(var(--navy));
+  --color-deco-navy-deep: hsl(var(--navy-deep));
+  --color-deco-gold: hsl(var(--gold));
+  --color-deco-coral: hsl(var(--coral));
+
+  --image-gradient-hero: linear-gradient(
+    135deg,
+    hsl(220 60% 8%) 0%,
+    hsl(180 40% 10%) 50%,
+    hsl(220 50% 12%) 100%
+  );
+  --image-gradient-card: linear-gradient(
+    180deg, 
+    hsl(220 35% 12%) 0%, 
+    hsl(220 40% 8%) 100%
+  );
+  --image-gradient-accent: linear-gradient(
+    to right,
+    hsl(var(--emerald)),
+    hsl(var(--accent))
+  );
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+:root {
+  --background: 220 40% 6%;
+  --foreground: 180 20% 95%;
+
+  --primary: 220 60% 25%;
+  --secondary: 160 50% 20%;
+
+  --accent: 175 60% 35%;
+  --muted: 220 30% 12%;
+  --muted-foreground: 180 15% 65%;
+
+  --emerald: 160 60% 40%;
+  --emerald-glow: 160 70% 50%;
+  --navy: 220 50% 15%;
+  --navy-deep: 220 60% 8%;
+  --gold: 45 80% 55%;
+  --coral: 15 70% 55%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-body);
+}
+
+@layer utilities {
+  .bg-gradient-hero {
+    background-image: linear-gradient(
+      135deg, 
+      hsl(220, 60%, 8%) 0%, 
+      hsl(180, 40%, 10%) 50%, 
+      hsl(220, 50%, 12%) 100%
+    );
+  }
 }
