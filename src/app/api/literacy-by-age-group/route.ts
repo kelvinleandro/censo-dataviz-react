@@ -1,21 +1,16 @@
 import { NextResponse } from "next/server";
-import { query } from "@/lib/db";
+import fs from "fs/promises";
+import path from "path";
+import { csvToJson } from "@/lib/csv";
 
 export async function GET() {
-  const data = await query(
-    `SELECT 
-    grupo_idade,
-    ROUND(
-        (
-            SUM(CASE WHEN alfabetizacao = 'Alfabetizadas' THEN populacao ELSE 0 END)
-            * 100
-            / SUM(populacao)
-        )::numeric,
-        2
-    ) AS taxa_alfabetizacao
-FROM alfabetizacao_grupo_idade_sexo_raca
-GROUP BY grupo_idade
-ORDER BY grupo_idade;`
-  );
-  return NextResponse.json(data);
+  const filePath = path.join(process.cwd(), 'csv_exports', 'literacy_by_age_group.csv');
+  try {
+    const fileContent = await fs.readFile(filePath, 'utf8');
+    const data = csvToJson(fileContent);
+    return NextResponse.json(data);
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ error: 'Failed to read data' }, { status: 500 });
+  }
 }

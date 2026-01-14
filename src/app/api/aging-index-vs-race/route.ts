@@ -1,12 +1,16 @@
 import { NextResponse } from "next/server";
-import { query } from "@/lib/db";
+import fs from "fs/promises";
+import path from "path";
+import { csvToJson } from "@/lib/csv";
 
 export async function GET() {
-  const data = await query(
-    `SELECT cor_raca, ROUND(AVG(indice_envelhecimento)::numeric, 2) AS indice
-FROM indice_envelhecimento_raca
-WHERE ano = 2022
-GROUP BY cor_raca;`
-  );
-  return NextResponse.json(data);
+  const filePath = path.join(process.cwd(), 'csv_exports', 'aging_index_vs_race.csv');
+  try {
+    const fileContent = await fs.readFile(filePath, 'utf8');
+    const data = csvToJson(fileContent);
+    return NextResponse.json(data);
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ error: 'Failed to read data' }, { status: 500 });
+  }
 }

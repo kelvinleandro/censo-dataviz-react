@@ -1,0 +1,136 @@
+nome_uf,cor_raca,total,porcentagem
+Acre,Amarela,15753,1.01
+Acre,Branca,352958,22.57
+Acre,Indígena,45084,2.88
+Acre,Parda,1036143,66.27
+Acre,Preta,113617,7.27
+Alagoas,Amarela,42189,0.68
+Alagoas,Branca,1901726,30.44
+Alagoas,Indígena,34604,0.55
+Alagoas,Parda,3765683,60.27
+Alagoas,Preta,503863,8.06
+Amapá,Amarela,7350,0.52
+Amapá,Branca,317509,22.63
+Amapá,Indígena,17748,1.26
+Amapá,Parda,915716,65.26
+Amapá,Preta,144948,10.33
+Amazonas,Amarela,37736,0.51
+Amazonas,Branca,1465072,19.73
+Amazonas,Indígena,473923,6.38
+Amazonas,Parda,5111331,68.84
+Amazonas,Preta,337415,4.54
+Bahia,Amarela,174942,0.62
+Bahia,Branca,5883442,20.89
+Bahia,Indígena,140039,0.50
+Bahia,Parda,16397021,58.23
+Bahia,Preta,5561940,19.75
+Ceará,Amarela,116563,0.68
+Ceará,Branca,5160946,29.92
+Ceará,Indígena,59318,0.34
+Ceará,Parda,10921187,63.32
+Ceará,Preta,988427,5.73
+Distrito Federal,Amarela,54332,1.01
+Distrito Federal,Branca,2210752,41.04
+Distrito Federal,Indígena,11664,0.22
+Distrito Federal,Parda,2610718,48.46
+Distrito Federal,Preta,499837,9.28
+Espírito Santo,Amarela,26224,0.36
+Espírito Santo,Branca,2960953,40.29
+Espírito Santo,Indígena,20777,0.28
+Espírito Santo,Parda,3617599,49.23
+Espírito Santo,Preta,723014,9.84
+Goiás,Amarela,115463,0.88
+Goiás,Branca,5059573,38.74
+Goiás,Indígena,18965,0.15
+Goiás,Parda,6825537,52.26
+Goiás,Preta,1040478,7.97
+Maranhão,Amarela,80760,0.60
+Maranhão,Branca,2816984,21.10
+Maranhão,Indígena,89954,0.67
+Maranhão,Parda,8872339,66.45
+Maranhão,Preta,1491232,11.17
+Mato Grosso,Amarela,45455,0.68
+Mato Grosso,Branca,2318740,34.64
+Mato Grosso,Indígena,99225,1.48
+Mato Grosso,Parda,3639489,54.37
+Mato Grosso,Preta,590588,8.82
+Mato Grosso do Sul,Amarela,49573,0.95
+Mato Grosso do Sul,Branca,2326510,44.69
+Mato Grosso do Sul,Indígena,169324,3.25
+Mato Grosso do Sul,Parda,2361357,45.36
+Mato Grosso do Sul,Preta,299197,5.75
+Minas Gerais,Amarela,218800,0.55
+Minas Gerais,Branca,17332244,43.18
+Minas Gerais,Indígena,62997,0.16
+Minas Gerais,Parda,18282896,45.55
+Minas Gerais,Preta,4239418,10.56
+Pará,Amarela,81630,0.52
+Pará,Branca,3223588,20.53
+Pará,Indígena,108261,0.69
+Pará,Parda,10943753,69.71
+Pará,Preta,1342446,8.55
+Paraíba,Amarela,53399,0.69
+Paraíba,Branca,2919031,37.71
+Paraíba,Indígena,44627,0.58
+Paraíba,Parda,4194499,54.18
+Paraíba,Preta,529540,6.84
+Paraná,Amarela,223449,1.02
+Paraná,Branca,14734054,67.31
+Paraná,Indígena,53915,0.25
+Paraná,Parda,6060415,27.69
+Paraná,Preta,816611,3.73
+Pernambuco,Amarela,95377,0.53
+Pernambuco,Branca,6269210,35.11
+Pernambuco,Indígena,136951,0.77
+Pernambuco,Parda,9871667,55.29
+Pernambuco,Preta,1480352,8.29
+Piauí,Amarela,69809,1.09
+Piauí,Branca,1499683,23.47
+Piauí,Indígena,9142,0.14
+Piauí,Parda,4117251,64.44
+Piauí,Preta,693613,10.86
+Rio de Janeiro,Amarela,144675,0.45
+Rio de Janeiro,Branca,14322948,44.70
+Rio de Janeiro,Indígena,31798,0.10
+Rio de Janeiro,Parda,12970835,40.48
+Rio de Janeiro,Preta,4572934,14.27
+Rio Grande do Norte,Amarela,38033,0.59
+Rio Grande do Norte,Branca,2607909,40.31
+Rio Grande do Norte,Indígena,11982,0.19
+Rio Grande do Norte,Parda,3343605,51.68
+Rio Grande do Norte,Preta,468839,7.25
+Rio Grande do Sul,Amarela,43840,0.20
+Rio Grande do Sul,Branca,17434236,80.80
+Rio Grande do Sul,Indígena,67173,0.31
+Rio Grande do Sul,Parda,2726400,12.64
+Rio Grande do Sul,Preta,1304960,6.05
+Rondônia,Amarela,26466,0.84
+Rondônia,Branca,1037966,33.02
+Rondônia,Indígena,29293,0.93
+Rondônia,Parda,1805814,57.45
+Rondônia,Preta,243875,7.76
+Roraima,Amarela,5102,0.47
+Roraima,Branca,225512,20.76
+Roraima,Indígena,139519,12.85
+Roraima,Parda,640402,58.96
+Roraima,Preta,75559,6.96
+Santa Catarina,Amarela,38453,0.28
+Santa Catarina,Branca,11052420,79.75
+Santa Catarina,Indígena,35335,0.25
+Santa Catarina,Parda,2238546,16.15
+Santa Catarina,Preta,493765,3.56
+São Paulo,Amarela,1071420,1.25
+São Paulo,Branca,52033604,60.74
+São Paulo,Indígena,92322,0.11
+São Paulo,Parda,26646774,31.10
+São Paulo,Preta,5824326,6.80
+Sergipe,Amarela,28686,0.67
+Sergipe,Branca,1140336,26.66
+Sergipe,Indígena,9799,0.23
+Sergipe,Parda,2631069,61.50
+Sergipe,Preta,468014,10.94
+Tocantins,Amarela,28939,1.00
+Tocantins,Branca,695861,24.04
+Tocantins,Indígena,31866,1.10
+Tocantins,Parda,1812573,62.61
+Tocantins,Preta,325611,11.25
