@@ -233,6 +233,7 @@ const ChapterOne = () => {
                 data={filteredMapData}
                 locationField="nome_uf"
                 valueField="proporcao"
+                colorScheme="blues"
                 tooltipFields={{
                   // nome_uf: "Estado",
                   populacao_grupo: "População da Faixa Etária",
