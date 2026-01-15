@@ -1,31 +1,23 @@
 import { NextRequest, NextResponse } from "next/server";
-import { query } from "@/lib/db";
+import fs from "fs/promises";
+import path from "path";
+import { csvToJson } from "@/lib/csv";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
+  const year = body?.year ?? 2022;
 
-  const data = await query(
-    `SELECT 
-    CASE 
-        WHEN idade_num <= 10 THEN '0 a 14 anos'
-        WHEN idade_num <= 20 THEN '15 a 24 anos'
-        WHEN idade_num <= 30 THEN '25 a 34 anos'
-        WHEN idade_num <= 40 THEN '35 a 44 anos'
-        WHEN idade_num <= 50 THEN '45 a 54 anos'
-        WHEN idade_num <= 60 THEN '55 a 64 anos'
-        WHEN idade_num <= 70 THEN '65 a 74 anos'
-        ELSE '75 anos ou mais'
-    END AS idade_grupo,
-    SUM(populacao) AS total
-FROM (
-    SELECT 
-        populacao,
-        idade_inicial AS idade_num
-    FROM populacao_grupo_idade_sexo_raca
-    WHERE ano = ${body.year}
-) sub
-GROUP BY idade_grupo
-ORDER BY MIN(idade_num);`
+  const filePath = path.join(
+    process.cwd(),
+    "csv_exports",
+    `population_by_age_group_${year}.csv`
   );
-  return NextResponse.json(data);
+  try {
+    const fileContent = await fs.readFile(filePath, "utf8");
+    const data = csvToJson(fileContent);
+    return NextResponse.json(data);
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ error: "Failed to read data" }, { status: 500 });
+  }
 }

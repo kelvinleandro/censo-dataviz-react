@@ -1,16 +1,16 @@
 import { NextResponse } from "next/server";
-import { query } from "@/lib/db";
+import fs from "fs/promises";
+import path from "path";
+import { csvToJson } from "@/lib/csv";
 
 export async function GET() {
-  const data = await query(
-    `SELECT 
-      d.nome_uf, 
-      ROUND(AVG(i.idade_mediana)::numeric, 1) AS idade_mediana_media
-     FROM indice_envelhecimento_raca i
-     JOIN diretorios_brasil_municipio d ON i.id_municipio = d.id_municipio
-     WHERE i.ano = 2022
-     GROUP BY d.nome_uf
-     ORDER BY idade_mediana_media DESC;`
-  );
-  return NextResponse.json(data);
+  const filePath = path.join(process.cwd(), 'csv_exports', 'aging_population_by_state.csv');
+  try {
+    const fileContent = await fs.readFile(filePath, 'utf8');
+    const data = csvToJson(fileContent);
+    return NextResponse.json(data);
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ error: 'Failed to read data' }, { status: 500 });
+  }
 }

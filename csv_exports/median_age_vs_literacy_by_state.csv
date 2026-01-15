@@ -1,0 +1,28 @@
+nome_uf,nome_regiao,idade_mediana,taxa_alfabetizacao
+Acre,Norte,26.57,0.83
+Alagoas,Nordeste,32.51,0.76
+Amapá,Norte,28.75,0.91
+Amazonas,Norte,26.47,0.87
+Bahia,Nordeste,36.35,0.82
+Ceará,Nordeste,36.76,0.79
+Distrito Federal,Centro-Oeste,36.40,0.97
+Espírito Santo,Sudeste,37.66,0.91
+Goiás,Centro-Oeste,38.95,0.91
+Maranhão,Nordeste,32.96,0.80
+Mato Grosso,Centro-Oeste,35.01,0.91
+Mato Grosso do Sul,Centro-Oeste,35.41,0.92
+Minas Gerais,Sudeste,39.45,0.90
+Pará,Norte,30.65,0.88
+Paraíba,Nordeste,36.83,0.78
+Paraná,Sul,40.33,0.92
+Pernambuco,Nordeste,35.25,0.80
+Piauí,Nordeste,37.66,0.77
+Rio de Janeiro,Sudeste,39.43,0.94
+Rio Grande do Norte,Nordeste,37.24,0.80
+Rio Grande do Sul,Sul,39.15,0.95
+Rondônia,Norte,36.36,0.91
+Roraima,Norte,26.73,0.87
+Santa Catarina,Sul,35.90,0.96
+São Paulo,Sudeste,40.76,0.95
+Sergipe,Nordeste,34.10,0.81
+Tocantins,Norte,35.98,0.87
