@@ -127,12 +127,12 @@ const ChapterOne = () => {
             <h3 className="font-bold text-xl">Faixa Etária</h3>
             <p className="text-muted-foreground text-xl">
               Quando colocamos os dados de{" "}
-              <span className="text-deco-emerald">2010</span> e{" "}
-              <span className="text-deco-emerald">2022</span> lado a lado, a
-              diferença é gritante e conta a história de uma revolução nas
-              famílias brasileiras. Olhe para a base do gráfico, as{" "}
-              <span className="text-[#fde725] font-semibold">
-                barras amarelas
+              <span className="text-deco-emerald font-semibold">2010</span> e{" "}
+              <span className="text-deco-emerald font-semibold">2022</span> lado
+              a lado, a diferença é gritante e conta a história de uma revolução
+              nas famílias brasileiras. Olhe para o topo do gráfico, as{" "}
+              <span className="text-[#b4de2c] font-semibold">
+                barras esverdeadas
               </span>
               : em apenas 12 anos, a quantidade de crianças e jovens encolheu
               visivelmente. Isso é o reflexo direto de uma decisão que milhões
@@ -161,7 +161,7 @@ const ChapterOne = () => {
 
           <div>
             <p className="text-muted-foreground text-xl">
-              Por outro lado, o topo da pirâmide está &apos;engordando&apos;. O
+              Por outro lado, a base da pirâmide está &apos;engordando&apos;. O
               Brasil ganhou milhões de novos idosos e adultos de meia-idade
               nesse curto período. Antigamente, uma transição demográfica desse
               tamanho levava quase um século para acontecer em países europeus;
@@ -233,6 +233,7 @@ const ChapterOne = () => {
                 data={filteredMapData}
                 locationField="nome_uf"
                 valueField="proporcao"
+                colorScheme="blues"
                 tooltipFields={{
                   // nome_uf: "Estado",
                   populacao_grupo: "População da Faixa Etária",

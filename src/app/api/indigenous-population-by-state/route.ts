@@ -1,16 +1,16 @@
 import { NextResponse } from "next/server";
-import { query } from "@/lib/db";
+import fs from "fs/promises";
+import path from "path";
+import { csvToJson } from "@/lib/csv";
 
 export async function GET() {
-  const data = await query(
-    `SELECT 
-    d.nome_uf, 
-    SUM(m.populacao_indigena) AS total,
-    ROUND(SUM(m.populacao_indigena) / SUM(m.populacao) * 100.0, 2) AS porcentagem
-FROM municipio m
-JOIN diretorios_brasil_municipio d ON m.id_municipio = d.id_municipio
-GROUP BY d.nome_uf
-ORDER BY d.nome_uf;`
-  );
-  return NextResponse.json(data);
+  const filePath = path.join(process.cwd(), 'csv_exports', 'indigenous_population_by_state.csv');
+  try {
+    const fileContent = await fs.readFile(filePath, 'utf8');
+    const data = csvToJson(fileContent);
+    return NextResponse.json(data);
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ error: 'Failed to read data' }, { status: 500 });
+  }
 }
