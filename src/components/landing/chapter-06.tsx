@@ -154,7 +154,9 @@ const ChapterSix = () => {
             <p className="text-muted-foreground text-xl">
               Esse gráfico complementa a análise anterior, detalhando a
               estrutura etária de cada grupo racial. A população indígena exibe
-              a maior proporção de jovens e a menor de idosos, formando uma
+              a maior proporção de{" "}
+              <span className="text-[#e45756]">jovens</span> e a menor de{" "}
+              <span className="text-[#f58518]">idosos</span>, formando uma
               pirâmide etária de base muito larga.
             </p>
             <br />
