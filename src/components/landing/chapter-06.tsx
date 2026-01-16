@@ -49,24 +49,38 @@ const ChapterSix = () => {
       <ChapterHeader.Root>
         <ChapterHeader.Label>Capítulo 6</ChapterHeader.Label>
         <ChapterHeader.Title>Desigualdades Visíveis</ChapterHeader.Title>
+        <ChapterHeader.Subtitle>
+          O Censo de 2022 mostra que existem grandes diferenças na forma como os
+          brasileiros vivem. O acesso a oportunidades, como educação de
+          qualidade, não é igual para todos.
+        </ChapterHeader.Subtitle>
       </ChapterHeader.Root>
 
       <div className="lg:max-w-3/4 mx-auto max-w-4/5 lg:w-full space-y-6">
         <div className="grid lg:grid-cols-2 gap-6">
           <div>
-            <h3 className="font-bold text-xl">Lorem</h3>
+            <h3 className="font-bold text-xl">
+              O Retrato Regional da Educação
+            </h3>
             <p className="text-muted-foreground text-xl">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Doloremque dolorum laboriosam atque eum tenetur molestiae tempore,
-              dolor minus rem sapiente natus inventore vitae. Totam deserunt
-              eligendi id iusto ea aliquid! Lorem ipsum dolor sit amet
-              consectetur adipisicing elit. Doloremque dolorum laboriosam atque
-              eum tenetur molestiae tempore, dolor minus rem sapiente natus
-              inventore vitae. Totam deserunt eligendi id iusto ea aliquid!
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Doloremque dolorum laboriosam atque eum tenetur molestiae tempore,
-              dolor minus rem sapiente natus inventore vitae. Totam deserunt
-              eligendi id iusto ea aliquid!
+              O gráfico mostra uma tendência no país: estados com uma população
+              mais envelhecida (maior idade mediana) geralmente possuem taxas de
+              alfabetização mais altas. Isso é visível no grupo de estados do{" "}
+              <span className="text-[#b2d67b]">Sul</span> e{" "}
+              <span className="text-[#e0a0c9]">Sudeste</span>, que se concentram
+              no canto superior direito do gráfico.
+            </p>
+            <br />
+            <p className="text-muted-foreground text-xl">
+              Já os estados do <span className="text-[#eea285]">Nordeste</span>{" "}
+              formam um agrupamento distinto na parte inferior do gráfico. Isso
+              revela que eles possuem as taxas de alfabetização mais baixas do
+              Brasil, com suas idades medianas variando mais ao centro do eixo
+              horizontal. O desafio educacional do Nordeste se destaca pelos
+              baixos índices de alfabetização de forma geral, enquanto a
+              característica principal do{" "}
+              <span className="text-[#a1afce]">Norte</span> é ter uma estrutura
+              populacional muito jovem.
             </p>
           </div>
 
@@ -94,19 +108,22 @@ const ChapterSix = () => {
           </div>
 
           <div>
-            <h3 className="font-bold text-xl">Lorem</h3>
+            <h3 className="font-bold text-xl">
+              Educação e Desigualdade Racial
+            </h3>
             <p className="text-muted-foreground text-xl">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Doloremque dolorum laboriosam atque eum tenetur molestiae tempore,
-              dolor minus rem sapiente natus inventore vitae. Totam deserunt
-              eligendi id iusto ea aliquid! Lorem ipsum dolor sit amet
-              consectetur adipisicing elit. Doloremque dolorum laboriosam atque
-              eum tenetur molestiae tempore, dolor minus rem sapiente natus
-              inventore vitae. Totam deserunt eligendi id iusto ea aliquid!
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Doloremque dolorum laboriosam atque eum tenetur molestiae tempore,
-              dolor minus rem sapiente natus inventore vitae. Totam deserunt
-              eligendi id iusto ea aliquid!
+              No topo da escala de alfabetização, estão as populações Amarela e
+              Branca. A população Amarela se posiciona como um ponto fora da
+              curva, com o mais alto índice de envelhecimento e a maior taxa de
+              alfabetização.
+            </p>
+            <br />
+            <p className="text-muted-foreground text-xl">
+              Embora a população Preta seja, em média, mais velha que a Branca,
+              seu nível de alfabetização é mais baixo. Isso mostra que a
+              desigualdade histórica no acesso à educação para a população preta
+              foi tão impactante que seus efeitos ainda são visíveis hoje,
+              quebrando a tendência geral.
             </p>
           </div>
 
@@ -133,19 +150,21 @@ const ChapterSix = () => {
           </div>
 
           <div>
-            <h3 className="font-bold text-xl">Lorem</h3>
+            <h3 className="font-bold text-xl">Estruturas etárias</h3>
             <p className="text-muted-foreground text-xl">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Doloremque dolorum laboriosam atque eum tenetur molestiae tempore,
-              dolor minus rem sapiente natus inventore vitae. Totam deserunt
-              eligendi id iusto ea aliquid! Lorem ipsum dolor sit amet
-              consectetur adipisicing elit. Doloremque dolorum laboriosam atque
-              eum tenetur molestiae tempore, dolor minus rem sapiente natus
-              inventore vitae. Totam deserunt eligendi id iusto ea aliquid!
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Doloremque dolorum laboriosam atque eum tenetur molestiae tempore,
-              dolor minus rem sapiente natus inventore vitae. Totam deserunt
-              eligendi id iusto ea aliquid!
+              Esse gráfico complementa a análise anterior, detalhando a
+              estrutura etária de cada grupo racial. A população indígena exibe
+              a maior proporção de jovens e a menor de idosos, formando uma
+              pirâmide etária de base muito larga.
+            </p>
+            <br />
+            <p className="text-muted-foreground text-xl">
+              Em contraste, as populações branca e amarela mostram uma estrutura
+              mais envelhecida, com a maior proporção de idosos do país. Essa
+              diferença reflete diretamente as desigualdades históricas de
+              acesso a saúde, saneamento, segurança e educação, que impactam
+              diretamente a expectativa de vida e as taxas de fecundidade de
+              cada grupo.
             </p>
           </div>
 

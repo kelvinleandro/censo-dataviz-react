@@ -60,7 +60,13 @@ const ChapterOne = () => {
         const resSex = await fetch("/api/population-distribution-by-sex");
         if (!resSex.ok)
           throw new Error("Failed to fetch population distribution by sex");
-        const popSex = await resSex.json();
+        let popSex = (await resSex.json()) as ChartData;
+        popSex = popSex.map((d) => ({
+          ...d,
+          abs_total:
+            (Math.abs(d.total as number) / 1000000).toFixed(2) + " Milhões",
+        }));
+        console.log("popSex", popSex);
         setPopPerSex(popSex);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -163,12 +169,10 @@ const ChapterOne = () => {
             <p className="text-muted-foreground text-xl">
               Por outro lado, a base da pirâmide está &apos;engordando&apos;. O
               Brasil ganhou milhões de novos idosos e adultos de meia-idade
-              nesse curto período. Antigamente, uma transição demográfica desse
-              tamanho levava quase um século para acontecer em países europeus;
-              nós estamos vivendo isso em poucas décadas. Agora, temos uma
-              população adulta predominante, pronta para trabalhar, mas que
-              precisa sustentar um topo cada vez mais pesado de aposentados,
-              enquanto a base de futuros trabalhadores diminui.
+              nesse curto período. Agora, temos uma população adulta
+              predominante, pronta para trabalhar, mas que precisa sustentar um
+              topo cada vez mais pesado de aposentados, enquanto a base de
+              futuros trabalhadores diminui.
             </p>
           </div>
 
@@ -196,19 +200,22 @@ const ChapterOne = () => {
             <p className="text-muted-foreground text-xl">
               O Brasil é um país de tamanho continental, e isso se reflete
               também na idade da sua população: não envelhecemos todos no mesmo
-              ritmo. Se você olhar para o Norte, especialmente estados como
+              ritmo. Se olharmos para o Norte, especialmente estados como
               Roraima e Amazonas, ainda vê um Brasil muito jovem, onde as
               crianças e adolescentes são uma parte enorme da população,
-              demandando mais escolas e creches. Já quando descemos para o Sul e
-              Sudeste, o cenário muda completamente. Estados como o Rio Grande
-              do Sul e Rio de Janeiro lideram o envelhecimento nacional, com uma
-              proporção de idosos muito maior. Ao usar o filtro ao lado, você
-              consegue ver essa &apos;mancha demográfica&apos; se movendo pelo
-              mapa. É fascinante perceber como as demandas públicas mudam de
-              estado para estado: enquanto uns ainda precisam focar na educação
-              básica para uma juventude numerosa, outros já precisam correr para
-              adaptar seus sistemas de saúde para cuidar de uma população idosa
-              crescente.
+              demandando mais escolas e creches.
+            </p>
+            <br />
+            <p className="text-muted-foreground text-xl">
+              Já quando descemos para o Sul e Sudeste, o cenário muda
+              completamente. Estados como o Rio Grande do Sul e Rio de Janeiro
+              lideram o envelhecimento nacional, com uma proporção de idosos
+              muito maior. Ao usar o filtro ao lado, você consegue ver essa
+              &apos;mancha demográfica&apos; se movendo pelo mapa. É fascinante
+              perceber como as demandas públicas mudam de estado para estado:
+              enquanto uns ainda precisam focar na educação básica para uma
+              juventude numerosa, outros já precisam correr para adaptar seus
+              sistemas de saúde para cuidar de uma população idosa crescente.
             </p>
           </div>
 
@@ -251,19 +258,27 @@ const ChapterOne = () => {
               <span className="text-[#fd8d3c]">Mulheres</span>)
             </h3>
             <p className="text-muted-foreground text-xl">
-              Aqui temos uma dinâmica curiosa da natureza e da sociedade.
-              Biologicamente, nascem mais meninos do que meninas no Brasil, é um
-              padrão quase constante. Porém, ao longo da vida, essa balança vai
-              se invertendo de forma dramática. Os homens morrem muito mais cedo
-              e em maior quantidade, principalmente na juventude, vítimas de
-              causas externas como violência e acidentes de trânsito. As
-              mulheres, além de se exporem menos a esses riscos, tendem a cuidar
-              mais da própria saúde, garantindo uma longevidade maior. O
-              resultado disso vemos claramente no topo do gráfico: a terceira
-              idade no Brasil é feminina. Quanto mais a idade avança, maior é a
-              diferença. Em muitas cidades, já existe um desequilíbrio grande,
-              onde há muito mais mulheres idosas vivendo sozinhas ou chefiando
-              famílias do que homens na mesma faixa etária.
+              Esse gráfico, conhecido como pirâmide etária, mostra a
+              distribuição brasileira por idade e sexo, revelando duas
+              tendências fundamentais sobre o país
+            </p>
+            <br />
+            <p className="text-muted-foreground text-xl">
+              A primeira é que o gráfico confirma que o Brasil está em pleno
+              processo de envelhecimento, independente do sexo. A alta
+              concentração de pessoas nas faixas de 25 a 44 anos mostra o auge
+              da nossa população em idade produtiva.
+            </p>
+            <br />
+            <p className="text-muted-foreground text-xl">
+              Outro ponto é a diferença entre homens e mulheres. Enquanto nasce
+              um pouco mais de homens (a base azul é maior), a situação se
+              inverte com o passar dos anos. A partir da faixa de 25-34 anos, a
+              população feminina começa a ser maior. Para o grupo com{" "}
+              <strong>75 anos ou mais</strong>, existem quase{" "}
+              <strong>50% mais mulheres</strong> do que homens. Este cenário é
+              um reflexo direto da maior expectativa de vida das mulheres no
+              brasil
             </p>
           </div>
 
@@ -278,7 +293,7 @@ const ChapterOne = () => {
               tooltipFields={{
                 idade_grupo: "Faixa Etária",
                 sexo: "Sexo",
-                total: "População",
+                abs_total: "População",
               }}
             />
           </div>
