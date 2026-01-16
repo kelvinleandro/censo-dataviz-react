@@ -79,7 +79,8 @@ const BidirectionalBarChart: React.FC<BidirectionalBarChartProps> = ({
       vl
         .x()
         .fieldQ(valueField)
-        .title(xLabel ?? ""),
+        .title(xLabel ?? "")
+        .axis({ labelExpr: `format(abs(datum.value) / 1000000, ',.1f') + ' Mi'` }),
       categoryDef,
       vl
         .color()
@@ -97,7 +98,7 @@ const BidirectionalBarChart: React.FC<BidirectionalBarChartProps> = ({
         color: defaultTextColor,
       })
       .transform({
-        calculate: `format(datum.${valueField} / 1000000, ',.1f') + ' Mi'`,
+        calculate: `format(abs(datum.${valueField}) / 1000000, ',.1f') + ' Mi'`,
         as: "label",
       })
       .encode(

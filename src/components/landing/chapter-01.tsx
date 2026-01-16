@@ -60,7 +60,13 @@ const ChapterOne = () => {
         const resSex = await fetch("/api/population-distribution-by-sex");
         if (!resSex.ok)
           throw new Error("Failed to fetch population distribution by sex");
-        const popSex = await resSex.json();
+        let popSex = (await resSex.json()) as ChartData;
+        popSex = popSex.map((d) => ({
+          ...d,
+          abs_total:
+            (Math.abs(d.total as number) / 1000000).toFixed(2) + " Milhões",
+        }));
+        console.log("popSex", popSex);
         setPopPerSex(popSex);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -287,7 +293,7 @@ const ChapterOne = () => {
               tooltipFields={{
                 idade_grupo: "Faixa Etária",
                 sexo: "Sexo",
-                total: "População",
+                abs_total: "População",
               }}
             />
           </div>
