@@ -150,19 +150,21 @@ const ChapterSix = () => {
           </div>
 
           <div>
-            <h3 className="font-bold text-xl">Lorem</h3>
+            <h3 className="font-bold text-xl">Estruturas etárias</h3>
             <p className="text-muted-foreground text-xl">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Doloremque dolorum laboriosam atque eum tenetur molestiae tempore,
-              dolor minus rem sapiente natus inventore vitae. Totam deserunt
-              eligendi id iusto ea aliquid! Lorem ipsum dolor sit amet
-              consectetur adipisicing elit. Doloremque dolorum laboriosam atque
-              eum tenetur molestiae tempore, dolor minus rem sapiente natus
-              inventore vitae. Totam deserunt eligendi id iusto ea aliquid!
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Doloremque dolorum laboriosam atque eum tenetur molestiae tempore,
-              dolor minus rem sapiente natus inventore vitae. Totam deserunt
-              eligendi id iusto ea aliquid!
+              Esse gráfico complementa a análise anterior, detalhando a
+              estrutura etária de cada grupo racial. A população indígena exibe
+              a maior proporção de jovens e a menor de idosos, formando uma
+              pirâmide etária de base muito larga.
+            </p>
+            <br />
+            <p className="text-muted-foreground text-xl">
+              Em contraste, as populações branca e amarela mostram uma estrutura
+              mais envelhecida, com a maior proporção de idosos do país. Essa
+              diferença reflete diretamente as desigualdades históricas de
+              acesso a saúde, saneamento, segurança e educação, que impactam
+              diretamente a expectativa de vida e as taxas de fecundidade de
+              cada grupo.
             </p>
           </div>
 

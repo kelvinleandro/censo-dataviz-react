@@ -252,19 +252,27 @@ const ChapterOne = () => {
               <span className="text-[#fd8d3c]">Mulheres</span>)
             </h3>
             <p className="text-muted-foreground text-xl">
-              Aqui temos uma dinâmica curiosa da natureza e da sociedade.
-              Biologicamente, nascem mais meninos do que meninas no Brasil, é um
-              padrão quase constante. Porém, ao longo da vida, essa balança vai
-              se invertendo de forma dramática. Os homens morrem muito mais cedo
-              e em maior quantidade, principalmente na juventude, vítimas de
-              causas externas como violência e acidentes de trânsito. As
-              mulheres, além de se exporem menos a esses riscos, tendem a cuidar
-              mais da própria saúde, garantindo uma longevidade maior. O
-              resultado disso vemos claramente no topo do gráfico: a terceira
-              idade no Brasil é feminina. Quanto mais a idade avança, maior é a
-              diferença. Em muitas cidades, já existe um desequilíbrio grande,
-              onde há muito mais mulheres idosas vivendo sozinhas ou chefiando
-              famílias do que homens na mesma faixa etária.
+              Esse gráfico, conhecido como pirâmide etária, mostra a
+              distribuição brasileira por idade e sexo, revelando duas
+              tendências fundamentais sobre o país
+            </p>
+            <br />
+            <p className="text-muted-foreground text-xl">
+              A primeira é que o gráfico confirma que o Brasil está em pleno
+              processo de envelhecimento, independente do sexo. A alta
+              concentração de pessoas nas faixas de 25 a 44 anos mostra o auge
+              da nossa população em idade produtiva.
+            </p>
+            <br />
+            <p className="text-muted-foreground text-xl">
+              Outro ponto é a diferença entre homens e mulheres. Enquanto nasce
+              um pouco mais de homens (a base azul é maior), a situação se
+              inverte com o passar dos anos. A partir da faixa de 25-34 anos, a
+              população feminina começa a ser maior. Para o grupo com{" "}
+              <strong>75 anos ou mais</strong>, existem quase{" "}
+              <strong>50% mais mulheres</strong> do que homens. Este cenário é
+              um reflexo direto da maior expectativa de vida das mulheres no
+              brasil
             </p>
           </div>
 
