@@ -163,12 +163,10 @@ const ChapterOne = () => {
             <p className="text-muted-foreground text-xl">
               Por outro lado, a base da pirâmide está &apos;engordando&apos;. O
               Brasil ganhou milhões de novos idosos e adultos de meia-idade
-              nesse curto período. Antigamente, uma transição demográfica desse
-              tamanho levava quase um século para acontecer em países europeus;
-              nós estamos vivendo isso em poucas décadas. Agora, temos uma
-              população adulta predominante, pronta para trabalhar, mas que
-              precisa sustentar um topo cada vez mais pesado de aposentados,
-              enquanto a base de futuros trabalhadores diminui.
+              nesse curto período. Agora, temos uma população adulta
+              predominante, pronta para trabalhar, mas que precisa sustentar um
+              topo cada vez mais pesado de aposentados, enquanto a base de
+              futuros trabalhadores diminui.
             </p>
           </div>
 
@@ -196,19 +194,22 @@ const ChapterOne = () => {
             <p className="text-muted-foreground text-xl">
               O Brasil é um país de tamanho continental, e isso se reflete
               também na idade da sua população: não envelhecemos todos no mesmo
-              ritmo. Se você olhar para o Norte, especialmente estados como
+              ritmo. Se olharmos para o Norte, especialmente estados como
               Roraima e Amazonas, ainda vê um Brasil muito jovem, onde as
               crianças e adolescentes são uma parte enorme da população,
-              demandando mais escolas e creches. Já quando descemos para o Sul e
-              Sudeste, o cenário muda completamente. Estados como o Rio Grande
-              do Sul e Rio de Janeiro lideram o envelhecimento nacional, com uma
-              proporção de idosos muito maior. Ao usar o filtro ao lado, você
-              consegue ver essa &apos;mancha demográfica&apos; se movendo pelo
-              mapa. É fascinante perceber como as demandas públicas mudam de
-              estado para estado: enquanto uns ainda precisam focar na educação
-              básica para uma juventude numerosa, outros já precisam correr para
-              adaptar seus sistemas de saúde para cuidar de uma população idosa
-              crescente.
+              demandando mais escolas e creches.
+            </p>
+            <br />
+            <p className="text-muted-foreground text-xl">
+              Já quando descemos para o Sul e Sudeste, o cenário muda
+              completamente. Estados como o Rio Grande do Sul e Rio de Janeiro
+              lideram o envelhecimento nacional, com uma proporção de idosos
+              muito maior. Ao usar o filtro ao lado, você consegue ver essa
+              &apos;mancha demográfica&apos; se movendo pelo mapa. É fascinante
+              perceber como as demandas públicas mudam de estado para estado:
+              enquanto uns ainda precisam focar na educação básica para uma
+              juventude numerosa, outros já precisam correr para adaptar seus
+              sistemas de saúde para cuidar de uma população idosa crescente.
             </p>
           </div>
 

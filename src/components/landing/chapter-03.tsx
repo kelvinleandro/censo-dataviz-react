@@ -148,7 +148,7 @@ const ChapterThree = () => {
             <p className="text-muted-foreground text-xl">
               Já entre as pessoas Brancas, Amarelas e Pretas, notamos um claro
               estreitamento da base. O número de crianças (0 a 14 anos)
-              tornou-se menor que o de
+              tornou-se menor que o de{" "}
               <span className="text-[#1f9d89]">adultos</span> (especialmente
               entre 25 e 44 anos). Isso cria uma estrutura onde o maior volume
               populacional se concentra na idade ativa, evidenciando a queda na
