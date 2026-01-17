@@ -28,7 +28,11 @@ const ChapterOne = () => {
         });
         if (!resAgeGroup.ok)
           throw new Error("Failed to fetch population by age group");
-        const popAgeGroup = await resAgeGroup.json();
+        let popAgeGroup: ChartData = await resAgeGroup.json();
+        popAgeGroup = popAgeGroup.map((d) => ({
+          ...d,
+          pop: (Number(d.total) / 1000000).toFixed(2) + " milhões",
+        }));
         setPopPerAgeGroup(popAgeGroup);
 
         const resAgeGroup2022 = await fetch("/api/population-by-age-group", {
@@ -39,7 +43,11 @@ const ChapterOne = () => {
         });
         if (!resAgeGroup2022.ok)
           throw new Error("Failed to fetch population by age group");
-        const popAgeGroup2022 = await resAgeGroup2022.json();
+        let popAgeGroup2022: ChartData = await resAgeGroup2022.json();
+        popAgeGroup2022 = popAgeGroup2022.map((d) => ({
+          ...d,
+          pop: (Number(d.total) / 1000000).toFixed(2) + " milhões",
+        }));
         setPopPerAgeGroup2022(popAgeGroup2022);
 
         const resState = await fetch("/api/population-distribution-by-state");
@@ -140,9 +148,9 @@ const ChapterOne = () => {
               <span className="text-[#b4de2c] font-semibold">
                 barras esverdeadas
               </span>
-              : em apenas 12 anos, a quantidade de crianças e jovens encolheu
-              visivelmente. Isso é o reflexo direto de uma decisão que milhões
-              de lares tomaram: ter menos filhos.
+              : em apenas 12 anos, a quantidade de crianças e jovens encolheu.
+              Isso é o reflexo direto de uma decisão que milhões de lares
+              tomaram: ter menos filhos.
             </p>
           </div>
 
@@ -160,7 +168,7 @@ const ChapterOne = () => {
               horizontal
               tooltipFields={{
                 idade_grupo: "Faixa Etária",
-                total: "População",
+                pop: "População",
               }}
             />
           </div>
@@ -169,10 +177,11 @@ const ChapterOne = () => {
             <p className="text-muted-foreground text-xl">
               Por outro lado, a base da pirâmide está &apos;engordando&apos;. O
               Brasil ganhou milhões de novos idosos e adultos de meia-idade
-              nesse curto período. Agora, temos uma população adulta
-              predominante, pronta para trabalhar, mas que precisa sustentar um
-              topo cada vez mais pesado de aposentados, enquanto a base de
-              futuros trabalhadores diminui.
+              nesse curto período. Agora,{" "}
+              <strong>temos uma população adulta predominante</strong>, pronta
+              para trabalhar, mas que precisa sustentar um topo cada vez mais
+              pesado de aposentados, enquanto a base de futuros trabalhadores
+              diminui.
             </p>
           </div>
 
@@ -190,7 +199,7 @@ const ChapterOne = () => {
               horizontal
               tooltipFields={{
                 idade_grupo: "Faixa Etária",
-                total: "População",
+                pop: "População",
               }}
             />
           </div>
@@ -200,22 +209,24 @@ const ChapterOne = () => {
             <p className="text-muted-foreground text-xl">
               O Brasil é um país de tamanho continental, e isso se reflete
               também na idade da sua população: não envelhecemos todos no mesmo
-              ritmo. Se olharmos para o Norte, especialmente estados como
-              Roraima e Amazonas, ainda vê um Brasil muito jovem, onde as
-              crianças e adolescentes são uma parte enorme da população,
-              demandando mais escolas e creches.
+              ritmo. Se olharmos para o <strong>Norte</strong>, especialmente
+              estados como Roraima e Amazonas, ainda vê um{" "}
+              <strong>Brasil muito jovem</strong>, onde as crianças e
+              adolescentes são uma parte enorme da população, demandando mais
+              escolas e creches.
             </p>
             <br />
             <p className="text-muted-foreground text-xl">
-              Já quando descemos para o Sul e Sudeste, o cenário muda
-              completamente. Estados como o Rio Grande do Sul e Rio de Janeiro
-              lideram o envelhecimento nacional, com uma proporção de idosos
-              muito maior. Ao usar o filtro ao lado, você consegue ver essa
-              &apos;mancha demográfica&apos; se movendo pelo mapa. É fascinante
-              perceber como as demandas públicas mudam de estado para estado:
-              enquanto uns ainda precisam focar na educação básica para uma
-              juventude numerosa, outros já precisam correr para adaptar seus
-              sistemas de saúde para cuidar de uma população idosa crescente.
+              Já quando descemos para o <strong>Sul e Sudeste</strong>, o
+              cenário muda completamente. Estados como o Rio Grande do Sul e Rio
+              de Janeiro lideram o envelhecimento nacional, com uma{" "}
+              <strong>proporção de idosos muito maior</strong>. Ao usar o filtro
+              ao lado, você consegue ver essa &apos;mancha demográfica&apos; se
+              movendo pelo mapa. É fascinante perceber como as demandas públicas
+              mudam de estado para estado: enquanto uns ainda precisam focar na
+              educação básica para uma juventude numerosa, outros já precisam
+              correr para adaptar seus sistemas de saúde para cuidar de uma
+              população idosa crescente.
             </p>
           </div>
 
@@ -289,6 +300,7 @@ const ChapterOne = () => {
 
           <div>
             <BidirectionalBarChart
+              title="Distribuição da População por Idade e Sexo"
               data={popPerSex}
               valueField="total"
               categoryField="idade_grupo"

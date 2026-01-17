@@ -16,7 +16,7 @@ const ChapterSix = () => {
     const fetchData = async () => {
       try {
         const resAgeVsLiteracy = await fetch(
-          "/api/median-age-vs-literacy-by-state"
+          "/api/median-age-vs-literacy-by-state",
         );
         if (!resAgeVsLiteracy.ok)
           throw new Error("Failed to fetch median age vs literacy");
@@ -24,7 +24,7 @@ const ChapterSix = () => {
         setAgeVsLiteracy(data);
 
         const resAgingIndex = await fetch(
-          "/api/aging-index-vs-literacy-by-color"
+          "/api/aging-index-vs-literacy-by-color",
         );
         if (!resAgingIndex.ok)
           throw new Error("Failed to fetch aging index vs literacy");
@@ -112,18 +112,20 @@ const ChapterSix = () => {
               Educação e Desigualdade Racial
             </h3>
             <p className="text-muted-foreground text-xl">
-              No topo da escala de alfabetização, estão as populações Amarela e
-              Branca. A população Amarela se posiciona como um ponto fora da
-              curva, com o mais alto índice de envelhecimento e a maior taxa de
-              alfabetização.
+              No topo da escala de alfabetização, estão as populações{" "}
+              <span className="text-[#7393b6]">Amarela</span> e{" "}
+              <span className="text-[#ea9c51]">Branca</span>. A população
+              Amarela se posiciona como um ponto fora da curva, com o mais alto
+              índice de envelhecimento e a maior taxa de alfabetização.
             </p>
             <br />
             <p className="text-muted-foreground text-xl">
-              Embora a população Preta seja, em média, mais velha que a Branca,
-              seu nível de alfabetização é mais baixo. Isso mostra que a
-              desigualdade histórica no acesso à educação para a população preta
-              foi tão impactante que seus efeitos ainda são visíveis hoje,
-              quebrando a tendência geral.
+              Embora a população <span className="text-[#79b075]">Preta</span>{" "}
+              seja, em média, mais velha que a Branca, seu nível de
+              alfabetização é mais baixo. Isso mostra que a desigualdade
+              histórica no acesso à educação para a população preta foi tão
+              impactante que seus efeitos ainda são visíveis hoje, quebrando a
+              tendência geral.
             </p>
           </div>
 
