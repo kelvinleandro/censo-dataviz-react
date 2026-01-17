@@ -52,12 +52,7 @@ const Treemap: React.FC<TreemapProps> = ({
   }, []);
 
   useEffect(() => {
-    if (
-      data &&
-      data.length > 0 &&
-      chartRef.current &&
-      containerWidth > 0
-    ) {
+    if (data && data.length > 0 && chartRef.current && containerWidth > 0) {
       chartRef.current.innerHTML = "";
       const width =
         initialWidth === "container" ? containerWidth : initialWidth;
@@ -93,6 +88,7 @@ const Treemap: React.FC<TreemapProps> = ({
               title: {
                 text: title,
                 color: colorToUse,
+                fontSize: 16,
               },
             }
           : {}),

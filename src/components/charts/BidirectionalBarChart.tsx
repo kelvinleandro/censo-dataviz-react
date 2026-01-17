@@ -18,6 +18,7 @@ interface BidirectionalBarChartProps {
   xLabel?: string;
   yLabel?: string;
   tooltipFields?: string[] | Record<string, string>;
+  fontSize?: number;
 }
 
 const BidirectionalBarChart: React.FC<BidirectionalBarChartProps> = ({
@@ -33,6 +34,7 @@ const BidirectionalBarChart: React.FC<BidirectionalBarChartProps> = ({
   xLabel,
   yLabel,
   tooltipFields,
+  fontSize = 12,
 }) => {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -51,7 +53,7 @@ const BidirectionalBarChart: React.FC<BidirectionalBarChartProps> = ({
         ([field, title]) => ({
           field,
           title,
-        })
+        }),
       );
     } else {
       tooltipEncodings = [
@@ -80,14 +82,16 @@ const BidirectionalBarChart: React.FC<BidirectionalBarChartProps> = ({
         .x()
         .fieldQ(valueField)
         .title(xLabel ?? "")
-        .axis({ labelExpr: `format(abs(datum.value) / 1000000, ',.1f') + ' Mi'` }),
+        .axis({
+          labelExpr: `format(abs(datum.value) / 1000000, ',.1f') + ' Mi'`,
+        }),
       categoryDef,
       vl
         .color()
         .fieldN(colorField)
         .scale({ range: colorScheme })
         .legend({ orient: "top" }),
-      vl.tooltip(tooltipEncodings)
+      vl.tooltip(tooltipEncodings),
     );
 
     const text = vl
@@ -104,7 +108,7 @@ const BidirectionalBarChart: React.FC<BidirectionalBarChartProps> = ({
       .encode(
         vl.x().fieldQ(valueField),
         categoryDef,
-        vl.text().fieldN("label")
+        vl.text().fieldN("label"),
       );
 
     const chart = vl
@@ -122,10 +126,18 @@ const BidirectionalBarChart: React.FC<BidirectionalBarChartProps> = ({
           titleColor: defaultTextColor,
           domainColor: defaultTextColor,
           tickColor: defaultTextColor,
+          titleFontSize: fontSize,
+          labelFontSize: fontSize,
         },
         legend: {
           titleColor: defaultTextColor,
           labelColor: defaultTextColor,
+          titleFontSize: fontSize,
+          labelFontSize: fontSize,
+        },
+        title: {
+          color: defaultTextColor,
+          fontSize: fontSize + 4,
         },
       });
 
@@ -154,6 +166,7 @@ const BidirectionalBarChart: React.FC<BidirectionalBarChartProps> = ({
     xLabel,
     yLabel,
     tooltipFields,
+    fontSize,
   ]);
 
   return (

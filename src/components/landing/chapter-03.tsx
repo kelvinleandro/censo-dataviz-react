@@ -79,7 +79,7 @@ const ChapterThree = () => {
       População: "format(datum['total'], ',.0f')",
       Porcentagem: "datum['porcentagem']",
     }),
-    []
+    [],
   );
 
   return (
@@ -105,8 +105,7 @@ const ChapterThree = () => {
               se declararam <span className="text-[#72b7b2]">pardas</span>,
               representando 45,3% da população e ultrapassando, pela primeira
               vez, o grupo de pessoas{" "}
-              <span className="text-[#f58518]">brancas</span>
-              (43,5%).
+              <span className="text-[#f58518]">brancas</span> (43,5%).
             </p>
             <br />
             <p className="text-muted-foreground text-xl">
@@ -126,7 +125,7 @@ const ChapterThree = () => {
                 data={popColor}
                 valueField="total"
                 categoryField="cor_raca"
-                // title="Distribuição da População por Cor/Raça"
+                title="Distribuição da População por Cor/Raça"
                 tooltipFields={treemapTooltipFields}
               />
             )}
@@ -153,7 +152,7 @@ const ChapterThree = () => {
               entre 25 e 44 anos). Isso cria uma estrutura onde o maior volume
               populacional se concentra na idade ativa, evidenciando a queda na
               fecundidade antes mesmo de um aumento expressivo na proporção de
-              idosos no topo
+              idosos no topo.
             </p>
           </div>
 
@@ -195,19 +194,20 @@ const ChapterThree = () => {
             <h3 className="font-bold text-xl">A Geografia da Diversidade</h3>
             <p className="text-muted-foreground text-xl">
               O mapa do Brasil não é uniforme; ele reflete séculos de fluxos
-              migratórios e colonização. Ao explorar os dados, vemos que o Norte
-              se consolida como o grande território das identidades Parda e
-              Indígena, onde a presença dos povos originários e a miscigenação
-              na Amazônia são predominantes.
+              migratórios e colonização. Ao explorar os dados, vemos que o{" "}
+              <strong>Norte</strong> se consolida como o grande território das
+              identidades <strong>Parda e Indígena</strong>, onde a presença dos
+              povos originários e a miscigenação na Amazônia são predominantes.
             </p>
             <br />
             <p className="text-muted-foreground text-xl">
-              Já o Sul e parte do Sudeste permanecem como os redutos da
-              população Branca, reflexo da imigração europeia. O Nordeste, por
-              sua vez, conta outra história: é a região onde a soma de pretos e
-              pardos é mais expressiva. O destaque vai para a Bahia, que aparece
-              no mapa com a cor mais intensa para a população Preta, reafirmando
-              seu papel central na herança africana do país.
+              Já o <strong>Sul</strong> e parte do Sudeste permanecem como os
+              redutos da <strong>população Branca</strong>, reflexo da imigração
+              europeia. O Nordeste, por sua vez, conta outra história: é a
+              região onde a soma de pretos e pardos é mais expressiva. O
+              destaque vai para a Bahia, que aparece no mapa com a cor mais
+              intensa para a população Preta, reafirmando seu papel central na
+              herança africana do país.
             </p>
           </div>
 
