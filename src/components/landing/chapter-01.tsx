@@ -220,7 +220,7 @@ const ChapterOne = () => {
           </div>
 
           <div>
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center justify-center">
               <select
                 value={selectedAgeGroup}
                 onChange={(e) => setSelectedAgeGroup(e.target.value)}
@@ -236,7 +236,12 @@ const ChapterOne = () => {
                   </option>
                 ))}
               </select>
+              <h3 className="text-lg font-bold text-center mb-4">
+                {`Proporção (%) da População de ${selectedAgeGroup} por UF`}
+              </h3>
               <ChoroplethMapD3
+                width={650}
+                height={450}
                 data={filteredMapData}
                 locationField="nome_uf"
                 valueField="proporcao"
